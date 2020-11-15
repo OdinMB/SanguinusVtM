@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 var Roller = require("../models/roller.js");
 
 module.exports = {
@@ -14,7 +13,7 @@ module.exports = {
 			message.author.send("Invalid dice pool.");
 			return;
 		}
-		if (dicePool <= 0 || dicePool > 100) {
+		if (dicePool <= 1 || dicePool > 100) {
 			message.author.send("Dice pool too small or too large.");
 			return;
 		}

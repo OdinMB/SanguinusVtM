@@ -84,7 +84,7 @@ exports.roll = function (message, dicePool, difficulty, comment) {
     }
 
     embed.setFooter(comment + "\n" +
-        // dicePool + " dice, " +
+        "Dice " + dicePool + ", " + 
         "Difficulty " + difficulty +
         (spec ? ', Specialty' : '') + "\n" +
         "Values: " + diceString);
