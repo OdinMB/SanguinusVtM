@@ -38,6 +38,12 @@ var characterSchema = mongoose.Schema({
         trim: true,
         validate: nameValidator,
     },
+    status: {
+        type: String,
+        enum: ['active', 'paused', 'retired', 'dead'],
+        default: 'active',
+        required: true
+    },
     fullname: {
         type: String,
         unique: true,

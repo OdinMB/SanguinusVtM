@@ -11,7 +11,7 @@ var playerSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    activeCharacter: {
+    selectedCharacter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Character',
         unique: true
@@ -43,7 +43,7 @@ Player.getPlayer = function (message, callback) {
             callback(player);
         } // If the player is not yet registered, do that now
         else {
-            this.createPlayer(message, function (newPlayer) {
+            Player.createPlayer(message, function (newPlayer) {
                 callback(newPlayer);
             });
         }

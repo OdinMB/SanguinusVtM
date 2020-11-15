@@ -43,8 +43,8 @@ module.exports = {
 
 					message.author.send("Created new character " + args[0]);
 
-					if (!player.activeCharacter) {
-						player.activeCharacter = newCharacter._id;
+					if (!player.selectedCharacter) {
+						player.selectedCharacter = newCharacter._id;
 						player.save(function (err) {
 							if (err) {
 								console.log(err);
@@ -52,12 +52,12 @@ module.exports = {
 								return;
 							}
 
-							message.author.send("Made " + newCharacter.name + " your active character.");
+							message.author.send("Selected " + newCharacter.name + " for other bot commands.");
 						});
 					} else {
 						message.author.send(
-							"If you want to make " + newCharacter.name + " your active character, use\n" +
-							"> " + process.env.PREFIX + "activateChar " + newCharacter.name
+							"If you want to select " + newCharacter.name + " for bot commands, use\n" +
+							"> " + process.env.PREFIX + "selectChar " + newCharacter.name
 						);
 					}
 				});

@@ -14,7 +14,8 @@ module.exports = {
 
 			Character.find({
 				player: player._id
-			}).exec(function (err, characters) {
+			}).sort({ status: 1, name: 1 })
+			.exec(function (err, characters) {
 				if (err) {
 					console.log(err);
 					message.author.send(err.message);
@@ -27,10 +28,10 @@ module.exports = {
 
 				var msg = "```Your characters:";
 				characters.forEach(character => {
-					if (player.activeCharacter.equals(character._id)) {
-						msg += "\n- " + character.name + " (Active)";
+					if (player.selectedCharacter.equals(character._id)) {
+						msg += "\n- " + character.name + " (" + character.status + ") (Selected)";
 					} else {
-						msg += "\n- " + character.name;
+						msg += "\n- " + character.name + " (" + character.status + ")";
 					}
 				});
 				msg += "\n```";

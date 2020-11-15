@@ -12,12 +12,12 @@ module.exports = {
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {
 			if (!player) return;
-			if (!player.activeCharacter) {
-				message.author.send("You don't have an active character. Use '" + process.env.PREFIX + "help to see how to create and activiate characters.");
+			if (!player.selectedCharacter) {
+				message.author.send("You don't have a character selected. Use '" + process.env.PREFIX + "help to see how to create and select characters.");
 				return;
 			}
 
-			Character.findById(player.activeCharacter).exec(function (err, character) {
+			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
 					console.log(err);
 					message.author.send(err.message);

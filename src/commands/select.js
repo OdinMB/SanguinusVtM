@@ -3,9 +3,9 @@ var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
 module.exports = {
-	name: 'activatechar',
-	description: 'Makes one of your characters the currently active one. DM only.',
-	aliases: [],
+	name: 'select',
+	description: 'Selects one of your characters for other bot commands. DM only.',
+	aliases: ['selectchar'],
 	usage: '[name]',
 	args: true,
 	DMOnly: true,
@@ -31,7 +31,7 @@ module.exports = {
 					return;
 				}
 
-				player.activeCharacter = character._id;
+				player.selectedCharacter = character._id;
 				player.save(function (err) {
 					if (err) {
 						console.log(err);

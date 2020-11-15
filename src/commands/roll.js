@@ -11,8 +11,7 @@ module.exports = {
 	execute(message, args) {
 		var dicePool = parseInt(args[0]);
 		if (isNaN(dicePool)) {
-			message.author.send("Invalid dice pool. Please use");
-			message.author.send("> " + process.env.PREFIX + "roll dice [difficulty] [spec] [comment]");
+			message.author.send("Invalid dice pool.");
 			return;
 		}
 		if (dicePool <= 0 || dicePool > 100) {
