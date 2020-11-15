@@ -2,9 +2,9 @@ var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
 module.exports = {
-	name: 'mychars',
+	name: 'char-my',
 	description: 'Shows a list of your characters. DM only.',
-	aliases: ['mycharacters'],
+	aliases: ['mychars'],
 	DMOnly: true,
 	cooldown: 5,
 	execute(message, args) {

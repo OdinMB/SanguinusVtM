@@ -3,9 +3,9 @@ var Character = require("../models/character.js");
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'profile',
+	name: 'char-profile',
 	description: 'Shows the profile of a character.',
-	aliases: ['p'],
+	aliases: ['p', 'show'],
 	usage: '[name]',
 	args: true,
 	cooldown: 3,

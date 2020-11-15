@@ -3,9 +3,9 @@ var Character = require("../models/character.js");
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'setprofile',
+	name: 'char-setprofile',
 	description: 'Creates a profile for your active character. DM only.',
-	aliases: ['setp'],
+	aliases: ['setprofile'],
 	usage: '',
 	DMOnly: true,
 	cooldown: 3,
@@ -178,8 +178,7 @@ module.exports = {
 
 																																message.channel.send(
 																																	"New RP style is " + (character.rpstyle ? character.rpstyle : "not set") + ".\n" +
-																																	"You completely set up your character's description. Use the following command to see your new profile:\n" +
-																																	"> " + process.env.PREFIX + "desc name"
+																																	"You completed your character's profile."
 																																)
 
 																																// Closing step 7

@@ -3,9 +3,9 @@ var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
 module.exports = {
-	name: 'select',
-	description: 'Selects one of your characters for other bot commands. DM only.',
-	aliases: ['selectchar'],
+	name: 'char-select',
+	description: 'Selects one of your characters. Bot commands will be applied to that character. DM only.',
+	aliases: ['select'],
 	usage: '[name]',
 	args: true,
 	DMOnly: true,

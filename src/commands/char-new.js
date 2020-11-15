@@ -3,7 +3,7 @@ var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
 module.exports = {
-	name: 'newchar',
+	name: 'char-new',
 	description: 'Creates a new character. DM only.',
 	aliases: ['newcharacter'],
 	usage: '[name]',
