@@ -67,7 +67,7 @@ var characterSchema = mongoose.Schema({
 var Character = mongoose.model('Character', characterSchema);
 
 // ToDo: send via PM
-Character.show = function (message) {
+Character.sheet = function (message) {
     const embed = new Discord.MessageEmbed();
     embed.setTitle(message.author.username);
     // embed.setDescription(comment);

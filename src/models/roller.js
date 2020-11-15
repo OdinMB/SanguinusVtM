@@ -77,7 +77,7 @@ exports.roll = function (message, dicePool, difficulty, comment) {
             result = tens + successes;
         }
         if (result > 10) {
-            embed.addField(result + ' SUCCESSES', diceString);
+            embed.addField(result + ' SUCCESSES', "Wow. Just wow.");
         } else {
             embed.setImage('https://www.sanguinus.org/klaus/success' + result + '.png');
         }
