@@ -24,9 +24,7 @@ module.exports = {
 				}
 
 				key = args[0].toLowerCase();
-				if (key === "animal ken") {
-					key = "animalken";
-				}
+				key = Character.shorthand(key);
 				if (!Character.isEditable(key)) {
 					message.author.send("'" + key + "' is not a valid thing to change on your sheet.");
 					return;
