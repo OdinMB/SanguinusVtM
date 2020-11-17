@@ -23,6 +23,9 @@ var URLValidator = [
     }),
 ];
 
+var msgLT0 = "You might be bad at this, but you can't be worse than 0.";
+var msgGT10 = "We all want to be close to Caine. Alas, in this game, we can't have abilities greater than 10.";
+
 // Mongoose Model
 var characterSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -44,6 +47,8 @@ var characterSchema = mongoose.Schema({
         default: 'active',
         required: true
     },
+
+    // Profile
     fullname: {
         type: String,
         unique: true,
@@ -69,32 +74,361 @@ var characterSchema = mongoose.Schema({
         type: String,
         validate: URLValidator,
     },
+
+    /*specialties: {
+        type: Map,
+        of: String
+    },*/
+
+    // Attributes
+    strength: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    dexterity: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    stamina: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    charisma: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    manipulation: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    appearance: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    perception: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    intelligence: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    wits: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+
+    // Abilities
+    alertness: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    athletics: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    awareness: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    brawl: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    empathy: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    expression: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    intimidation: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    leadership: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    streetwise: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    subterfuge: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    animalken: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    crafts: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    drive: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    etiquette: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    firearms: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    larceny: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    melee: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    performance: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    stealth: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    survival: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    academics: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    computers: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    finance: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    investigation: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    law: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    medicine: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    occult: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    politics: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    science: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
+    technology: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, msgLT0],
+        max: [10, msgGT10],
+    },
 });
 var Character = mongoose.model('Character', characterSchema);
 
-// ToDo: send via PM
-Character.sheet = function (message) {
-    const embed = new Discord.MessageEmbed();
-    embed.setTitle(message.author.username);
-    // embed.setDescription(comment);
-    embed.setColor('#0099ff');
-    //.setAuthor('Some name', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
-    //.setThumbnail('https://i.imgur.com/wSTFkRM.png')
-    // embed.setImage('https://www.sanguinus.org/klaus/botch.png')
+Character.isEditable = function (key) {
+    return [
+        'strength', 'dexterity', 'stamina',
+        'charisma', 'manipulation', 'appearance',
+        'perception', 'intelligence', 'wits',
+        'alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge',
+        'animalken', 'crafts', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'performance', 'stealth', 'survival',
+        'academics', 'computers', 'finance', 'investigation', 'law', 'medicine', 'occult', 'politics', 'science', 'technology',
+    ].includes(key);
+};
 
-    embed.addField('Physical', 'Strength: 2\nDexterity: 3\nStamina: 2', true)
-    embed.addField('Social', 'Charisma: 4\nManipulation: 2\nAppearance: 2', true)
-    embed.addField('Mental', 'Perception: 4\nIntelligence: 3\nWits: 3', true)
-
-    // embed.addField('\u200B', '\u200B');
-
-    embed.addField('Talents', 'Alertness: 1\nAthlectics: 2\nAwareness 1\nBrawl: 1\nEmpathy: 4\nExpression: 1\nIntimidation: 2\nLeadership: 1\nStreetwise: 1\nSubterfuge: 3', true)
-    embed.addField('Skills', 'XXXXX\nXXX\nXX', true)
-    embed.addField('Knowledge', 'XXXXX\nXXX\nXX', true)
-
-    embed.addField('Specialties', 'Charisma (Inspiring)\nPerception (Observant)\nEmpathy (Gain Trust)\nPerformance (Performance Art)', true)
-
-    message.author.send(embed);
+Character.isKnowledge = function (key) {
+    return ['academics', 'computers', 'finance', 'investigation', 'law', 'medicine', 'occult', 'politics', 'science', 'technology']
+        .includes(key);
+}
+Character.isSkill = function (key) {
+    return ['animalken', 'crafts', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'performance', 'stealth', 'survival',]
+        .includes(key);
+}
+Character.shorthand = function (key) {
+    switch (key) {
+        case "str": return "strength";
+        case "dex": return "dexterity";
+        case "sta": return "stamina";
+        case "cha": return "charisma";
+        case "man":
+        case "manip": return "manipulation";
+        case "app": return "appearance";
+        case "per":
+        case "perc": return "perception";
+        case "int": return "intelligence";
+        case "wit": return "wits";
+        case "ale": return "alert";
+        case "ath": return "athletics";
+        case "awa":
+        case "aware": return "awareness";
+        case "bra": return "brawl";
+        case "emp": return "empathy";
+        case "exp": return "expression";
+        case "intim": return "intimidation";
+        case "lea":
+        case "lead": return "leadership";
+        case "street": return "streetwise";
+        case "sub": return "subterfuge";
+        case "ani":
+        case "animal": return "animalken";
+        case "cra": return "crafts";
+        case "dri": return "drive";
+        case "eti": return "etiquette";
+        case "fir":
+        case "fire": return "firearms";
+        case "lar": return "larceny";
+        case "mel": return "melee";
+        case "perf":
+        case "perform": return "performance";
+        case "ste": return "stealth";
+        case "sur": return "survival";
+        case "aca": return "academics";
+        case "com":
+        case "comp": return "computers";
+        case "fin": return "finance";
+        case "inv": return "investigation";
+        case "med": return "medicine";
+        case "occ": return "occult";
+        case "pol": return "politics";
+        case "sci": return "science";
+        case "tec":
+        case "tech": return "technology";
+        default: return key;
+    }
 }
 
 module.exports = Character;

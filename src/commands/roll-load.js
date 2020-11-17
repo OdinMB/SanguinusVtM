@@ -3,9 +3,9 @@ var Roll = require("../models/roll.js");
 var Roller = require("../models/roller.js");
 
 module.exports = {
-	name: 'roll-saved',
+	name: 'roll-load',
 	description: 'Performs a previously stored roll.',
-	aliases: ['rs'],
+	aliases: ['rl'],
 	usage: '[roll name]',
 	args: true,
 	cooldown: 3,

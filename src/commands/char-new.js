@@ -57,7 +57,7 @@ module.exports = {
 					} else {
 						message.author.send(
 							"If you want to select " + newCharacter.name + " for bot commands, use\n" +
-							"> " + process.env.PREFIX + "selectChar " + newCharacter.name
+							"> " + process.env.PREFIX + "char-select " + newCharacter.name
 						);
 					}
 				});
