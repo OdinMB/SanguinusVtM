@@ -26,7 +26,7 @@ module.exports = {
 				key = args[0].toLowerCase();
 				key = Character.shorthand(key);
 				if (!Character.isEditable(key)) {
-					message.author.send("'" + key + "' is not a valid thing to change on your sheet.");
+					message.author.send("'" + key + "' is not a valid stat.");
 					return;
                 }
 
@@ -38,7 +38,7 @@ module.exports = {
 						return;
 					}
 
-					message.author.send("Set " + key + " to " + args[1] + ".");
+					message.author.send("Set " + Character.readable(key) + " to " + args[1] + ".");
 				});
 			});
 		});

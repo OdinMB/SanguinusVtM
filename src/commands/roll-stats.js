@@ -43,7 +43,7 @@ module.exports = {
 						comment += (comment.length !== 0 ? " + " : "") + arg;
 					} else if (character[arg] || character[arg] === 0) {
 						dicepool += character[arg];
-						comment += (comment.length !== 0 ? " + " : "") + arg;
+						comment += (comment.length !== 0 ? " + " : "") + Character.readable(arg);
 
 						// unskilled: Talents: no effect, Skills: +1/2 diff, Knowledge: not possible
 						if (Character.isKnowledge(arg) && character[arg] === 0) {

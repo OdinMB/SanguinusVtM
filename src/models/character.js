@@ -431,4 +431,12 @@ Character.shorthand = function (key) {
     }
 }
 
+Character.readable = function (stat) {
+    stat = Character.shorthand(stat);
+    if (stat === "animalken") {
+        stat = "animal Ken";
+    }
+    return stat.charAt(0).toUpperCase() + stat.slice(1);
+}
+
 module.exports = Character;
