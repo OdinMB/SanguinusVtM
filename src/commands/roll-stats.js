@@ -6,7 +6,7 @@ module.exports = {
 	name: 'roll-stats',
 	description: 'Performs a roll based on your character\'s stats.',
 	aliases: ['rs'],
-	usage: '[(opt) difficulty] [stat 1] [stat 2] [stat 3] [(opt) "spec"]',
+	usage: '[(opt) difficulty] [stat names 1-3] [(opt) "spec"]',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

@@ -4,7 +4,7 @@ var Player = require("../models/player.js");
 
 module.exports = {
 	name: 'roll-save',
-	description: 'Assigns a name to a roll. Overwrites existing rolls with that name. DM only.',
+	description: 'DM. Assigns a name to a roll.',
 	aliases: [],
 	usage: '[name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
 	args: true,

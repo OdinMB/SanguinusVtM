@@ -9,7 +9,7 @@ module.exports = {
 		const { commands } = message.client;
 
 		if (!args.length) {
-			data.push("Here's a list of all my commands. Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command.");
+			data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command.\nDM means that you have to send the command to me via direct message.");
 			data.push(commands.map(command =>
 				"\n> **" + process.env.PREFIX + command.name + "** " +
 				(command.aliases && command.aliases.length > 0 ? "(" + command.aliases.join(', ') + ") " : "") +

@@ -4,10 +4,11 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'sheet',
-	description: 'Displays the sheet of your currently selected character.',
+	description: 'DM. Displays the sheet of your currently selected character.',
 	aliases: [],
 	usage: '',
 	args: false,
+	DMOnly: true,
 	cooldown: 5,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {

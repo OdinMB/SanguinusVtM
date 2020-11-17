@@ -3,10 +3,11 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'sheet-set',
-	description: 'Sets a value on the sheet of your selected character. DM only.',
+	description: 'DM. Sets a value on the sheet of your selected character.',
 	aliases: ['ss'],
-	usage: '[name of attribute/ability/etc.] [new value]',
+	usage: '[stat name] [value]',
 	args: true,
+	DMOnly: true,
 	cooldown: 2,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {

@@ -4,8 +4,8 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'char-new',
-	description: 'Creates a new character. DM only.',
-	aliases: ['newcharacter'],
+	description: 'DM. Creates a new character.',
+	aliases: ['newchar'],
 	usage: '[name]',
 	args: true,
 	DMOnly: true,

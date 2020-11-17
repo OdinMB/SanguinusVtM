@@ -3,7 +3,7 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'char-my',
-	description: 'Shows a list of your characters. DM only.',
+	description: 'DM. Shows a list of your characters.',
 	aliases: ['mychars'],
 	DMOnly: true,
 	cooldown: 5,

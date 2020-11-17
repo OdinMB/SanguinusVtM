@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'char-profile',
 	description: 'Shows the profile of a character.',
-	aliases: ['p', 'show'],
+	aliases: ['profile', 'p', 'show'],
 	usage: '[name]',
 	args: true,
 	cooldown: 3,

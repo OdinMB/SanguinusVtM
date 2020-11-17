@@ -3,7 +3,7 @@ var Player = require("../models/player.js");
 
 module.exports = {
 	name: 'roll-delete',
-	description: 'Deletes a saved roll. DM only.',
+	description: 'DM. Deletes a saved roll.',
 	aliases: [],
 	usage: '[name]',
 	args: true,
