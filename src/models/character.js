@@ -390,7 +390,7 @@ Character.shorthand = function (key) {
         case "perc": return "perception";
         case "int": return "intelligence";
         case "wit": return "wits";
-        case "ale": return "alert";
+        case "ale": return "alertness";
         case "ath": return "athletics";
         case "awa":
         case "aware": return "awareness";
@@ -404,7 +404,9 @@ Character.shorthand = function (key) {
         case "sub": return "subterfuge";
         case "ani":
         case "animal": return "animalken";
-        case "cra": return "crafts";
+        case "cra":
+        case "craft":
+            return "crafts";
         case "dri": return "drive";
         case "eti": return "etiquette";
         case "fir":
