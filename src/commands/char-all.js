@@ -3,9 +3,8 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'char-all',
-	description: 'DM. Shows a list of all active (and paused) characters.',
+	description: 'Shows a list of all active (and paused) characters.',
 	aliases: ['allchars'],
-	DMOnly: true,
 	cooldown: 5,
 	execute(message, args) {
 

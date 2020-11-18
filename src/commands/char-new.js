@@ -4,11 +4,10 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'char-new',
-	description: 'DM. Creates a new character.',
+	description: 'Creates a new character.',
 	aliases: ['newchar'],
 	usage: '[name]',
 	args: true,
-	DMOnly: true,
 	cooldown: 3,
 	execute(message, args) {
 		// Is there already a character with that name?

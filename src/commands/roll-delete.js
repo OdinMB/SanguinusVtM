@@ -4,11 +4,10 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'roll-delete',
-	description: 'DM. Deletes a saved roll for your selected character.',
+	description: 'Deletes a saved roll for your selected character.',
 	aliases: [],
 	usage: '[name]',
 	args: true,
-	DMOnly: true,
 	cooldown: 3,
 	execute(message, args) {
 

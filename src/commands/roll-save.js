@@ -5,11 +5,10 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'roll-save',
-	description: 'DM. Saves a roll for your selected character under a name.',
+	description: 'Saves a roll for your selected character under a name.',
 	aliases: [],
 	usage: '[name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
 	args: true,
-	DMOnly: true,
 	cooldown: 3,
 	execute(message, args) {
 		var name = args[0];
