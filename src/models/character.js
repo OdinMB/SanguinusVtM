@@ -51,7 +51,6 @@ var characterSchema = mongoose.Schema({
     // Profile
     fullname: {
         type: String,
-        unique: true,
         maxlength: [40, 'Even the full name should not be longer than 40 letters.'],
     },
     description: {
