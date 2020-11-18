@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 
 var rollSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    player: {
+    character: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Player',
+        ref: 'Character',
         required: true,
     },
     name: {

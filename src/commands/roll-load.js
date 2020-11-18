@@ -1,10 +1,11 @@
 var Player = require("../models/player.js");
+var Character = require("../models/character.js");
 var Roll = require("../models/roll.js");
 var Roller = require("../models/roller.js");
 
 module.exports = {
 	name: 'roll-load',
-	description: 'Performs a previously stored roll.',
+	description: 'Performs a previously stored roll for your selected character.',
 	aliases: ['rl'],
 	usage: '[roll name]',
 	args: true,
@@ -13,21 +14,32 @@ module.exports = {
 		Player.getPlayer(message, function (player) {
 			if (!player) return;
 
-			Roll.findOne({
-				player: player._id,
-				name: args[0]
-			}).exec(function (err, roll) {
+			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
 					console.log(err);
 					message.author.send(err.message);
 					return;
 				}
-				if (!roll) {
-					message.author.send("You haven't saved a roll under that name.");
+				if (!character) {
+					message.author.send("You don't have a character selected.");
 					return;
 				}
+				Roll.findOne({
+					character: character._id,
+					name: args[0]
+				}).exec(function (err, roll) {
+					if (err) {
+						console.log(err);
+						message.author.send(err.message);
+						return;
+					}
+					if (!roll) {
+						message.author.send("You haven't saved a roll under that name for " + character.name + ".");
+						return;
+					}
 
-				Roller.roll(message, roll.dicepool, roll.difficulty, roll.comment);
+					Roller.roll(message, roll.dicepool, roll.difficulty, roll.comment);
+				});
 			});
 		});
 	}
