@@ -8,6 +8,7 @@ module.exports = {
 	description: 'Saves a roll for your selected character under a name.',
 	aliases: [],
 	usage: '[name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
+	wiki: 'Example:\n- ' + process.env.PREFIX + 'roll-save hunt 7 5 Hunting (Base 7, -2 Auspex/Presence): shortens your hunting roll to \'' + process.env.PREFIX + 'rl hunt\'',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

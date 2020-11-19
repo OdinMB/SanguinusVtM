@@ -6,6 +6,9 @@ module.exports = {
 	description: 'DM. Sets a value on the sheet of your selected character.',
 	aliases: ['ss'],
 	usage: '[stat name] [value]',
+	wiki: 'Examples:\n- ' + process.env.PREFIX + 'sheet-set dexterity 3: sets your Dexterity to 3' +
+		'\n- ' + process.env.PREFIX + 'ss dex 3: also sets your Dexterity to 3' +
+		'\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim)\n- Streetwise (short street)\n- Performance (short perf/perform)',
 	args: true,
 	DMOnly: true,
 	cooldown: 2,

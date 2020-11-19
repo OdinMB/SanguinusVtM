@@ -5,6 +5,8 @@ module.exports = {
 	description: 'Performs a dice roll and shows the result in the channel.',
 	aliases: ['r'],
 	usage: '[dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
+	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll 5: rolls 5 dice with difficulty 6' +
+		'\n- ' + process.env.PREFIX + 'r 5 8 spec: rolls 5 dice with difficulty 8 with Specialty enabled, i.e. 10s count as two successes',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

@@ -7,6 +7,9 @@ module.exports = {
 	description: 'Performs a roll based on your character\'s stats.',
 	aliases: ['rs'],
 	usage: '[(opt) difficulty] [stat names 1-3] [(opt) "spec"]',
+	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll-stats dexterity melee: rolls your dexterity + melee with difficulty 6' +
+		'\n- ' + process.env.PREFIX + 'rs dex mel spec: also rolls your dexterity + melee with difficulty 6, but with Specialty enabled' +
+		'\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim)\n- Streetwise (short street)\n- Performance (short perf/perform)',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

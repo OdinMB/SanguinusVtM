@@ -390,6 +390,7 @@ Character.shorthand = function (key) {
         case "perc": return "perception";
         case "int": return "intelligence";
         case "wit": return "wits";
+
         case "ale": return "alertness";
         case "ath": return "athletics";
         case "awa":
@@ -402,6 +403,7 @@ Character.shorthand = function (key) {
         case "lead": return "leadership";
         case "street": return "streetwise";
         case "sub": return "subterfuge";
+
         case "ani":
         case "animal": return "animalken";
         case "cra":
@@ -417,6 +419,7 @@ Character.shorthand = function (key) {
         case "perform": return "performance";
         case "ste": return "stealth";
         case "sur": return "survival";
+
         case "aca": return "academics";
         case "com":
         case "comp": return "computers";
@@ -428,6 +431,7 @@ Character.shorthand = function (key) {
         case "sci": return "science";
         case "tec":
         case "tech": return "technology";
+
         default: return key;
     }
 }
