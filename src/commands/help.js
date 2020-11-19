@@ -9,7 +9,7 @@ module.exports = {
 		const { commands } = message.client;
 
 		if (!args.length) {
-			data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command.\nDM means that you have to send the command to me via direct message.");
+			data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command. (Example: '" + process.env.PREFIX + "help roll')\nDM = you have to send the command to me via direct message.");
 			data.push(commands.map(command =>
 				"\n> **" + process.env.PREFIX + command.name + "** " +
 				(command.aliases && command.aliases.length > 0 ? "(" + command.aliases.join(', ') + ") " : "") +
@@ -41,7 +41,7 @@ module.exports = {
 		if (command.description) data.push(`**Description:** ${command.description}`);
 		if (command.usage) data.push("**Usage:** " + process.env.PREFIX + command.name + " " + command.usage);
 		data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
-		if (command.wiki) data.push(`**Wiki:** ${command.wiki}`);
+		if (command.wiki) data.push(`**Wiki:**\n${command.wiki}`);
 
 		message.channel.send(data, { split: true });
 	},

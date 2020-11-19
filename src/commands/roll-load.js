@@ -8,6 +8,7 @@ module.exports = {
 	description: 'Performs a previously stored roll for your selected character.',
 	aliases: ['rl'],
 	usage: '[roll name]',
+	wiki: 'The luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {
