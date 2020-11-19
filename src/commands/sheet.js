@@ -32,6 +32,10 @@ module.exports = {
 				//.setThumbnail('https://i.imgur.com/wSTFkRM.png')
 				// embed.setImage('https://www.sanguinus.org/klaus/botch.png')
 
+				embed.addField('State', `BP: ${c.BP}/${c.BPMax}\nWP: ${c.WP}/${c.WPMax}\nHealth: ________`, true)
+				embed.addField('Placeholder', `_`, true)
+				embed.addField('Placeholder', `_`, true)
+
 				embed.addField('Physical', `Strength: ${c.strength}\nDexterity: ${c.dexterity}\nStamina: ${c.stamina}`, true)
 				embed.addField('Social', `Charisma: ${c.charisma}\nManipulation: ${c.manipulation}\nAppearance: ${c.appearance}`, true)
 				embed.addField('Mental', `Perception: ${c.perception}\nIntelligence: ${c.intelligence}\nWits: ${c.wits}`, true)

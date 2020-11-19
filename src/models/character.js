@@ -74,6 +74,47 @@ var characterSchema = mongoose.Schema({
         validate: URLValidator,
     },
 
+    BPMax: {
+        type: Number,
+        required: true,
+        default: 10,
+        min: [10, "Your blood pool should be at least 10."],
+        max: [20, "If your blood pool is greater than 20, chances are that this is not a player character."],
+    },
+    BP: {
+        type: Number,
+        required: true,
+        default: 10,
+        min: [0, "You can't go below 0 BP."],
+        max: [20, "You can't go above 20 BP. Actually you can, but you need to track that outside of the bot."],
+    },
+    WPMax: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [1, "You maximum WP can't be lower than 1."],
+        max: [10, "Your maximum WP can't be greater than 10."],
+    },
+    WP: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, "You WP can't be negative."],
+        max: [10, "Your WP can't be greater than 10."],
+    },
+    XPTotal: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, "You total XP can't be negative."],
+    },
+    XP: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, "You unspent XP can't be negative."],
+    },
+
     /*specialties: {
         type: Map,
         of: String
