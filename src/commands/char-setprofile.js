@@ -4,7 +4,8 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'char-setprofile',
-	description: 'DM. Creates a profile for your active character.',
+	description: 'Creates a profile for your active character.  Via DM only.',
+	oneline: true,
 	aliases: ['setprofile'],
 	usage: '',
 	DMOnly: true,

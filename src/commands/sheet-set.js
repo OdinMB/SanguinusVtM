@@ -3,7 +3,8 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'sheet-set',
-	description: 'DM. Sets a value on the sheet of your selected character.',
+	description: 'Sets a value on the sheet of your selected character. Via DM only.',
+	oneline: true,
 	aliases: ['ss'],
 	usage: '[stat name] [value]',
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'sheet-set dexterity 3: sets your Dexterity to 3' +

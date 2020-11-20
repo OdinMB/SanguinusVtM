@@ -6,6 +6,7 @@ var Roller = require("../models/roller.js");
 module.exports = {
 	name: 'roll-load',
 	description: 'Performs a previously stored roll for your selected character.',
+	oneline: true,
 	aliases: ['rl'],
 	usage: '[roll name]',
 	wiki: 'The luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',

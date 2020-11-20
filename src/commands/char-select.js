@@ -4,7 +4,8 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'char-select',
-	description: 'Selects one of your characters. Bot commands will be applied to that character.',
+	description: 'Selects one of your characters.',
+	oneline: true,
 	aliases: ['select'],
 	usage: '[name]',
 	args: true,

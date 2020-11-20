@@ -2,7 +2,8 @@ var Roller = require("../models/roller.js");
 
 module.exports = {
 	name: 'roll-ini',
-	description: 'Rolls your initiative. Ini modifier is Dexterity + Wits + unsued Celerity.',
+	description: 'Rolls your initiative.',
+	oneline: true,
 	aliases: ['ini', 'init'],
 	usage: '[ini modifier]',
 	args: true,

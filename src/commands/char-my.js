@@ -4,6 +4,7 @@ var Character = require("../models/character.js");
 module.exports = {
 	name: 'char-my',
 	description: 'Shows a list of your characters.',
+	oneline: true,
 	aliases: ['mychars'],
 	cooldown: 5,
 	execute(message, args) {

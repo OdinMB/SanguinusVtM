@@ -4,6 +4,7 @@ var Character = require("../models/character.js");
 module.exports = {
 	name: 'char-all',
 	description: 'Shows a list of all active (and paused) characters.',
+	oneline: true,
 	aliases: ['allchars'],
 	cooldown: 5,
 	execute(message, args) {

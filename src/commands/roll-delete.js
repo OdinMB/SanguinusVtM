@@ -5,6 +5,7 @@ var Character = require("../models/character.js");
 module.exports = {
 	name: 'roll-delete',
 	description: 'Deletes a saved roll for your selected character.',
+	oneline: true,
 	aliases: [],
 	usage: '[name]',
 	args: true,

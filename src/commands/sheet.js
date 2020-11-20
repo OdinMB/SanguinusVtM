@@ -5,6 +5,7 @@ var Character = require("../models/character.js");
 module.exports = {
 	name: 'sheet',
 	description: 'Displays the sheet of your currently selected character.',
+	oneline: true,
 	aliases: [],
 	usage: '',
 	args: false,

@@ -8,7 +8,7 @@ var Character = require("../models/character.js");
  */
 module.exports = {
 	name: 'bp-spend',
-	description: 'Spends BP with your selected character. Spends 1 BP if you amount is provided.',
+	description: 'Spends BP with your selected character. Spends 1 BP if no amount is provided.',
 	aliases: ['bp'],
 	usage: '[(opt) amount]  [(opt) comment]',
 	cooldown: 2,

@@ -5,6 +5,7 @@ var Roll = require("../models/roll.js");
 module.exports = {
 	name: 'roll-my',
 	description: 'Shows a list of stored rolls for your selected character.',
+	oneline: true,
 	aliases: ['myrolls'],
 	cooldown: 5,
 	execute(message, args) {

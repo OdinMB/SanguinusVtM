@@ -2,7 +2,7 @@ var Roller = require("../models/roller.js");
 
 module.exports = {
 	name: 'roll',
-	description: 'Performs a dice roll and shows the result in the channel.',
+	description: 'Performs a dice roll.',
 	aliases: ['r'],
 	usage: '[dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll 5: rolls 5 dice with difficulty 6' +

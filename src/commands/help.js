@@ -1,21 +1,24 @@
 module.exports = {
 	name: 'help',
 	description: 'List all of my commands or info about a specific command.',
+	oneline: true,
 	aliases: [],
-	usage: '[command name]',
+	usage: '[(opt) command name]',
 	cooldown: 5,
 	execute(message, args) {
 		const data = [];
 		const { commands } = message.client;
 
 		if (!args.length) {
-			data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command. (Example: '" + process.env.PREFIX + "help roll')\nDM = you have to send the command to me via direct message.");
+			// data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command. (Example: '" + process.env.PREFIX + "help roll')");
 			data.push(commands.map(command =>
-				"\n> **" + process.env.PREFIX + command.name + "** " +
+				"**" + process.env.PREFIX + command.name + "**" +
+				((!command.aliases || command.aliases.length === 0) && !command.usage ? "" : " `") +
 				(command.aliases && command.aliases.length > 0 ? "(" + command.aliases.join(', ') + ") " : "") +
-				(command.usage ? command.usage : "") + 
-				(command.description ? "\n> " + command.description : "")
-			).join(""));
+				(command.usage ? command.usage : "") +
+				((!command.aliases || command.aliases.length === 0) && !command.usage ? "" : "`") +
+				(command.description ? (command.oneline ? ": " : "") + (command.oneline ? "" : "\n") + command.description : "")
+			).join("\n"));
 
 			return message.author.send(data, { split: true })
 				.then(() => {
