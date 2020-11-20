@@ -1,11 +1,6 @@
 var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
-/*
- * ToDo:
- * - Warn about frenzy depending on Virtue
- * - Warn about BP spent in one turn depending on Generation
- */
 module.exports = {
 	name: 'bp-feed',
 	description: 'Gain BP with your selected character. Gains full BP, if no amount is provided.',
@@ -33,15 +28,15 @@ module.exports = {
 				} else if (args[0] && !isNaN(args[0])) {
 					var amount = parseInt(args[0]);
 				} else {
-					var amount = character.BPMax - character.BP;
+					var amount = Character.getMaxBP(character.generation) - character.bp;
 				}
 
 				if ((character.BP + amount) > character.BPMax) {
-					message.reply("That's more than you can take. Reducing amount to " + (character.BPMax - character.BP) + ".");
-					amount = character.BPMax - character.BP;
+					message.reply("That's more than you can take. Reducing amount to " + (Character.getMaxBP(character.generation) - character.bp) + ".");
+					amount = Character.getMaxBP(character.generation) - character.BP;
 				}
 
-				character.BP += amount;
+				character.bp += amount;
 				character.save(function (err) {
 					if (err) {
 						console.log(err);
@@ -49,7 +44,7 @@ module.exports = {
 						return;
 					}
 
-					message.reply(character.name + " gained " + amount + " BP. Now at " + character.BP + "/" + character.BPMax + " BP.");
+					message.reply(character.name + " gained " + amount + " BP. Now at " + character.bp + "/" + Character.getMaxBP(character.generation) + " BP.");
 				});
 			});
 		});

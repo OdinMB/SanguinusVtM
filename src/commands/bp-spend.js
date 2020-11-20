@@ -10,7 +10,7 @@ module.exports = {
 	name: 'bp-spend',
 	description: 'Spends BP with your selected character. Spends 1 BP if no amount is provided.',
 	aliases: ['bp'],
-	usage: '[(opt) amount]  [(opt) comment]',
+	usage: '[(opt) amount] [(opt) comment]',
 	cooldown: 2,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {
@@ -32,12 +32,12 @@ module.exports = {
 				} else {
 					var amount = 1;
 				}
-				if (character.BP < amount) {
-					message.reply("You don't have enough BP. Currently " + character.BP + "/" + character.BPMax + ".");
+				if (character.bp < amount) {
+					message.reply("You don't have enough BP. Currently " + character.bp + "/" + Character.getMaxBP(character.generation) + ".");
 					return;
                 }
 
-				character.BP -= amount;
+				character.bp -= amount;
 				character.save(function (err) {
 					if (err) {
 						console.log(err);
@@ -47,7 +47,8 @@ module.exports = {
 
 					message.reply(character.name + " spent " + amount + " BP" +
 						(args[0] ? " on '" + args.join(' ') + "'" : "") + ". " +
-						character.BP + "/" + character.BPMax + " BP left.");
+						character.bp + "/" + Character.getMaxBP(character.generation) + " BP left." +
+						(amount > Character.getMaxBPPerTurn(character.generation) ? "\nKeep in mind: you are only allowed to spend " + Character.getMaxBPPerTurn(character.generation) + " BP per turn." : ""));
 				});
 			});
 		});

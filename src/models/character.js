@@ -25,6 +25,7 @@ var URLValidator = [
 
 var msgLT0 = "You might be bad at this, but you can't be worse than 0.";
 var msgGT10 = "We all want to be close to Caine. Alas, in this game, we can't have abilities greater than 10.";
+var msgGT5 = "Even being virtuous has limits. 5 to be exact.";
 
 // Mongoose Model
 var characterSchema = mongoose.Schema({
@@ -74,41 +75,64 @@ var characterSchema = mongoose.Schema({
         validate: URLValidator,
     },
 
-    BPMax: {
+    clan: {
+        type: String,
+    },
+    nature: {
+        type: String,
+    },
+    demeanor: {
+        type: String,
+    },
+
+    generation: {
         type: Number,
         required: true,
-        default: 10,
-        min: [10, "Your blood pool should be at least 10."],
-        max: [20, "If your blood pool is greater than 20, chances are that this is not a player character."],
+        default: 13,
+        min: [8, "I get the idea: if you can't defeat them, join them."],
+        max: [15, "Generation 15 should be thin enough."],
     },
-    BP: {
-        type: Number,
-        required: true,
-        default: 10,
-        min: [0, "You can't go below 0 BP."],
-        max: [20, "You can't go above 20 BP. Actually you can, but you need to track that outside of the bot."],
-    },
-    WPMax: {
+    willpower: {
         type: Number,
         required: true,
         default: 1,
         min: [1, "You maximum WP can't be lower than 1."],
         max: [10, "Your maximum WP can't be greater than 10."],
     },
-    WP: {
+    coderating: {
+        type: Number,
+        required: true,
+        default: 5,
+        min: [1, "Humanity/Path rating of 0 means that your character is unplayable."],
+        max: [10, "Your Humanity/Path cannot go higher than 10."],
+    },
+    code: {
+        type: String,
+        required: true,
+        default: "Humanity",
+    },
+
+    bp: {
+        type: Number,
+        required: true,
+        default: 10,
+        min: [0, "You can't go below 0 BP."],
+        max: [20, "You can't go above 20 BP. Actually you can, but you need to track that outside of the bot."],
+    },
+    wp: {
         type: Number,
         required: true,
         default: 1,
         min: [0, "You WP can't be negative."],
         max: [10, "Your WP can't be greater than 10."],
     },
-    XPTotal: {
+    xptotal: {
         type: Number,
         required: true,
         default: 0,
         min: [0, "You total XP can't be negative."],
     },
-    XP: {
+    xp: {
         type: Number,
         required: true,
         default: 0,
@@ -119,6 +143,29 @@ var characterSchema = mongoose.Schema({
         type: Map,
         of: String
     },*/
+
+    // Virtues
+    callousness: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [5, msgGT5],
+    },
+    instinct: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [5, msgGT5],
+    },
+    morale: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: [0, msgLT0],
+        max: [5, msgGT5],
+    },
 
     // Attributes
     strength: {
@@ -401,6 +448,9 @@ var Character = mongoose.model('Character', characterSchema);
 
 Character.isEditable = function (key) {
     return [
+        'clan', 'nature', 'demeanor', 'code',
+        'generation', 'coderating', 'willpower',
+        'callousness', 'instinct', 'morale',
         'strength', 'dexterity', 'stamina',
         'charisma', 'manipulation', 'appearance',
         'perception', 'intelligence', 'wits',
@@ -420,6 +470,30 @@ Character.isSkill = function (key) {
 }
 Character.shorthand = function (key) {
     switch (key) {
+        case "cla": return "clan";
+        case "nat": return "nature";
+        case "dem": return "demeanor";
+        case "cod": return "code";
+
+        case "gen": return "generation";
+        case "pat":
+        case "path":
+        case "hum":
+        case "humanity":
+            return "coderating";
+        case "wp":
+        case "wil":
+        case "will":
+            return "willpower";
+
+        case "cal":
+        case "call":
+            return "callousness";
+        case "ins": return "instinct";
+        case "mor":
+        case "morale":
+            return "morale";
+
         case "str": return "strength";
         case "dex": return "dexterity";
         case "sta": return "stamina";
@@ -481,8 +555,40 @@ Character.readable = function (stat) {
     stat = Character.shorthand(stat);
     if (stat === "animalken") {
         stat = "animal Ken";
+    } else if (stat === "coderating") {
+        stat = "Humanity/Path";
     }
     return stat.charAt(0).toUpperCase() + stat.slice(1);
+}
+
+Character.getMaxBP = function (generation) {
+    switch (generation) {
+        case 15:
+        case 14:
+        case 13:
+            return 10;
+        case 12: return 11;
+        case 11: return 12;
+        case 10: return 13;
+        case 9: return 14;
+        case 8: return 15;
+        default: return false;
+    }
+}
+
+Character.getMaxBPPerTurn = function (generation) {
+    switch (generation) {
+        case 15:
+        case 14:
+        case 13:
+        case 12:
+        case 11:
+        case 10:
+            return 1;
+        case 9: return 2;
+        case 8: return 3;
+        default: return false;
+    }
 }
 
 module.exports = Character;

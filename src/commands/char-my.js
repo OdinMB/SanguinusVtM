@@ -28,11 +28,9 @@ module.exports = {
 
 				var msg = "```Your characters:";
 				characters.forEach(character => {
-					if (player.selectedCharacter.equals(character._id)) {
-						msg += "\n- " + character.name + " (" + character.status + ") (Selected)";
-					} else {
-						msg += "\n- " + character.name + " (" + character.status + ")";
-					}
+					msg += "\n\n- " + character.name + " (" + character.status + ")" +
+						(player.selectedCharacter.equals(character._id) ? " (selected)" : "") +
+						"\nClan: " + character.clan + " | Nature: " + character.nature + " | Demeanor: " + character.demeanor + " | Code: " + character.code;
 				});
 				msg += "\n```";
 				message.author.send(msg);

@@ -23,12 +23,12 @@ module.exports = {
 					return;
 				}
 
-				if (character.WP < 1) {
+				if (character.wp < 1) {
 					message.reply("You have no WP left.");
 					return;
 				}
 
-				character.WP--;
+				character.wp--;
 				character.save(function (err) {
 					if (err) {
 						console.log(err);
@@ -38,7 +38,7 @@ module.exports = {
 
 					message.reply(character.name + " spent 1 WP" +
 						(args[0] ? " on '" + args.join(' ') + "'" : "") + ". " +
-						character.WP + "/" + character.WPMax + " WP left.");
+						character.wp + "/" + character.willpower + " WP left.");
 				});
 			});
 		});

@@ -27,15 +27,11 @@ module.exports = {
 
 				const embed = new Discord.MessageEmbed();
 				embed.setTitle(message.author.username);
-				// embed.setDescription(comment);
 				embed.setColor('#0099ff');
-				//.setAuthor('Some name', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
-				//.setThumbnail('https://i.imgur.com/wSTFkRM.png')
-				// embed.setImage('https://www.sanguinus.org/klaus/botch.png')
 
-				embed.addField('State', `BP: ${c.BP}/${c.BPMax}\nWP: ${c.WP}/${c.WPMax}\nHealth: ________`, true)
-				embed.addField('Placeholder', `_`, true)
-				embed.addField('Placeholder', `_`, true)
+				embed.addField('Status', `BP: ${c.bp}/${Character.getMaxBP(c.generation)}\nWP: ${c.wp}\nHealth: OK`, true)
+				embed.addField('Character', `Generation: ${c.generation}\nWillpower: ${c.willpower}`, true)
+				embed.addField('Character', `Clan: ${c.clan}\nNature: ${c.nature}\nDemeanor: ${c.demeanor}`, true)
 
 				embed.addField('Physical', `Strength: ${c.strength}\nDexterity: ${c.dexterity}\nStamina: ${c.stamina}`, true)
 				embed.addField('Social', `Charisma: ${c.charisma}\nManipulation: ${c.manipulation}\nAppearance: ${c.appearance}`, true)
@@ -47,6 +43,9 @@ module.exports = {
 				embed.addField('Skills', `Animal Ken: ${c.animalken}\nCrafts: ${c.crafts}\nDrive: ${c.drive}\nEtiquette: ${c.etiquette}\nFirearms: ${c.firearms}\nLarceny: ${c.larceny}\nMelee: ${c.melee}\nPerformance: ${c.performance}\nStealth: ${c.stealth}\nSurvival: ${c.survival}`, true)
 				embed.addField('Knowledges', `Academics: ${c.academics}\nComputers: ${c.computers}\nFinance: ${c.finance}\nInvestigation: ${c.investigation}\nLaw: ${c.law}\nMedicine: ${c.medicine}\nOccult: ${c.occult}\nPolitics: ${c.politics}\nScience: ${c.science}\nTechnology: ${c.technology}`, true)
 
+				embed.addField('Specialties', `wip`, true)
+				embed.addField('Code', `Code: ${c.code}\n${c.code}: ${c.coderating}`, true)
+				embed.addField('Virtues', `Callousness: ${c.callousness}\nInstinct: ${c.instinct}\nMorale: ${c.morale}`, true)
 
 
 				/*
