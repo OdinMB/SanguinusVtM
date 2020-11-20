@@ -14,7 +14,6 @@ var playerSchema = mongoose.Schema({
     selectedCharacter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Character',
-        unique: true
     },
     /*
     linkedin: {
