@@ -45,11 +45,12 @@ module.exports = {
 						message.author.send(err.message);
 						return;
 					}
-
 					message.reply(character.name + " spent " + amount + " BP" +
 						(args[0] ? " on '" + args.join(' ') + "'" : "") + ". " +
 						character.bp + "/" + Character.getMaxBP(character.generation) + " BP left." +
-						(amount > Character.getMaxBPPerTurn(character.generation) ? "\nKeep in mind: you are only allowed to spend " + Character.getMaxBPPerTurn(character.generation) + " BP per turn." : ""));
+						(amount > Character.getMaxBPPerTurn(character.generation) ? "\nKeep in mind: you are only allowed to spend " + Character.getMaxBPPerTurn(character.generation) + " BP per turn." : "") + 
+						(character.bp <= (7 - character.instinct) ? "\nWarning: your BP is at or below the frenzy threshold of " + (7 - character.instinct) + " (7 - Instict " + character.instinct + ")." : "")
+					);
 				});
 			});
 		});
