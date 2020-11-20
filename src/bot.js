@@ -55,6 +55,10 @@ client.on("message", (message) => {
 		return message.channel.send(reply);
 	}
 
+	if (command.adminOnly && !message.member.hasPermission('ADMINISTRATOR')) {
+		return message.reply("Only administrators can execute that command.");
+	}
+
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Discord.Collection());
 	}

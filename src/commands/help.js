@@ -13,11 +13,11 @@ module.exports = {
 			// data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command. (Example: '" + process.env.PREFIX + "help roll')");
 			data.push(commands.map(command =>
 				"**" + process.env.PREFIX + command.name + "**" +
-				((!command.aliases || command.aliases.length === 0) && !command.usage ? "" : " `") +
-				(command.aliases && command.aliases.length > 0 ? "(" + command.aliases.join(', ') + ") " : "") +
-				(command.usage ? command.usage : "") +
-				((!command.aliases || command.aliases.length === 0) && !command.usage ? "" : "`") +
-				(command.description ? (command.oneline ? ": " : "") + (command.oneline ? "" : "\n") + command.description : "")
+				((!command.aliases || !command.aliases.length) && !command.usage ? "" : " `") +
+				(command.aliases && command.aliases.length ? "(" + command.aliases.join(', ') + ")" : "") +
+				(command.usage ? " " + command.usage : "") +
+				((!command.aliases || !command.aliases.length) && !command.usage ? "" : "`") +
+				(command.description ? (command.oneline ? ": " : "\n") + command.description : "")
 			).join("\n"));
 
 			return message.author.send(data, { split: true })
@@ -40,7 +40,7 @@ module.exports = {
 
 		data.push(`**Name:** ${command.name}`);
 
-		if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+		if (command.aliases && command.aliases.length) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if (command.description) data.push(`**Description:** ${command.description}`);
 		if (command.usage) data.push("**Usage:** " + process.env.PREFIX + command.name + " " + command.usage);
 		data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
