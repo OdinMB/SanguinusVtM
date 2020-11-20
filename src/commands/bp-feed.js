@@ -6,6 +6,7 @@ module.exports = {
 	description: 'Gain BP with your selected character. Gains full BP, if no amount is provided.',
 	aliases: ['feed'],
 	usage: '[(opt) amount]',
+	hidden: true,
 	cooldown: 2,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {

@@ -12,12 +12,14 @@ module.exports = {
 		if (!args.length) {
 			// data.push("Use '" + process.env.PREFIX + "help [command name]' to get info on a specific command. (Example: '" + process.env.PREFIX + "help roll')");
 			data.push(commands.map(command =>
-				"**" + process.env.PREFIX + command.name + "**" +
-				((!command.aliases || !command.aliases.length) && !command.usage ? "" : " `") +
-				(command.aliases && command.aliases.length ? "(" + command.aliases.join(', ') + ")" : "") +
-				(command.usage ? " " + command.usage : "") +
-				((!command.aliases || !command.aliases.length) && !command.usage ? "" : "`") +
-				(command.description ? (command.oneline ? ": " : "\n") + command.description : "")
+				(command.hidden ? "" : 
+					"**" + process.env.PREFIX + command.name + "**" +
+					((!command.aliases || !command.aliases.length) && !command.usage ? "" : " `") +
+					(command.aliases && command.aliases.length ? "(" + command.aliases.join(', ') + ")" : "") +
+					(command.usage ? " " + command.usage : "") +
+					((!command.aliases || !command.aliases.length) && !command.usage ? "" : "`") +
+					(command.description ? (command.oneline ? ": " : "\n") + command.description : "")
+				)
 			).join("\n"));
 
 			return message.author.send(data, { split: true })

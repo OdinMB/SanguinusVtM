@@ -7,6 +7,7 @@ module.exports = {
 	usage: '[(opt) character name]',
 	guildOnly: true,
 	adminOnly: true,
+	hidden: true,
 	cooldown: 6,
 	execute(message, args) {
 		if (!args.length) {

@@ -11,6 +11,7 @@ module.exports = {
 	description: 'Spends BP with your selected character. Spends 1 BP if no amount is provided.',
 	aliases: ['bp'],
 	usage: '[(opt) amount] [(opt) comment]',
+	hidden: true,
 	cooldown: 2,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {

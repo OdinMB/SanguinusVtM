@@ -7,6 +7,7 @@ module.exports = {
 	oneline: true,
 	aliases: [],
 	usage: '[(opt) comment]',
+	hidden: true,
 	cooldown: 6,
 	execute(message, args) {
 		Player.getPlayer(message, function (player) {
