@@ -7,18 +7,19 @@ Alpha version.
 Test build for chronicle https://www.sanguinus.org/.
 
 ## Functionality
-- **Characters**
--- Create characters and character profiles
+- **Characters**<br/>
+-- Create characters and character profiles<br/>
 -- Manage character sheets (still missing: Backgrounds, Disciplines, Merits/Flaws)
-- **Rolls**: Can perform rolls according to V20 mechanics.
--- Dice pools can be given as numbers ('!r 7') or stats ("!rs str bra")
--- Stat specialties can be considered ('!r 7 spec')
--- Initiative rolls
--- Rolls can be saved and then be performed more quickly
+- **Rolls**: Can perform rolls according to V20 mechanics.<br/>
+-- Dice pools can be given as numbers ('!r 7') or stats ("!rs str bra")<br/>
+-- Stat specialties can be considered ('!r 7 spec')<br/>
+-- Initiative rolls<br/>
+-- Rolls can be saved and then be performed more quickly<br/>
+-- Stat-based rolls and saved rolls can be modified ('!rs str bra -3')<br/>
 -- Luck score indicates how much the dice gods loved you
-- **Blood, Willpower, Health**
--- Spend and get BP, get notified if you risk hunger frenzy
--- Spend WP and restore WP once a week (with admin command)
+- **Blood, Willpower, Health**<br/>
+-- Spend and get BP, get notified if you risk hunger frenzy<br/>
+-- Spend WP and restore WP once a week (with admin command)<br/>
 -- Take and heal damage, see wound penalties
 
 ## Commands
@@ -38,11 +39,11 @@ Spends BP with your selected character. Spends 1 BP if no amount is provided.
 - **help**  [(opt) command name]: List all of my commands or info about a specific command.
 - **roll-delete**  [name]: Deletes a saved roll for your selected character.
 - **roll-ini** (ini, init) [ini modifier]: Rolls your initiative.
-- **roll-load** (rl) [roll name]: Performs a previously stored roll for your selected character.
+- **roll-load** (rl) [roll name] [(opt) +/- modifier]: Performs a previously stored roll for your selected character.
 - **roll-my** (myrolls): Shows a list of stored rolls for your selected character.
 - **roll-save**  [name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]
 Saves a roll for your selected character under a name.
-- **roll-stats** (rs) [(opt) difficulty] [stat names 1-3] [(opt) "spec"]
+- **roll-stats** (rs) [(opt) difficulty] [stat names 1-3] [(opt) +/- modifier] [(opt) "spec"]
 Performs a roll based on your character's stats.
 - **roll** (r) [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]
 Performs a dice roll.
