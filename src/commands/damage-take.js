@@ -75,8 +75,8 @@ module.exports = {
 					message.reply(
 						character.name + " suffered " + amount + " " +
 						(type === 1 ? "bashing" : (type === 2 ? "lethal" : "aggrevated")) + " damage." +
-						"\nStatus: " + Character.getHealthStatus(newHealth) + ", Damage: " + Character.getHealthBox(newHealth) +
-						(finalDeath ? "\n**" + character.name + " met Final Death!**\nPSA: `" + process.env.PREFIX + "char-new name` lets you create a new character." : "")
+						(finalDeath ? "\n**" + character.name + " met Final Death!**\nPSA: `" + process.env.PREFIX + "char-new name` lets you create a new character." : "") +
+						"\nStatus: " + Character.getHealthStatus(newHealth) + ", Damage: " + Character.getHealthBox(newHealth)
 					);
 				});
 			});

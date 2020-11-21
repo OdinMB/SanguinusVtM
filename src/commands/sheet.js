@@ -26,7 +26,7 @@ module.exports = {
 				}
 
 				const embed = new Discord.MessageEmbed();
-				embed.setTitle(message.author.username);
+				embed.setTitle(c.name);
 				embed.setColor('#0099ff');
 
 				embed.addField('Status', `BP: ${c.bp}/${Character.getMaxBP(c.generation)}\nWP: ${c.wp}\n${Character.getHealthStatus(c.health)}: ${Character.getHealthBox(c.health)}`, true)
