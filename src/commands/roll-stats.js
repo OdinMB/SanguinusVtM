@@ -6,9 +6,9 @@ module.exports = {
 	name: 'roll-stats',
 	description: 'Performs a roll based on your character\'s stats.',
 	aliases: ['rs'],
-	usage: '[(opt) difficulty] [stat names 1-3] [(opt) "spec"]',
+	usage: '[(opt) difficulty] [stat names 1-3] [(opt) +/- modifier] [(opt) "spec"]',
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll-stats dexterity melee: rolls your dexterity + melee with difficulty 6' +
-		'\n- ' + process.env.PREFIX + 'rs dex mel spec: also rolls your dexterity + melee with difficulty 6, but with Specialty enabled' +
+		'\n- ' + process.env.PREFIX + 'rs dex mel +2 spec: also rolls your dexterity + melee with difficulty 6, but with +2 dice and Specialty enabled' +
 		'\n\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim; int = intelligence)\n- Streetwise (short street; str = strength)\n- Performance (short perf/perform; per = perception)' +
 		'\n\nThe luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',
 	args: true,
@@ -41,10 +41,22 @@ module.exports = {
 					// Turns str into strength etc.
 					arg = Character.shorthand(arg);
 
-					if (arg === "spec") {
+					// +/- modifiers
+					if (arg.substr(0, 1) === "-" || arg.substr(0, 1) === "+") {
+						if (isNaN(arg.substr(1, arg.length-1))) {
+							message.channel.send("I don't recognize that parameter.");
+							return;
+						}
+						if (arg.substr(0, 1) === "-") {
+							dicepool -= parseInt(arg.substr(1, arg.length-1));
+						} else {
+							dicepool += parseInt(arg.substr(1, arg.length-1));
+						}
+						comment += (comment.length !== 0 ? " + " : "") + "Mod (" + arg + ")";
+                    } else if (arg === "spec") {
 						comment += (comment.length !== 0 ? " + " : "") + "Spec";
 					} else if (character[arg] || character[arg] === 0) {
-						dicepool += character[arg];
+						dicepool += parseInt(character[arg]);
 						comment += (comment.length !== 0 ? " + " : "") + Character.readable(arg);
 
 						// unskilled: Talents: no effect, Skills: +1/2 diff, Knowledge: not possible
@@ -54,7 +66,7 @@ module.exports = {
 							message.channel.send("Rolls with Skills you don't have usually have increased difficulty. Let the ST know before rolling.");
 						}
 					} else {
-						message.channel.send("I don't recognize that stat.");
+						message.channel.send("I don't recognize that parameter.");
 						return;
                     }
 				});

@@ -5,11 +5,13 @@ var Roller = require("../models/roller.js");
 
 module.exports = {
 	name: 'roll-load',
-	description: 'Performs a previously stored roll for your selected character.',
+	description: 'Performs a previously saved roll for your selected character.',
 	oneline: true,
 	aliases: ['rl'],
-	usage: '[roll name]',
-	wiki: 'The luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',
+	usage: '[roll name] [(opt) +/- modifier]',
+	wiki: 'Example:\n- `' + process.env.PREFIX + 'roll-load mysavedroll`: Rolls whatever you saved under the name mysavedroll' +
+		'\n- `' + process.env.PREFIX + 'rl mysavedroll -2`: Rolls mysavedroll with 2 fewer dice.' +
+		'\n\nThe luck score tells you what percentage of rolls with the same parameters are better and worse than your result.This information is based on a simulation with 10, 000 rolls for each combination of dicepool, difficulty, and specialty.',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {
@@ -40,7 +42,23 @@ module.exports = {
 						return;
 					}
 
-					Roller.roll(message, roll.dicepool, roll.difficulty, roll.comment);
+					var dicepool = roll.dicepool;
+					var comment = roll.comment;
+					// +/- modifiers
+					if (args[1] && (args[1].substr(0, 1) === "-" || args[1].substr(0, 1) === "+")) {
+							if (isNaN(args[1].substr(1, args[1].length-1))) {
+								message.channel.send("I don't recognize that parameter.");
+								return;
+							}
+							if (args[1].substr(0, 1) === "-") {
+								dicepool -= parseInt(args[1].substr(1, args[1].length-1));
+							} else {
+								dicepool += parseInt(args[1].substr(1, args[1].length-1));
+							}
+							comment += (comment.length !== 0 ? " + " : "") + "Mod (" + args[1] + ")";
+					}
+
+					Roller.roll(message, dicepool, roll.difficulty, comment);
 				});
 			});
 		});
