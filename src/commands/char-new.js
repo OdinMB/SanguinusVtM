@@ -33,6 +33,7 @@ module.exports = {
 					_id: new mongoose.Types.ObjectId(),
 					player: player._id,
 					name: args[0],
+					fullname: args[0]
 				});
 				newCharacter.save(function (err) {
 					if (err) {
