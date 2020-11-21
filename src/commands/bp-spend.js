@@ -34,7 +34,8 @@ module.exports = {
 					var amount = 1;
 				}
 				if (character.bp < amount) {
-					message.reply("You don't have enough BP. Currently " + character.bp + "/" + Character.getMaxBP(character.generation) + ".");
+					message.reply("You don't have enough BP. Currently " + character.bp + "/" + Character.getMaxBP(character.generation) + "." +
+						"Keep in mind, if you spend BP without having any, you take leathal damage instead.");
 					return;
                 }
 

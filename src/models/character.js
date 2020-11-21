@@ -138,6 +138,11 @@ var characterSchema = mongoose.Schema({
         default: 0,
         min: [0, "You unspent XP can't be negative."],
     },
+    health: {
+        type: String,
+        default: "",
+        maxlength: 7,
+    },
 
     /*specialties: {
         type: Map,
@@ -445,6 +450,115 @@ var characterSchema = mongoose.Schema({
     },
 });
 var Character = mongoose.model('Character', characterSchema);
+
+/*
+ * health: old health string
+ * amount: # of damage
+ * type: 1 = bashing, 2 = lethal, 3 = agg
+ * Returns [string new health, bool final death?]
+ */
+Character.takeDamage = function (health, amount, type) {
+    var healthArr = health.split("");
+    for (i = 1; i <= amount; i++) {
+        // Incapacitated + new damage = final death
+        if (healthArr[6] && parseInt(healthArr[6]) > 1) {
+            return [healthArr.join(""), true];
+        }
+        // Damage slots open?
+        if (healthArr.length < 7) {
+            healthArr.push("" + type);
+            healthArr.sort(function (a, b) { return b - a });
+        } // If not, upgrade damage
+        else {
+            // Bashing: upgrade existing bashing
+            if (type === 1) {
+                // If last health box is already lethal+, nothing happens.
+                // Except final death, of course.
+                if (parseInt(healthArr[6]) === 1) {
+                    healthArr[6] = "" + (parseInt(healthArr[6]) + 1);
+                    healthArr.sort(function (a, b) { return b - a });
+                }
+            } // Lethal + Agg: add, sort, then delete the last element
+            else {
+                healthArr.push("" + type);
+                healthArr.sort(function (a, b) { return b - a });
+                healthArr.splice(-1, 1);
+            }
+        }
+        console.log(healthArr);
+    }
+    return [healthArr.join(""), false];
+}
+
+/*
+ * health: old health string
+ * amount: # of damage
+ * type: 1 = bashing, 2 = lethal, 3 = agg
+ * Returns [string new health, int amount healed]
+ */
+Character.healDamage = function (health, amount, type) {
+    var healthArr = health.split("");
+    var amountHealed = 0;
+    for (i = 1; i <= amount; i++) {
+        var index = healthArr.indexOf("" + type);
+        if (index > -1) {
+            healthArr.splice(index, 1);
+            amountHealed++;
+        }
+    }
+    return [healthArr.join(""), amountHealed];
+}
+
+Character.getHealthBox = function (health) {
+    healthArr = health.split("");
+    var str = "";
+    for (i = 0; i <= 6; i++) {
+        if (health[i]) {
+            if (health[i] == 1) {
+                str += "/";
+            } else if (health[i] == 2) {
+                str += "X";
+            } else {
+                str += "\u2731";
+            }
+        } else {
+            str += "\u23FB";
+        }
+    }
+    return str;
+}
+
+Character.getHealthStatus = function (health) {
+    switch (health.length) {
+        case 0: return "Healthy";
+        case 1: return "Bruised";
+        case 2: return "Hurt (-1)";
+        case 3: return "Injured (-1)";
+        case 4: return "Wounded (-2)";
+        case 5: return "Mauled (-2)";
+        case 6: return "Crippled (-5)";
+        case 7: return "Incapacitated";
+    }
+}
+
+Character.getDamagePenalty = function (health) {
+    switch (health.length) {
+        case 0: return 0;
+        case 1: return 0;
+        case 2: return 1;
+        case 3: return 1;
+        case 4: return 2;
+        case 5: return 2;
+        case 6: return 5;
+        case 7: return 20;
+    }
+}
+
+Character.isDead = function (health) {
+    healthArr = health.split("");
+    // Yes if all health boxes are filled with at least lethal
+    return (health[6] >= 2);
+}
 
 Character.isEditable = function (key) {
     return [

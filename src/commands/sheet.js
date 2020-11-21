@@ -29,7 +29,7 @@ module.exports = {
 				embed.setTitle(message.author.username);
 				embed.setColor('#0099ff');
 
-				embed.addField('Status', `BP: ${c.bp}/${Character.getMaxBP(c.generation)}\nWP: ${c.wp}\nHealth: OK`, true)
+				embed.addField('Status', `BP: ${c.bp}/${Character.getMaxBP(c.generation)}\nWP: ${c.wp}\n${Character.getHealthStatus(c.health)}: ${Character.getHealthBox(c.health)}`, true)
 				embed.addField('Character', `Generation: ${c.generation}\nWillpower: ${c.willpower}`, true)
 				embed.addField('Character', `Clan: ${c.clan}\nNature: ${c.nature}\nDemeanor: ${c.demeanor}`, true)
 
