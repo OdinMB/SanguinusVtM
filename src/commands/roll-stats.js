@@ -30,7 +30,6 @@ module.exports = {
 
 				var difficulty = 6;
 				var dicepool = 0;
-				var spec = 0;
 				var comment = "";
 
 				if (!isNaN(args[0])) {
@@ -43,8 +42,7 @@ module.exports = {
 					arg = Character.shorthand(arg);
 
 					if (arg === "spec") {
-						spec = 1;
-						comment += (comment.length !== 0 ? " + " : "") + arg;
+						comment += (comment.length !== 0 ? " + " : "") + "Spec";
 					} else if (character[arg] || character[arg] === 0) {
 						dicepool += character[arg];
 						comment += (comment.length !== 0 ? " + " : "") + Character.readable(arg);

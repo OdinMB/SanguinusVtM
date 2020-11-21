@@ -485,7 +485,6 @@ Character.takeDamage = function (health, amount, type) {
                 healthArr.splice(-1, 1);
             }
         }
-        console.log(healthArr);
     }
     return [healthArr.join(""), false];
 }
@@ -541,7 +540,7 @@ Character.getHealthStatus = function (health) {
     }
 }
 
-Character.getDamagePenalty = function (health) {
+Character.getWoundPenalty = function (health) {
     switch (health.length) {
         case 0: return 0;
         case 1: return 0;
