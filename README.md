@@ -24,10 +24,8 @@ Test build for chronicle https://www.sanguinus.org/.
 
 ## Commands
 
-- **bp-feed** (feed) [(opt) amount]
-Gain BP with your selected character. Gains full BP, if no amount is provided.
-- **bp-spend** (bp) [(opt) amount] [(opt) comment]
-Spends BP with your selected character. Spends 1 BP if no amount is provided.
+- **bp-feed** (feed) [(opt) amount]<br/>Gain BP with your selected character. (Full BP if no amount is provided.)
+- **bp-spend** (bp) [(opt) amount] [(opt) comment]<br/>Spends BP with your selected character. Spends 1 BP if no amount is provided.
 - **char-all** (allchars): Shows a list of all active (and paused) characters.
 - **char-my** (mychars): Shows a list of your characters.
 - **char-new** (newchar) [name]: Creates a new character.
@@ -41,16 +39,13 @@ Spends BP with your selected character. Spends 1 BP if no amount is provided.
 - **roll-ini** (ini, init) [ini modifier]: Rolls your initiative.
 - **roll-load** (rl) [roll name] [(opt) +/- modifier]: Performs a previously stored roll for your selected character.
 - **roll-my** (myrolls): Shows a list of stored rolls for your selected character.
-- **roll-save**  [name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]
-Saves a roll for your selected character under a name.
-- **roll-stats** (rs) [(opt) difficulty] [stat names 1-3] [(opt) +/- modifier] [(opt) "spec"]
-Performs a roll based on your character's stats.
-- **roll** (r) [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]
-Performs a dice roll.
+- **roll-save**  [name] [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]<br/>Saves a roll for your selected character under a name.
+- **roll-stats** (rs) [(opt) difficulty] [stat names 1-3] [(opt) +/- modifier] [(opt) "spec"]<br/>Performs a roll based on your character's stats.
+- **roll** (r) [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]<br/>Performs a dice roll.
 - **sheet-set** (ss) [stat name] [value]: Sets a value on the sheet of your selected character. Via DM only.
 - **sheet**: Displays the sheet of your currently selected character.
-- **wp-replenish**  [(opt) character name]
-ADMIN ONLY. Replenishes 1 WP for all active characters. Needs to be posted in a guild channel.
+- **status** (health): Displays BP, WP, and Health of your selected character.
+- **wp-replenish**  [(opt) character name]<br/>ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided. Needs to be posted in a guild channel.
 - **wp** [(opt) comment]: Spends 1 WP with your selected character.
 
 ## Installation

@@ -3,7 +3,7 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'bp-feed',
-	description: 'Gain BP with your selected character. Gains full BP, if no amount is provided.',
+	description: 'Gain BP with your selected character.  (Full BP if no amount is provided.)',
 	aliases: ['feed'],
 	usage: '[(opt) amount]',
 	hidden: true,
