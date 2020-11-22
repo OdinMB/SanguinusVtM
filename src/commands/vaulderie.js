@@ -15,7 +15,6 @@ module.exports = {
 	args: true,
 	guildOnly: true,
 	adminOnly: true,
-	hidden: true,
 	cooldown: 10,
 	async execute(message, args) {
 		try {
