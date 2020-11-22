@@ -50,6 +50,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **sheet**: Displays the sheet of your currently selected character.
 - **status** (health): Displays BP, WP, and Health of your selected character.
 - **vaulderie** [(opt) city] [character names 1-n]: ADMIN ONLY. Updates the vinculum ratings between characters. Use \'-name\' instead of \'name\' for characters who drank but didn\'t contribute blood.
+- **vinculums** (vincs): Shows the vinculums of the selected character.
 - **wp-replenish**  [(opt) character name]<br/>ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided.
 - **wp** [(opt) comment]: Spends 1 WP with your selected character.
 
