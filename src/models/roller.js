@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
 const rollerStats = require('../models/rollerstats.js')
-var Player = require("../models/player.js");
-var Character = require("../models/character.js");
 
 /**
  * Returns a random number between min (inclusive) and max (inclusive)
@@ -10,6 +8,10 @@ function between(min, max) {
     return Math.floor(
         Math.random() * (max - min + 1) + min
     )
+}
+
+exports.die = function () {
+    return between(1, 10);
 }
 
 /*

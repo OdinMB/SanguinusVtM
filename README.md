@@ -2,7 +2,7 @@
 A Discord bot for Vampire: The Masquerade V20 games.
 Created with Node.js and MongoDB.
 
-## v0.3
+## v0.4
 Alpha version.
 Test build for chronicle https://www.sanguinus.org/.
 
@@ -21,6 +21,10 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Spend and get BP, get notified if you risk hunger frenzy<br/>
 -- Spend WP and restore WP once a week (with admin command)<br/>
 -- Take and heal damage, see wound penalties
+- **Blood bonds**<br/>
+-- Perform Vaulderies to create vinculums between any number of players<br/>
+-- Automatically perform city-wide Vaulderies<br/>
+-- Flag Cainites who drank but did not contribute blood
 
 ## Commands
 
@@ -45,6 +49,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **sheet-set** (ss) [stat name] [value]: Sets a value on the sheet of your selected character. Via DM only.
 - **sheet**: Displays the sheet of your currently selected character.
 - **status** (health): Displays BP, WP, and Health of your selected character.
+- **vaulderie** [(opt) city] [character names 1-n]: ADMIN ONLY. Updates the vinculum ratings between characters. Use \'-name\' instead of \'name\' for characters who drank but didn\'t contribute blood.
 - **wp-replenish**  [(opt) character name]<br/>ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided.
 - **wp** [(opt) comment]: Spends 1 WP with your selected character.
 
@@ -61,4 +66,4 @@ MONGO_URL=[Mongo database connection]
 - [Add the bot to your Discord server](https://www.writebots.com/discord-bot-token/)
 
 ## Update
-- Since things are still very much in flux, it's recommended to empty the Mongo database before updating the bot on your server.
+Since things are still very much in flux, it's recommended to empty the Mongo database before updating the bot on your server.
