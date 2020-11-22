@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Shows the vinculums of the selected character.',
 	aliases: ['vincs'],
 	usage: '',
+	oneline: true,
 	cooldown: 6,
 	async execute(message, args) {
 		Player.getPlayer(message, async function (player) {
