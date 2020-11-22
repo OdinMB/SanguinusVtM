@@ -7,7 +7,7 @@ var playerSchema = mongoose.Schema({
         required: true,
     },
     discordID: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -15,17 +15,6 @@ var playerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Character',
     },
-    /*
-    linkedin: {
-        type: String,
-        validate: {
-            validator: function (text) {
-                return text.indexOf('https://www.linkedin.com/') === 0;
-            },
-            message: 'LinkedIn must start with https://www.linkedin.com/'
-        }
-    },
-    */
 });
 
 var Player = mongoose.model('Player', playerSchema);

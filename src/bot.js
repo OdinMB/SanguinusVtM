@@ -6,6 +6,11 @@ var mongoose = require('mongoose');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+// Models for index synching
+var Roll = require("./models/roll.js");
+var Player = require("./models/player.js");
+var Character = require("./models/character.js");
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -16,6 +21,18 @@ const cooldowns = new Discord.Collection();
 
 client.on("ready", () => {
 	console.log("Bot logged in.");
+	Player.cleanIndexes(function (err, indexes) {
+		if (err) return console.log(err.content);
+		// console.log(indexes);
+	});
+	Character.cleanIndexes(function (err, indexes) {
+		if (err) return console.log(err.content);
+		// console.log(indexes);
+	});
+	Roll.cleanIndexes(function (err, indexes) {
+		if (err) return console.log(err.content);
+		// console.log(indexes);
+	});
 });
 
 mongoose.connect(process.env.MONGO_URL);
