@@ -2,7 +2,7 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'wp-replenish',
-	description: 'ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided. Needs to be posted in a guild channel.',
+	description: 'ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided.',
 	aliases: [],
 	usage: '[(opt) character name]',
 	guildOnly: true,

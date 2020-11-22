@@ -9,7 +9,7 @@ module.exports = {
 	usage: '[stat name] [value]',
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'sheet-set dexterity 3: sets your Dexterity to 3' +
 		'\n- ' + process.env.PREFIX + 'ss dex 3: also sets your Dexterity to 3' +
-		'\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim)\n- Streetwise (short street)\n- Performance (short perf/perform)',
+		'\n\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim; int = intelligence)\n- Streetwise (short street; str = strength)\n- Performance (short perf/perform; per = perception)',
 	args: true,
 	DMOnly: true,
 	cooldown: 2,

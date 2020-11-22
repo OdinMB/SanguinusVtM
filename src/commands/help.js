@@ -45,6 +45,7 @@ module.exports = {
 		if (command.aliases && command.aliases.length) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if (command.description) data.push(`**Description:** ${command.description}`);
 		if (command.usage) data.push("**Usage:** " + process.env.PREFIX + command.name + " " + command.usage);
+		if (command.guildOnly) data.push("**Guild channel only:** " + process.env.PREFIX + command.name + " needs to be executed in a guild channel (not via DM)");
 		data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 		if (command.wiki) data.push(`**Wiki:**\n${command.wiki}`);
 

@@ -10,7 +10,7 @@ module.exports = {
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll-stats dexterity melee: rolls your dexterity + melee with difficulty 6' +
 		'\n- ' + process.env.PREFIX + 'rs dex mel +2 spec: also rolls your dexterity + melee with difficulty 6, but with +2 dice and Specialty enabled' +
 		'\n\nMost stats can be abbreviated with three letters. Beware of abilities that share their first letters with attributes:\n- Intimidation (short intim; int = intelligence)\n- Streetwise (short street; str = strength)\n- Performance (short perf/perform; per = perception)' +
-		'\n\nThe luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',
+		'\n\nThe luck score tells you how your result ranks among 10,000 simulated rolls wit the same dicepool, difficulty, and specialty.',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

@@ -16,7 +16,7 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Initiative rolls<br/>
 -- Rolls can be saved and then be performed more quickly<br/>
 -- Stat-based rolls and saved rolls can be modified ('!rs str bra -3')<br/>
--- Luck score indicates how much the dice gods loved you
+-- A luck score indicates how much the dice gods loved you by comparing your result to 10,000 other rolls with the same paramters.
 - **Blood, Willpower, Health**<br/>
 -- Spend and get BP, get notified if you risk hunger frenzy<br/>
 -- Spend WP and restore WP once a week (with admin command)<br/>
@@ -45,7 +45,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **sheet-set** (ss) [stat name] [value]: Sets a value on the sheet of your selected character. Via DM only.
 - **sheet**: Displays the sheet of your currently selected character.
 - **status** (health): Displays BP, WP, and Health of your selected character.
-- **wp-replenish**  [(opt) character name]<br/>ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided. Needs to be posted in a guild channel.
+- **wp-replenish**  [(opt) character name]<br/>ADMIN ONLY. Replenishes 1 WP for all active characters, or one character if a name is provided.
 - **wp** [(opt) comment]: Spends 1 WP with your selected character.
 
 ## Installation

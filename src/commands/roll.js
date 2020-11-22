@@ -7,7 +7,7 @@ module.exports = {
 	usage: '[dice pool] [(opt) difficulty] [(opt) comment] [(opt) \"spec\"]',
 	wiki: 'Examples:\n- ' + process.env.PREFIX + 'roll 5: rolls 5 dice with difficulty 6' +
 		'\n- ' + process.env.PREFIX + 'r 5 8 spec: rolls 5 dice with difficulty 8 with Specialty enabled, i.e. 10s count as two successes' +
-		'\n\nThe luck score tells you what percentage of rolls with the same parameters are better and worse than your result. This information is based on a simulation with 10,000 rolls for each combination of dicepool, difficulty, and specialty.',
+		'\n\nThe luck score tells you how your result ranks among 10,000 simulated rolls wit the same dicepool, difficulty, and specialty.',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {

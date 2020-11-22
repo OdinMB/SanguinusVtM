@@ -6,12 +6,11 @@ var Roller = require("../models/roller.js");
 module.exports = {
 	name: 'roll-load',
 	description: 'Performs a previously saved roll for your selected character.',
-	oneline: true,
 	aliases: ['rl'],
 	usage: '[roll name] [(opt) +/- modifier]',
 	wiki: 'Example:\n- `' + process.env.PREFIX + 'roll-load mysavedroll`: Rolls whatever you saved under the name mysavedroll' +
 		'\n- `' + process.env.PREFIX + 'rl mysavedroll -2`: Rolls mysavedroll with 2 fewer dice.' +
-		'\n\nThe luck score tells you what percentage of rolls with the same parameters are better and worse than your result.This information is based on a simulation with 10, 000 rolls for each combination of dicepool, difficulty, and specialty.',
+		'\n\nThe luck score tells you how your result ranks among 10,000 simulated rolls wit the same dicepool, difficulty, and specialty.',
 	args: true,
 	cooldown: 3,
 	execute(message, args) {
