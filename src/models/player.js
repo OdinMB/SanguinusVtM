@@ -38,6 +38,34 @@ Player.getPlayer = function (message, callback) {
     });
 }
 
+Player.getPlayerAsync = async function (message) {
+    try {
+        var existingPlayer = await this.findOne({ discordID: message.author.id });
+        if (existingPlayer) {
+            return existingPlayer;
+        } // If the player is not yet registered, do that now
+        else {
+            return Player.createPlayerAsync(message);
+        }
+    } catch (err) {
+        console.log(err);
+        return message.author.send(err.message);
+    }
+}
+Player.createPlayerAsync = async function (message, callback) {
+    try {
+        var newPlayer = new Player({
+            _id: new mongoose.Types.ObjectId(),
+            name: message.author.username,
+            discordID: message.author.id
+        });
+        return newPlayer.save();
+    } catch (err) {
+        console.log(err);
+        return message.author.send(err.message);
+    }
+}
+
 Player.createPlayer = function (message, callback) {
     // Is the player already registered?
     this.find({
