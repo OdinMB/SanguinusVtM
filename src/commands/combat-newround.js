@@ -22,7 +22,7 @@ module.exports = {
 
 			return Combat.startNewRound(message, combat);
 		} catch (err) {
-			console.log(err);
+			console.log("combat-newround: " + err);
 			return message.channel.send(err.message);
 		}
 	}

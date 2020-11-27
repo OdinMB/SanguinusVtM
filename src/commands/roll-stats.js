@@ -19,13 +19,11 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("roll-stat - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				var difficulty = 6;

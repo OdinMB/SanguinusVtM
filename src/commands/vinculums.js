@@ -29,7 +29,7 @@ module.exports = {
 				message.author.send(msg);
 
 			} catch (err) {
-				console.log(err);
+				console.log("vinculum: " + err);
 				return message.author.send(err.message);
 			}
 		});

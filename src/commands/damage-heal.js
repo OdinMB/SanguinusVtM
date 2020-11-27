@@ -17,24 +17,20 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("damage-heal: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.reply("You don't have a character selected.");
-					return;
+					return message.reply("You don't have a character selected.");
 				}
 
 				if (!args[0] || !args[1]) {
-					message.reply("Please tell me the amount and type of damage that you want to heal.");
-					return;
+					return message.reply("Please tell me the amount and type of damage that you want to heal.");
 				}
 
 				var amount = args[0]
 				if (isNaN(amount) || amount < 1) {
-					message.reply("The amount of damage you want to heal needs to be a number. If someone told you to type in a negative number, don't listen to them. They tried to trick you.");
-					return;
+					return message.reply("The amount of damage you want to heal needs to be a number. If someone told you to type in a negative number, don't listen to them. They tried to trick you.");
 				}
 
 				switch (args[1].toLowerCase()) {
@@ -67,9 +63,8 @@ module.exports = {
 				character.health = newHealth;
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("damage-heal - character.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.reply(

@@ -59,7 +59,7 @@ module.exports = {
 			message.reply(existingCombatant.name + " has an additional action at ini 0.");
 
 		} catch (err) {
-			console.log(err);
+			console.log("combat-celerity: " + err);
 			return message.channel.send(err.message);
 		}
 	}

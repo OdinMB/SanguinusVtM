@@ -30,7 +30,7 @@ module.exports = {
 			return message.channel.send("COMBAT IS OVER.");
 
 		} catch (err) {
-			console.log(err);
+			console.log("combat-end: " + err);
 			return message.channel.send(err.message);
 		}
 	}

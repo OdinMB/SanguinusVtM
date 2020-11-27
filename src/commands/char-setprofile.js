@@ -14,19 +14,16 @@ module.exports = {
 		Player.getPlayer(message, function (player) {
 			if (!player) return;
 			if (!player.selectedCharacter) {
-				message.author.send("You don't have a character selected. Use '" + process.env.PREFIX + "help to see how to create and select characters.");
-				return;
+				return message.author.send("You don't have a character selected. Use '" + process.env.PREFIX + "help to see how to create and select characters.");
 			}
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("char-setprofile - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("Your selected character doesn't exist. That shouldn't happen. Please report.");
-					return;
+					return message.author.send("Your selected character doesn't exist. That shouldn't happen. Please report.");
 				}
 
 				const filter = response => { return true; };
@@ -47,10 +44,9 @@ module.exports = {
 							}
 							character.save(function (err) {
 								if (err) {
-									console.log(err);
-									message.author.send(err.message);
-									message.author.send("Exited the profile setup.");
-									return;
+									console.log("char-setprofile - character.save: " + err);
+									message.author.send("char-setprofile - character.save: " + err.message);
+									return message.author.send("Exited the profile setup.");
 								}
 								// Successful end of step 1
 
@@ -72,10 +68,9 @@ module.exports = {
 											}
 											character.save(function (err) {
 												if (err) {
-													console.log(err);
-													message.author.send(err.message);
-													message.author.send("Exited the profile setup.");
-													return;
+													console.log("char-setprofile - character.save: " + err);
+													message.author.send("char-setprofile - character.save: " + err.message);
+													return message.author.send("Exited the profile setup.");
 												}
 												// Successful end of step 2
 
@@ -97,10 +92,9 @@ module.exports = {
 															}
 															character.save(function (err) {
 																if (err) {
-																	console.log(err);
-																	message.author.send(err.message);
-																	message.author.send("Exited the profile setup.");
-																	return;
+																	console.log("char-setprofile - character.save: " + err);
+																	message.author.send("char-setprofile - character.save: " + err.message);
+																	return message.author.send("Exited the profile setup.");
 																}
 																// Successful end of step 3
 
@@ -122,10 +116,9 @@ module.exports = {
 																			}
 																			character.save(function (err) {
 																				if (err) {
-																					console.log(err);
-																					message.author.send(err.message);
-																					message.author.send("Exited the profile setup.");
-																					return;
+																					console.log("char-setprofile - character.save: " + err);
+																					message.author.send("char-setprofile - character.save: " + err.message);
+																					return message.author.send("Exited the profile setup.");
 																				}
 																				// Successful end of step 4
 
@@ -147,10 +140,9 @@ module.exports = {
 																							}
 																							character.save(function (err) {
 																								if (err) {
-																									console.log(err);
-																									message.author.send(err.message);
-																									message.author.send("Exited the profile setup.");
-																									return;
+																									console.log("char-setprofile - character.save: " + err);
+																									message.author.send("char-setprofile - character.save: " + err.message);
+																									return message.author.send("Exited the profile setup.");
 																								}
 																								// Successful end of step 5
 
@@ -173,10 +165,9 @@ module.exports = {
 																											}
 																											character.save(function (err) {
 																												if (err) {
-																													console.log(err);
-																													message.author.send(err.message);
-																													message.author.send("Exited the profile setup.");
-																													return;
+																													console.log("char-setprofile - character.save: " + err);
+																													message.author.send("char-setprofile - character.save: " + err.message);
+																													return message.author.send("Exited the profile setup.");
 																												}
 																												// Successful end of step 6
 
@@ -199,10 +190,9 @@ module.exports = {
 																															}
 																															character.save(function (err) {
 																																if (err) {
-																																	console.log(err);
-																																	message.author.send(err.message);
-																																	message.author.send("Exited the profile setup.");
-																																	return;
+																																	console.log("char-setprofile - character.save: " + err);
+																																	message.author.send("char-setprofile - character.save: " + err.message);
+																																	return message.author.send("Exited the profile setup.");
 																																}
 																																// Successful end of step 7
 

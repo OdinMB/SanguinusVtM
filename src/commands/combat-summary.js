@@ -22,7 +22,7 @@ module.exports = {
 
 			return Combat.showSummary(message, combat);
 		} catch (err) {
-			console.log(err);
+			console.log("combat-summary: " + err);
 			return message.channel.send(err.message);
 		}
 	}

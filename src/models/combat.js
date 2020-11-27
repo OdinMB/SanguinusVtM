@@ -145,7 +145,7 @@ Combat.showSummary = async function (message, combat) {
         return message.channel.send(embed);
 
     } catch (err) {
-        console.log(err);
+        console.log("Combat.showSummary: " + err);
         return message.channel.send(err.message);
     }
 }
@@ -205,7 +205,7 @@ Combat.continue = async function (message, combat) {
                 return Combat.checkState(message, combat);
         }
     } catch (err) {
-        console.log(err);
+        console.log("Combat.continue: " + err);
         return message.channel.send(err.message);
     }
 }
@@ -239,7 +239,7 @@ Combat.startNewRound = async function (message, combat) {
         return Combat.checkState(message, combat);
 
     } catch (err) {
-        console.log(err);
+        console.log("Combat.startNewRound: " + err);
         return message.channel.send(err.message);
     }
 }
@@ -269,7 +269,7 @@ Combat.promptDeclareAction = async function (message, combat) {
 
         return message.channel.send(msg);
     } catch (err) {
-		console.log(err);
+		console.log("Combat.promptDeclareAction: " + err);
         return message.channel.send(err.message);
     }
 }
@@ -302,7 +302,7 @@ Combat.promptResolveAction = async function (message, combat) {
 
         return message.channel.send(msg);
     } catch (err) {
-        console.log(err);
+        console.log("Combat.promptResolveAction: " + err);
         return message.channel.send(err.message);
     }
 }

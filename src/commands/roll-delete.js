@@ -17,13 +17,11 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("roll-delete - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 				// Does the player have a stored roll with that name?
 				Roll.findOne({
@@ -31,21 +29,18 @@ module.exports = {
 					character: character._id
 				}).exec(function (err, roll) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("roll-delete - Roll.findOne: " + err);
+						return message.author.send(err.message);
 					}
 
 					if (!roll) {
-						message.author.send("You don't have a saved roll with that name for " + character.name + ".");
-						return;
+						return message.author.send("You don't have a saved roll with that name for " + character.name + ".");
 					}
 
 					roll.remove(function (err) {
 						if (err) {
-							console.log(err);
-							message.author.send(err.message);
-							return;
+							console.log("roll-delete - roll.remove: " + err);
+							return message.author.send(err.message);
 						}
 						message.author.send("Roll with the name " + args[0] + " was deleted for " + character.name + ".");
 					});

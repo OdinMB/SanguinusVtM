@@ -59,7 +59,7 @@ module.exports = {
 
 			return message.reply(existingCombatant.name + " left combat.");
 		} catch (err) {
-			console.log(err);
+			console.log("combat-leave: " + err);
 			return message.channel.send(err.message);
 		}
 	}

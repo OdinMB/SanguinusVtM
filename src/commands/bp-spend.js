@@ -19,13 +19,11 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("bp-spend - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				if (args[0] && !isNaN(args[0])) {
@@ -34,17 +32,15 @@ module.exports = {
 					var amount = 1;
 				}
 				if (character.bp < amount) {
-					message.reply("You don't have enough BP. Currently " + character.bp + "/" + Character.getMaxBP(character.generation) + "." +
+					return message.reply("You don't have enough BP. Currently " + character.bp + "/" + Character.getMaxBP(character.generation) + "." +
 						"Keep in mind, if you spend BP without having any, you take leathal damage instead.");
-					return;
                 }
 
 				character.bp -= amount;
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("by-spend - character.save: " + err);
+						return message.author.send(err.message);
 					}
 					message.reply(character.name + " spent " + amount + " BP" +
 						(args[0] ? " on '" + args.join(' ') + "'" : "") + ". " +

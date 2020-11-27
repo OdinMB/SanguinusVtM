@@ -17,13 +17,11 @@ module.exports = {
 			}).sort({ status: 1, name: 1 })
 			.exec(function (err, characters) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("char-my - Character.find: " + err);
+					return message.author.send(err.message);
 				}
 				if (characters.length === 0) {
-					message.author.send("You currently don't have any characters.");
-					return;
+					return message.author.send("You currently don't have any characters.");
 				}
 
 				var msg = "```Your characters:";

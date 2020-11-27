@@ -16,13 +16,11 @@ module.exports = {
 			name: args[0]
 		}).exec(function (err, character) {
 			if (err) {
-				console.log(err);
-				message.author.send(err.message);
-				return;
+				console.log("char-new - character.find: " + err);
+				return message.author.send(err.message);
 			}
 			if (character.length > 0) {
-				message.author.send("A character with that name already exists.");
-				return;
+				return message.author.send("A character with that name already exists.");
 			}
 
 			// If not, create new Character document
@@ -37,9 +35,8 @@ module.exports = {
 				});
 				newCharacter.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("char-new - newCharacter.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.author.send("Created new character " + args[0]);
@@ -48,9 +45,8 @@ module.exports = {
 						player.selectedCharacter = newCharacter._id;
 						player.save(function (err) {
 							if (err) {
-								console.log(err);
-								message.author.send(err.message);
-								return;
+								console.log("char-new - player.save: " + err);
+								return message.author.send(err.message);
 							}
 
 							message.author.send("Selected " + newCharacter.name + " for other bot commands.");

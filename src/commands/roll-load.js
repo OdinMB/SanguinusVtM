@@ -19,26 +19,22 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("roll-load - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 				Roll.findOne({
 					character: character._id,
 					name: args[0]
 				}).exec(function (err, roll) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("roll-load - Roll.findOne: " + err);
+						return message.author.send(err.message);
 					}
 					if (!roll) {
-						message.author.send("You haven't saved a roll under that name for " + character.name + ".");
-						return;
+						return message.author.send("You haven't saved a roll under that name for " + character.name + ".");
 					}
 
 					var dicepool = roll.dicepool;
@@ -46,8 +42,7 @@ module.exports = {
 					// +/- modifiers
 					if (args[1] && (args[1].substr(0, 1) === "-" || args[1].substr(0, 1) === "+")) {
 							if (isNaN(args[1].substr(1, args[1].length-1))) {
-								message.channel.send("I don't recognize that parameter.");
-								return;
+								return message.channel.send("I don't recognize that parameter.");
 							}
 							if (args[1].substr(0, 1) === "-") {
 								dicepool -= parseInt(args[1].substr(1, args[1].length-1));

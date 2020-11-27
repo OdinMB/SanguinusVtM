@@ -84,7 +84,7 @@ module.exports = {
 			return Combat.checkState(message, combat);
 
 		} catch (err) {
-			console.log(err);
+			console.log("combat-ini: " + err);
 			return message.channel.send(err.message);
 		}
 	}

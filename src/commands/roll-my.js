@@ -15,26 +15,22 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("roll-my - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 				Roll.find({
 					character: character._id
 				}).sort({ name: 1 })
 					.exec(function (err, rolls) {
 						if (err) {
-							console.log(err);
-							message.author.send(err.message);
-							return;
+							console.log("roll-my - Roll.find: " + err);
+							return message.author.send(err.message);
 						}
 						if (rolls.length === 0) {
-							message.author.send("You currently don't have any saved rolls for " + character.name + ".");
-							return;
+							return message.author.send("You currently don't have any saved rolls for " + character.name + ".");
 						}
 
 						var msg = "Rolls saved for " + character.name + ":\n";

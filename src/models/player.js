@@ -36,7 +36,7 @@ Player.getPlayerAsync = async function (message) {
             return Player.createPlayerAsync(message);
         }
     } catch (err) {
-        console.log(err);
+        console.log("getPlayerAsync: " + err);
         return message.author.send(err.message);
     }
 }
@@ -49,7 +49,7 @@ Player.createPlayerAsync = async function (message) {
         });
         return newPlayer.save();
     } catch (err) {
-        console.log(err);
+        console.log("createPlayerAsync: " + err);
         return message.author.send(err.message);
     }
 }
@@ -57,9 +57,8 @@ Player.createPlayerAsync = async function (message) {
 Player.getPlayer = function (message, callback) {
     this.findOne({ discordID: message.author.id }, function (err, player) {
         if (err) {
-            console.log(err);
-            message.author.send(err.message);
-            return;
+            console.log("Player.getPlayer: " + err);
+            return message.author.send(err.message);
         }
 
         if (player) {
@@ -80,13 +79,11 @@ Player.createPlayer = function (message, callback) {
         discordID: message.author.id
     }).exec(function (err, player) {
         if (err) {
-            console.log(err);
-            message.author.send(err.message);
-            return;
+            console.log("Player.createPlayer: " + err);
+            return message.author.send(err.message);
         }
         if (player.length > 0) {
-            message.author.send("You're already registered.");
-            return;
+            return message.author.send("You're already registered.");
         }
 
         var newPlayer = new Player({
@@ -96,9 +93,8 @@ Player.createPlayer = function (message, callback) {
         });
         newPlayer.save(function (err) {
             if (err) {
-                console.log(err);
-                message.author.send(err.message);
-                return;
+                console.log("Player.createPlayer - newPlayer.save: " + err);
+                return message.author.send(err.message);
             }
             message.author.send("It seems like you weren't registered at the SanguinusVtM bot. I fixed that for you. You are now registered as " + message.author.username + " with your Discord ID " + message.author.id + ".");
             callback(newPlayer);

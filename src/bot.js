@@ -22,15 +22,15 @@ const cooldowns = new Discord.Collection();
 client.on("ready", () => {
 	console.log("Bot logged in.");
 	Player.cleanIndexes(function (err, indexes) {
-		if (err) return console.log(err.content);
+		if (err) return console.log("Player.cleanIndexes: " + err.content);
 		// console.log(indexes);
 	});
 	Character.cleanIndexes(function (err, indexes) {
-		if (err) return console.log(err.content);
+		if (err) return console.log("Character.cleanIndexes: " + err.content);
 		// console.log(indexes);
 	});
 	Roll.cleanIndexes(function (err, indexes) {
-		if (err) return console.log(err.content);
+		if (err) return console.log("Roll.cleanIndexes: " + err.content);
 		// console.log(indexes);
 	});
 });

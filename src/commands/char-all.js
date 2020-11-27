@@ -14,9 +14,8 @@ module.exports = {
 			.sort({ status: 1, name: 1 })
 			.exec(function (err, characters) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("char-all - character.find: " + err);
+					return message.author.send(err.message);
 				}
 				if (characters.length === 0) return
 

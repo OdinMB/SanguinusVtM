@@ -15,26 +15,22 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("wp - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				if (character.wp < 1) {
-					message.reply("You have no WP left.");
-					return;
+					return message.reply("You have no WP left.");
 				}
 
 				character.wp--;
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("wp - character.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.reply(character.name + " spent 1 WP" +

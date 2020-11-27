@@ -61,7 +61,7 @@ module.exports = {
 				return Combat.promptDeclareAction(message, combat);
             }
 		} catch (err) {
-			console.log(err);
+			console.log("combat-declare: " + err);
 			return message.channel.send(err.message);
 		}
 	}

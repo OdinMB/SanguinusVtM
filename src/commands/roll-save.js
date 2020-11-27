@@ -28,13 +28,11 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("roll-save - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 				// Does the character already have a stored roll with that name?
 				Roll.findOne({
@@ -42,9 +40,8 @@ module.exports = {
 					character: character._id
 				}).exec(function (err, roll) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("roll-save - Roll.findOne: " + err);
+						return message.author.send(err.message);
 					}
 					// If so: update the existing entry
 					if (roll) {
@@ -53,9 +50,8 @@ module.exports = {
 						roll.comment = comment;
 						roll.save(function (err) {
 							if (err) {
-								console.log(err);
-								message.author.send(err.message);
-								return;
+								console.log("roll-save - roll.save: " + err);
+								return message.author.send(err.message);
 							}
 							message.author.send("Updated existing roll with name '" + roll.name + "' for " + character.name + ".");
 						});
@@ -71,9 +67,8 @@ module.exports = {
 						});
 						newRoll.save(function (err) {
 							if (err) {
-								console.log(err);
-								message.author.send(err.message);
-								return;
+								console.log("roll-save - newRoll.save: " + err);
+								return message.author.send(err.message);
 							}
 
 							message.author.send("New roll with name '" + newRoll.name + "' was saved for " + character.name + ".");

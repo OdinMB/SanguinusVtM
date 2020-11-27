@@ -82,7 +82,7 @@ module.exports = {
 			message.reply("Vaulderie completed.");
 
 		} catch (err) {
-			console.log(err);
+			console.log("vaulderie: " + err);
 			return message.author.send(err.message);
 		}
 	}

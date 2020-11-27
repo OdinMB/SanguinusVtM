@@ -14,18 +14,15 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("bp-feed - Character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				if (args[0] && isNaN(args[0])) {
-					message.reply("Invalid amount of BP.");
-					return;
+					return message.reply("Invalid amount of BP.");
 				} else if (args[0] && !isNaN(args[0])) {
 					var amount = parseInt(args[0]);
 				} else {
@@ -40,9 +37,8 @@ module.exports = {
 				character.bp += amount;
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("bp-feed - character.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.reply(character.name + " gained " + amount + " BP. Now at " + character.bp + "/" + Character.getMaxBP(character.generation) + " BP.");

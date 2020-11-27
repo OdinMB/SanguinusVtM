@@ -17,18 +17,15 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("damage-take - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.reply("You don't have a character selected.");
-					return;
+					return message.reply("You don't have a character selected.");
 				}
 
 				if (!args[0] || !args[1]) {
-					message.reply("Please tell me the amount and type of damage that you would like to suffer. (And we both know you like it.)");
-					return;
+					return message.reply("Please tell me the amount and type of damage that you would like to suffer. (And we both know you like it.)");
 				}
 
 				var amount = args[0]
@@ -67,9 +64,8 @@ module.exports = {
 				character.health = newHealth;
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("damage-take - character.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.reply(

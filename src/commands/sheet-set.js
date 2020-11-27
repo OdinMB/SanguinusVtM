@@ -19,28 +19,24 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("sheet-set - character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				key = args[0].toLowerCase();
 				key = Character.shorthand(key);
 				if (!Character.isEditable(key)) {
-					message.author.send("'" + key + "' is not a valid stat.");
-					return;
+					return message.author.send("'" + key + "' is not a valid stat.");
                 }
 
 				character[key] = args[1];
 				character.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("sheet-set - character.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.author.send("Set " + Character.readable(key) + " to " + args[1] + ".");

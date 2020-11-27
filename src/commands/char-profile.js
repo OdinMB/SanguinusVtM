@@ -15,24 +15,20 @@ module.exports = {
 			name: args[0]
 		}).exec(function (err, character) {
 			if (err) {
-				console.log(err);
-				message.channel.send(err.message);
-				return;
+				console.log("char-profile - Character.findOne: " + err);
+				return message.channel.send(err.message);
 			}
 			if (!character) {
-				message.channel.send("That caracter doesn't exist.");
-				return;
+				return message.channel.send("That caracter doesn't exist.");
 			}
 
 			Player.findById(character.player, function (err, player) {
 				if (err) {
-					console.log(err);
-					message.channel.send(err.message);
-					return;
+					console.log("char-profile - player.findById: " + err);
+					return message.channel.send(err.message);
 				}
 				if (!player) {
-					message.channel.send("That caracter doesn't seem to be associated with a player. Please report!");
-					return;
+					return message.channel.send("That caracter doesn't seem to be associated with a player. Please report!");
 				}
 
 				const embed = new Discord.MessageEmbed();

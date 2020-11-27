@@ -16,9 +16,8 @@ module.exports = {
 				{ $inc: { "wp": 1 } }
 			).exec(function (err, result) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("wp-replenish - character.updateMany: " + err);
+					return message.author.send(err.message);
 				}
 				message.reply("All characters replenished 1 WP.");
 			});
@@ -31,9 +30,8 @@ module.exports = {
 				{ $inc: { "wp": 1 } }
 			).exec(function (err, result) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("wp-replenish - character.updateOne: " + err);
+					return message.author.send(err.message);
 				}
 				// console.log(result);
 				if (!result.n) {

@@ -16,13 +16,11 @@ module.exports = {
 
 			Character.findById(player.selectedCharacter).exec(function (err, c) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("status - Character.findById: " + err);
+					return message.author.send(err.message);
 				}
 				if (!c) {
-					message.author.send("You don't have a character selected.");
-					return;
+					return message.author.send("You don't have a character selected.");
 				}
 
 				const embed = new Discord.MessageEmbed();

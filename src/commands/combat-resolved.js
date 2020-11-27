@@ -39,7 +39,7 @@ module.exports = {
 
 			return Combat.checkState(message, combat);
 		} catch (err) {
-			console.log(err);
+			console.log("combat-resolved: " + err);
 			return message.channel.send(err.message);
 		}
 	}

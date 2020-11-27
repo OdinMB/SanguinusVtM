@@ -18,25 +18,21 @@ module.exports = {
 				name: args[0]
 			}).exec(function (err, character) {
 				if (err) {
-					console.log(err);
-					message.author.send(err.message);
-					return;
+					console.log("char-select - Character.findOne: " + err);
+					return message.author.send(err.message);
 				}
 				if (!character) {
-					message.author.send("That caracter doesn't exist.");
-					return;
+					return message.author.send("That caracter doesn't exist.");
 				}
 				if (!character.player.equals(player._id)) {
-					message.author.send("That character doesn't belong to you.");
-					return;
+					return message.author.send("That character doesn't belong to you.");
 				}
 
 				player.selectedCharacter = character._id;
 				player.save(function (err) {
 					if (err) {
-						console.log(err);
-						message.author.send(err.message);
-						return;
+						console.log("char-select - player.save: " + err);
+						return message.author.send(err.message);
 					}
 
 					message.author.send("Made " + character.name + " your active character.");

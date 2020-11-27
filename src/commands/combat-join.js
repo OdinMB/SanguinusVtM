@@ -63,7 +63,7 @@ module.exports = {
 			message.reply("you joined combat with " + combatant.name + ".");
 
 		} catch (err) {
-			console.log(err);
+			console.log("combat-join: " + err);
 			return message.channel.send(err.message);
 		}
 	}
