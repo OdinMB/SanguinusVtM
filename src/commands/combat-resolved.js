@@ -40,14 +40,14 @@ module.exports = {
 
 			// If all actions are resolved, start the next round
 			// Careful: new combatants might have joined in the meantime
-			// Ignore combatants with ini < 0
-			var activeCombatants = 0;
+			// Ignore combatants with ini < 0 (0 = Celerity actions)
+			var actions = 0;
 			for (const iniEntry of combat.iniOrder) {
-				if (iniEntry.ini > 0) {
-					activeCombatants++;
+				if (iniEntry.ini >= 0) {
+					actions++;
 				}
 			}
-			if (combat.iniCurrentPosition === activeCombatants) {
+			if (combat.iniCurrentPosition === actions) {
 				// await message.channel.send("All actions are resolved.");
 				return Combat.startNewRound(message, combat);
 			} else {

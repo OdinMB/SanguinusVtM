@@ -18,10 +18,10 @@ function compareInis(a, b) {
 
 module.exports = {
 	name: 'combat-ini',
-	description: 'Sets the ini of your selected character, or an NPC if a name is provided.',
-	// oneline: true,
+	description: 'Sets the ini of your selected character or an NPC.',
+	oneline: true,
 	aliases: ['ini', 'init'],
-	usage: '[ini modifier] [(opt) NPC name]',
+	usage: '[ini modifier] [(opt) NPC]',
 	args: true,
 	guildOnly: true,
 	cooldown: 2,
@@ -78,7 +78,10 @@ module.exports = {
 			// Write ini into the combat's ini order
 			var allInisSet = true;
 			for (var iniEntry of combat.iniOrder) {
-				if (iniEntry.combatant.toString() === combatant._id.toString()) {
+				// Ignore iniEntries with ini 0 for Celerity actions
+				if (iniEntry.combatant.toString() === combatant._id.toString() &&
+					iniEntry.ini !== 0) {
+
 					var position = combat.iniOrder.indexOf(iniEntry);
 					combat.iniOrder[position].ini = result;
                 } else if (iniEntry.ini < 0) {
@@ -96,15 +99,15 @@ module.exports = {
 				// If position is not set: set it to the first combatant to declare actions
 				if (combat.iniCurrentPosition < 0) {
 					// Careful: new combatants might have joined in the meantime
-					// Ignore combatants with ini < 0
-					var activeCombatants = 0;
+					// Ignore combatants with ini < 0 (0 = Celerity actions)
+					var actions = 0;
 					for (const iniEntry of combat.iniOrder) {
-						if (iniEntry.ini > 0) {
-							activeCombatants++;
+						if (iniEntry.ini >= 0) {
+							actions++;
 						}
 					}
 
-					combat.iniCurrentPosition = activeCombatants - 1;
+					combat.iniCurrentPosition = actions - 1;
 				}
 
 				await combat.save();

@@ -9,7 +9,7 @@ module.exports = {
 	description: 'Leave combat with your selected character or with an NPC.',
 	oneline: true,
 	aliases: ['leave'],
-	usage: '[(opt) NPC name]',
+	usage: '[(opt) NPC]',
 	wiki: "ASDF" +
 		"Examples: \n- " + process.env.PREFIX + "combat-leave",
 	// args: true,

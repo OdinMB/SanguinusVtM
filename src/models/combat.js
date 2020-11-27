@@ -110,18 +110,20 @@ Combat.showSummary = async function (message, combat) {
                 fieldInitiative +=
                     (fieldInitiative.length > 0 ? "\n" : "") +
                     (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    (iniEntry.ini > 0 ? iniEntry.ini : "/") + "\n" +
+                    (iniEntry.ini >= 0 ? iniEntry.ini : "/") + "\n" +
                     (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
                 fieldCharacters +=
                     (fieldCharacters.length > 0 ? "\n" : "") +
                     (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
                     combatant.name + " (" + combatant.player.name + ")" +
                     (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    "\n" + (combatant.character ?
-                        Character.getHealthBox(combatant.character.health) +
-                        " \u200B " + combatant.character.bp + "/" + Character.getMaxBP(combatant.character.generation) + " BP"
-                        // + " \u200B " + combatant.character.wp + "/" + combatant.character.willpower + " WP"
-                        : "");
+                    "\n" + (iniEntry.ini === 0 ? "Celerity" :
+                        (combatant.character ?
+                            Character.getHealthBox(combatant.character.health) +
+                            " \u200B " + combatant.character.bp + "/" + Character.getMaxBP(combatant.character.generation) + " BP"
+                            // + " \u200B " + combatant.character.wp + "/" + combatant.character.willpower + " WP"
+                            : "")
+                    );
                 fieldActions +=
                     (fieldActions.length > 0 ? "\n" : "") +
                     (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
@@ -148,22 +150,27 @@ Combat.startNewRound = async function (message, combat) {
         combat.state = "INI";
         combat.iniCurrentPosition = -1;
         combat.round++;
+
+        // Clear all Celerity ini entries
+        for (var i = combat.iniOrder.length - 1; i >= 0; i--) {
+            if (combat.iniOrder[i].ini === 0) {
+                combat.iniOrder.splice(i, 1);
+            }
+        }
         // Set all inis to -1 (unless inis are fixed)
         if (!combat.fixedIni) {
             for (var i = 0; i < combat.iniOrder.length; i++) {
                 combat.iniOrder[i].ini = -1;
-                combat.iniOrder[i].action = "";
             }
         }
+        // Clear all actions
+        for (var i = 0; i < combat.iniOrder.length; i++) {
+            combat.iniOrder[i].action = "";
+        }
+
         await combat.save();
 
         return this.showSummary(message, combat);
-        /*
-        message.channel.send(
-            "**ROUND " + combat.round + "**" +
-            (combat.fixedIni ? "" : "\nEverybody, roll `" + process.env.PREFIX + "ini [modifier]`!")
-        );
-        */
     } catch (err) {
         console.log(err);
         return message.channel.send(err.message);

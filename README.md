@@ -25,6 +25,7 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
 -- Get prompts for declaring and resolving actions automatically<br/>
 -- Perform ini rolls and get ini rankings automatically<br/>
+-- Manage additional actions from Celerity<br/>
 -- Display combat summaries with next steps and ini ranking<br/>
 -- Manage several battles in different channels at the same time
 - **Blood bonds**<br/>
@@ -42,12 +43,13 @@ Test build for chronicle https://www.sanguinus.org/.
 - **char-profile** (profile, p, show) [name]: Shows the profile of a character.
 - **char-select** (select) [name]: Selects one of your characters.
 - **char-setprofile** (setprofile): Creates a profile for your active character.  Via DM only.
+- **combat-celerity** (cel) [(opt) NPC]: Grants an ini 0 action to your selected character or an NPC.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end**: Ends an ongoing combat in a channel.
-- **combat-ini** (ini, init) [ini modifier] [(opt) NPC name]<br/>Sets the ini of your selected character, or an NPC if a name is provided.
-- **combat-join** (join) [(opt) NPC name]: Join combat with your selected character or with an NPC.
-- **combat-leave** (leave) [(opt) NPC name]: Leave combat with your selected character or with an NPC.
-- **combat-newround** (newround, round)<br/>Starts a new round in an ongoing combat. Executed to start combat when combatants have joined.
+- **combat-ini** (ini, init) [ini modifier] [(opt) NPC name]<br/>Sets the ini of your selected character or an NPC.
+- **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
+- **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
+- **combat-newround** (round)<br/>Starts a new round in an ongoing combat. Executed to start combat when combatants have joined.
 - **combat-resolve** (resolved, resolve): Mark a previously declared combat action as resolved.
 - **combat-start** (combat): Starts combat in the channel and invites combatants to join.
 - **combat-summary** (summary): Shows the ini ranking and marks the player who has to act next.
