@@ -27,9 +27,25 @@ module.exports = {
 			embed.setTitle("Combat Summary");
 			embed.setColor('#0099ff');
 
+			switch (combat.state) {
+				case "JOINING":
+					embed.setDescription("Waiting for combatants to join.");
+					break;
+				case "INI":
+					embed.setDescription("Waiting for combatants to roll ini.");
+					break;
+				case "DECLARING":
+					embed.setDescription("Declaring actions.");
+					break;
+				case "ACTIONS":
+					embed.setDescription("Resolving actions.");
+					break;
+            }
+			
+
 			var fieldInitiative = "";
 			var fieldCharacters = "";
-			var fieldPlayers = "";
+			var fieldActions = "";
 			for (const iniEntry of combat.iniOrder) {
 				var combatant = await Combatant.findById(iniEntry.combatant).populate('player', '_id name');
 
@@ -38,14 +54,14 @@ module.exports = {
 					(iniEntry.ini > 0 ? iniEntry.ini : "/");
 				fieldCharacters +=
 					(fieldCharacters.length > 0 ? "\n" : "") +
-					combatant.name;
-				fieldPlayers +=
-					(fieldPlayers.length > 0 ? "\n" : "") +
-					combatant.player.name
+					combatant.name + " (" + combatant.player.name + ")";
+				fieldActions +=
+					(fieldActions.length > 0 ? "\n" : "") +
+					(iniEntry.action ? iniEntry.action : "/");
 			}
-			embed.addField('Initiative', fieldInitiative, true);
+			embed.addField('Ini', fieldInitiative, true);
 			embed.addField('Character', fieldCharacters, true);
-			embed.addField('Player', fieldPlayers, true);
+			embed.addField('Action', fieldActions, true);
 
 			return message.channel.send(embed);
 
