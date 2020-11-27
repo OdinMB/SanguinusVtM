@@ -7,6 +7,7 @@ var Combatant = require("../models/combatant.js");
 module.exports = {
 	name: 'combat-summary',
 	description: 'Shows the ini ranking and marks the player who has to act next.',
+	oneline: true,
 	aliases: ['summary'],
 	usage: '',
 	// args: true,

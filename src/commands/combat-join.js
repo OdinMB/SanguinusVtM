@@ -6,7 +6,8 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-join',
-	description: 'Join the combat with your selected character or with an NPC.',
+	description: 'Join combat with your selected character or with an NPC.',
+	oneline: true,
 	aliases: ['join'],
 	usage: '[(opt) NPC name]',
 	wiki: "ASDF" +
