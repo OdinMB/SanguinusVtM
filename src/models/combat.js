@@ -175,7 +175,11 @@ Combat.startNewRound = async function (message, combat) {
 
         await combat.save();
 
-        return this.showSummary(message, combat);
+        var jumpedIniPhase = await Combat.checkState(message, combat);
+        if (!jumpedIniPhase) {
+            return this.showSummary(message, combat);
+        }
+
     } catch (err) {
         console.log(err);
         return message.channel.send(err.message);
@@ -243,6 +247,41 @@ Combat.promptResolveAction = async function (message, combat) {
         console.log(err);
         return message.channel.send(err.message);
     }
+}
+
+Combat.checkState = async function (message, combat) {
+    // If all Inis are set, move on to declaring actions
+    if (combat.state === "INI" && Combat.allInisSet(combat)) {
+        combat.state = "DECLARING";
+
+        // set iniCurrentPosition to the first combatant to declare actions
+        // Careful: new combatants might have joined in the meantime
+        // Ignore combatants with ini < 0 (0 = Celerity actions)
+        var actions = 0;
+        for (const iniEntry of combat.iniOrder) {
+            if (iniEntry.ini >= 0) {
+                actions++;
+            }
+        }
+
+        combat.iniCurrentPosition = actions - 1;
+
+        await combat.save();
+        await Combat.showSummary(message, combat);
+        await Combat.promptDeclareAction(message, combat);
+        return true;
+    }
+    return false;
+}
+
+Combat.allInisSet = function (combat) {
+    var allInisSet = true;
+    for (var iniEntry of combat.iniOrder) {
+        if (iniEntry.ini < 0) {
+            allInisSet = false;
+        }
+    }
+    return allInisSet;
 }
 
 module.exports = Combat;

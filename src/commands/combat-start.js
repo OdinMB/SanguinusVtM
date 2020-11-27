@@ -3,12 +3,13 @@ var Combat = require("../models/combat.js");
 
 module.exports = {
 	name: 'combat-start',
-	description: 'Starts combat in the channel and invites combatants to join.',
+	description: 'Starts combat.',
 	oneline: true,
 	aliases: ['combat'],
-	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
-	wiki: "ASDF" +
-		"Examples: \n- " + process.env.PREFIX + "combat-start",
+	usage: '[(opt) fixini]',
+	wiki: "Starts combat in the channel and invites combatants to join. If there already is a combat in that channel, shows an overview of the combat instead." +
+		"\n\nExamples: \n- `" + process.env.PREFIX + "combat-start`" +
+		"\n- `" + process.env.PREFIX + "combat fixini`: combatants roll ini only once and keep their ini rating for the combat.",
 	// args: true,
 	guildOnly: true,
 	cooldown: 10,
@@ -29,6 +30,14 @@ module.exports = {
 				channelDiscordID: "" + message.channel.id,
 				state: "JOINING"
 			});
+
+			// Set parameters
+			if (args && args.length > 0) {
+				if (args.includes('fixini')) {
+					combat.fixedIni = true;
+                }
+            }
+
 			await combat.save();
 
 			return Combat.showSummary(message, combat);

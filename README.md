@@ -11,11 +11,11 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Create characters and character profiles<br/>
 -- Manage character sheets (still missing: Backgrounds, Disciplines, Merits/Flaws)
 - **Rolls**: Can perform rolls according to V20 mechanics.<br/>
--- Dice pools can be given as numbers ('!r 7') or stats ("!rs str bra")<br/>
--- Stat specialties can be considered ('!r 7 spec')<br/>
--- Rolls can be saved and then be performed more quickly<br/>
--- Stat-based rolls and saved rolls can be modified ('!rs str bra -3')<br/>
--- A luck score indicates how much the dice gods loved you by comparing your result to 10,000 other rolls with the same paramters.
+-- Define dice pools with numbers ('!r 7') or stats ("!rs str bra")<br/>
+-- Consider stat specialties ('!r 7 spec')<br/>
+-- Save rolls to perform them more quickly<br/>
+-- Modify stat-based rolls and saved rolls ('!rs str bra -3')<br/>
+-- Learn how much the dice gods love you by looking at the luck score, which compares your result to 10,000 other rolls with the same paramters.
 - **Blood, Willpower, Health**<br/>
 -- Spend and get BP, get notified if you risk hunger frenzy<br/>
 -- Spend WP and restore WP once a week (with admin command)<br/>
@@ -46,12 +46,12 @@ Test build for chronicle https://www.sanguinus.org/.
 - **combat-celerity** (cel) [(opt) NPC]: Grants an ini 0 action to your selected character or an NPC.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end**: Ends an ongoing combat in a channel.
-- **combat-ini** (ini, init) [ini modifier] [(opt) NPC name]<br/>Sets the ini of your selected character or an NPC.
+- **combat-ini** (ini, init) [ini modifier] [(opt) NPC]<br/>Sets the ini of your selected character or an NPC.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
 - **combat-newround** (round)<br/>Starts a new round in an ongoing combat. Executed to start combat when combatants have joined.
 - **combat-resolve** (resolved, resolve): Mark a previously declared combat action as resolved.
-- **combat-start** (combat): Starts combat in the channel and invites combatants to join.
+- **combat-start** (combat) [(opt) fixini]: Starts combat in the channel and invites combatants to join.
 - **combat-summary** (summary): Shows the ini ranking and marks the player who has to act next.
 - **damage-heal** (heal) [amount] [b/l/a]: Heal damage with your selected character.
 - **damage-take** (take) [amount] [b/l/a]: Take damage with your selected character.

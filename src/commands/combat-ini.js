@@ -82,7 +82,6 @@ module.exports = {
 			await message.channel.send(embed);
 
 			// Write ini and iniModifier into the combat's ini order
-			var allInisSet = true;
 			for (var iniEntry of combat.iniOrder) {
 				// Ignore iniEntries with ini 0 for Celerity actions
 				if (iniEntry.combatant.toString() === combatant._id.toString()) {
@@ -91,37 +90,14 @@ module.exports = {
 					if (iniEntry.ini !== 0) {
 						combat.iniOrder[position].ini = result;
 					}
-                } else if (iniEntry.ini < 0) {
-					allInisSet = false;
-				}
+                }
 			}
 
 			// Sort iniOrder by the iniEntries' ini values
 			combat.iniOrder.sort(compareInis);
 			await combat.save();
 
-			// If all Inis are set, move on to declaring actions
-			if (allInisSet) {
-				combat.state = "DECLARING";
-				// If position is not set: set it to the first combatant to declare actions
-				if (combat.iniCurrentPosition < 0) {
-					// Careful: new combatants might have joined in the meantime
-					// Ignore combatants with ini < 0 (0 = Celerity actions)
-					var actions = 0;
-					for (const iniEntry of combat.iniOrder) {
-						if (iniEntry.ini >= 0) {
-							actions++;
-						}
-					}
-
-					combat.iniCurrentPosition = actions - 1;
-				}
-
-				await combat.save();
-				// await message.channel.send("All inis are set. Declaring actions.");
-				await Combat.showSummary(message, combat);
-				await Combat.promptDeclareAction(message, combat);
-			}
+			return Combat.checkState(message, combat);
 
 		} catch (err) {
 			console.log(err);
