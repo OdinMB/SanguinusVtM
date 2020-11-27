@@ -21,12 +21,12 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Spend WP and restore WP once a week (with admin command)<br/>
 -- Take and heal damage, see wound penalties
 - **Combat**<br/>
--- Facilitates the combat process through states: joining, ini, declaring actions, resolving actions<br/>
--- Players and STs can join with saved characters as well as NPCs<br/>
--- Players are prompted to declare and resolve actions automatically<br/>
--- Ini ranking are calculated based on initiative rolls<br/>
--- Combat summary with next steps and ini ranking can be displayed at the channel<br/>
--- Several battles can be managed in different channels at the same time
+-- Follow the combat process through stages: joining, ini, declaring actions, resolving actions<br/>
+-- Join with saved characters and NPCs (at the same time, if you want)<br/>
+-- Get prompts for declaring and resolving actions automatically<br/>
+-- Perform ini rolls and get ini rankings automatically<br/>
+-- Display combat summaries with next steps and ini ranking<br/>
+-- Manage several battles in different channels at the same time
 - **Blood bonds**<br/>
 -- Perform Vaulderies to create vinculums between any number of players<br/>
 -- Automatically perform city-wide Vaulderies<br/>

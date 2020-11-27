@@ -33,10 +33,10 @@ module.exports = {
 			}
 
 			// Delete action in the combat's ini order
-			combat.iniOrder[combat.iniCurrentPosition].action = "";
+			combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
 			combat.iniCurrentPosition++;
 			await combat.save();
-			await message.reply(currentCombatant.name + "'s action was resolved");
+			// await message.reply(currentCombatant.name + "'s action was resolved");
 
 			// If all actions are resolved, start the next round
 			// Careful: new combatants might have joined in the meantime
@@ -48,7 +48,7 @@ module.exports = {
 				}
 			}
 			if (combat.iniCurrentPosition === activeCombatants) {
-				await message.channel.send("All actions are resolved.");
+				// await message.channel.send("All actions are resolved.");
 				return Combat.startNewRound(message, combat);
 			} else {
 				return Combat.promptResolveAction(message, combat);

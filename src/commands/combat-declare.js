@@ -5,7 +5,7 @@ var Combatant = require("../models/combatant.js");
 // https://www.w3resource.com/javascript-exercises/javascript-string-exercise-16.php
 text_truncate = function (str, length, ending) {
 	if (length == null) {
-		length = 50;
+		length = 70;
 	}
 	if (ending == null) {
 		ending = '...';
@@ -25,7 +25,7 @@ module.exports = {
 	usage: '[action]',
 	args: true,
 	guildOnly: true,
-	cooldown: 5,
+	cooldown: 3,
 	async execute(message, args) {
 		try {
 			// Find combat
@@ -52,14 +52,15 @@ module.exports = {
 			combat.iniOrder[combat.iniCurrentPosition].action = action;
 			combat.iniCurrentPosition--;
 			await combat.save();
-			await message.reply(currentCombatant.name + "'s action was set to '" + action + "'.");
+			// await message.reply(currentCombatant.name + "'s action was set to '" + action + "'.");
 
 			// If all actions are declared, move on to the RESOLVING state
 			if (combat.iniCurrentPosition === -1) {
 				combat.state = "RESOLVING";
 				combat.iniCurrentPosition = 0;
 				await combat.save();
-				await message.channel.send("All actions are declared. Resolving actions.");
+				// await message.channel.send("All actions are declared. Resolving actions.");
+				await Combat.showSummary(message, combat);
 				await Combat.promptResolveAction(message, combat);
 			} else {
 				await Combat.promptDeclareAction(message, combat);

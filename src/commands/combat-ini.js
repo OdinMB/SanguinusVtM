@@ -24,7 +24,7 @@ module.exports = {
 	usage: '[ini modifier] [(opt) NPC name]',
 	args: true,
 	guildOnly: true,
-	cooldown: 5,
+	cooldown: 2,
 	async execute(message, args) {
 		try {
 			// Find combat
@@ -108,7 +108,8 @@ module.exports = {
 				}
 
 				await combat.save();
-				await message.channel.send("All inis are set. Declaring actions.");
+				// await message.channel.send("All inis are set. Declaring actions.");
+				await Combat.showSummary(message, combat);
 				await Combat.promptDeclareAction(message, combat);
 			}
 
