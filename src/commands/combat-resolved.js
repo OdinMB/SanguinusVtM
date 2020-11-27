@@ -37,7 +37,7 @@ module.exports = {
 			combat.iniCurrentPosition++;
 			await combat.save();
 
-			return Combat.startNewRound(message, combat);
+			return Combat.checkState(message, combat);
 		} catch (err) {
 			console.log(err);
 			return message.channel.send(err.message);

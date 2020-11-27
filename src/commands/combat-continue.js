@@ -2,7 +2,7 @@ var Combat = require("../models/combat.js");
 
 module.exports = {
 	name: 'combat-continue',
-	description: 'Continues with combat. Use to start Round 1 and to skip players who don\'t react.',
+	description: 'Continues with combat. Use to start Round 1 and to skip players.',
 	oneline: true,
 	aliases: ['continue', 'skip'],
 	usage: '',
