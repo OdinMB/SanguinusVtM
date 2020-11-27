@@ -82,7 +82,7 @@ Combat.showSummary = async function (message, combat) {
             case "JOINING":
                 var description = "`" + process.env.PREFIX + "join` to join with your selected character." +
                     "\n`" + process.env.PREFIX + "join [NPC name]` to join with an NPC." +
-                    "\n`" + process.env.PREFIX + "round` to start Round 1.";
+                    "\n`" + process.env.PREFIX + "continue` to start Round 1.";
                 break;
             case "INI":
                 var description = "Everybody, declare boosts and Celerity actions, then" +
@@ -150,6 +150,66 @@ Combat.showSummary = async function (message, combat) {
     }
 }
 
+// Used to sort iniEntries into an iniOrder as per initiative rules
+// Ranking shows highest inis first
+Combat.compareIniEntries = function (a, b) {
+    // Tie breakers: ini modifier > coin flip
+    if (a.ini === b.ini) {
+        if (a.iniModifier === b.iniModifier) {
+            return (Math.random() < 0.5) ? 1 : -1;
+        } else {
+            return (a.iniModifier < b.iniModifier) ? 1 : -1;
+        }
+    }
+    else {
+        return (a.ini < b.ini) ? 1 : -1;
+    }
+}
+
+
+// Moves combat to the next step
+// To start Round 1, to skip players who don't react (in time), or if STs feel like it
+Combat.continue = async function (message, combat) {
+    try {
+        switch (combat.state) {
+            case "JOINING":
+                // Continue with Round 1
+                return Combat.startNewRound(message, combat);
+            case "INI":
+                // Set all undefined inis to 1
+                for (var iniEntry of combat.iniOrder) {
+                    // Ignore iniEntries with ini 0 for Celerity actions
+                    var position = combat.iniOrder.indexOf(iniEntry);
+                    if (iniEntry.ini === -1) {
+                        combat.iniOrder[position].ini = 1;
+                    }
+                }
+
+                // Sort iniOrder by the iniEntries' ini values
+                combat.iniOrder.sort(Combat.compareIniEntries);
+                await combat.save();
+
+                // await message.channel.send("Set ini of all remaining characters to 1.");
+
+                return Combat.checkState(message, combat);
+            case "DECLARING":
+                // Set combatant's action to 'Skipped' and move on
+                combat.iniOrder[combat.iniCurrentPosition].action = "Skipped";
+                combat.iniCurrentPosition--;
+                await combat.save();
+                return Combat.checkState(message, combat);
+            case "RESOLVING":
+                combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
+                combat.iniCurrentPosition++;
+                await combat.save();
+                return Combat.checkState(message, combat);
+        }
+    } catch (err) {
+        console.log(err);
+        return message.channel.send(err.message);
+    }
+}
+
 Combat.startNewRound = async function (message, combat) {
     try {
         combat.state = "INI";
@@ -172,13 +232,11 @@ Combat.startNewRound = async function (message, combat) {
         for (var i = 0; i < combat.iniOrder.length; i++) {
             combat.iniOrder[i].action = "";
         }
-
         await combat.save();
 
-        var jumpedIniPhase = await Combat.checkState(message, combat);
-        if (!jumpedIniPhase) {
-            return this.showSummary(message, combat);
-        }
+        await Combat.showSummary(message, combat);
+
+        return Combat.checkState(message, combat);
 
     } catch (err) {
         console.log(err);
@@ -249,29 +307,68 @@ Combat.promptResolveAction = async function (message, combat) {
     }
 }
 
+/*
+ * 
+ */
 Combat.checkState = async function (message, combat) {
-    // If all Inis are set, move on to declaring actions
-    if (combat.state === "INI" && Combat.allInisSet(combat)) {
-        combat.state = "DECLARING";
-
-        // set iniCurrentPosition to the first combatant to declare actions
-        // Careful: new combatants might have joined in the meantime
-        // Ignore combatants with ini < 0 (0 = Celerity actions)
-        var actions = 0;
-        for (const iniEntry of combat.iniOrder) {
-            if (iniEntry.ini >= 0) {
-                actions++;
-            }
-        }
-
-        combat.iniCurrentPosition = actions - 1;
-
-        await combat.save();
-        await Combat.showSummary(message, combat);
-        await Combat.promptDeclareAction(message, combat);
-        return true;
+    if (combat.state === "JOINING") {
+        return;
     }
-    return false;
+
+    if (combat.state === "INI") {
+        // If all Inis are set, move on to declaring actions
+        if (Combat.allInisSet(combat)) {
+            combat.state = "DECLARING";
+
+            // set iniCurrentPosition to the first combatant to declare actions
+            var actions = Combat.getActions(combat);
+            combat.iniCurrentPosition = actions - 1;
+
+            await combat.save();
+            await Combat.showSummary(message, combat);
+        }
+    }
+
+    if (combat.state === "DECLARING") {
+        // If all actions are declared, start resolving with pointer to highest initiative
+        if (combat.iniCurrentPosition === -1) {
+            combat.state = "RESOLVING";
+            combat.iniCurrentPosition = 0;
+            await combat.save();
+            await Combat.showSummary(message, combat);
+        } else {
+            return Combat.promptDeclareAction(message, combat);
+        }
+    }
+
+    if (combat.state === "RESOLVING") {
+        var actions = Combat.getActions(combat);
+        // If all actions are resolved, start the next round
+        if (combat.iniCurrentPosition === actions) {
+            return Combat.startNewRound(message, combat);
+        } else {
+            // If the action was Skipped (via a continue command)
+            // it gets resolved automatically
+            if (combat.iniOrder[combat.iniCurrentPosition].action === "Skipped") {
+                return Combat.continue(message, combat);
+            }
+
+            return Combat.promptResolveAction(message, combat);
+        }
+    }
+}
+
+// Returns the number of actions that happen this round
+// Careful: new combatants might have joined who still have their first action next round
+// Ignore combatants with ini < 0 (0 = Celerity actions)
+Combat.getActions = function (combat) {
+    var actions = 0;
+    for (const iniEntry of combat.iniOrder) {
+        if (iniEntry.ini >= 0) {
+            actions++;
+        }
+    }
+    return actions;
 }
 
 Combat.allInisSet = function (combat) {

@@ -36,24 +36,8 @@ module.exports = {
 			combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
 			combat.iniCurrentPosition++;
 			await combat.save();
-			// await message.reply(currentCombatant.name + "'s action was resolved");
 
-			// If all actions are resolved, start the next round
-			// Careful: new combatants might have joined in the meantime
-			// Ignore combatants with ini < 0 (0 = Celerity actions)
-			var actions = 0;
-			for (const iniEntry of combat.iniOrder) {
-				if (iniEntry.ini >= 0) {
-					actions++;
-				}
-			}
-			if (combat.iniCurrentPosition === actions) {
-				// await message.channel.send("All actions are resolved.");
-				return Combat.startNewRound(message, combat);
-			} else {
-				return Combat.promptResolveAction(message, combat);
-			}
-
+			return Combat.startNewRound(message, combat);
 		} catch (err) {
 			console.log(err);
 			return message.channel.send(err.message);

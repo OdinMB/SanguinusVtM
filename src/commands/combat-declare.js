@@ -19,7 +19,7 @@ text_truncate = function (str, length, ending) {
 
 module.exports = {
 	name: 'combat-declare',
-	description: 'Sets the action of a character in combat.',
+	description: 'Declares the action of a character in combat.',
 	oneline: true,
 	aliases: ['declare'],
 	usage: '[action]',
@@ -50,22 +50,16 @@ module.exports = {
 			// Write action into the combat's ini order
 			var action = text_truncate(args.join(' '));
 			combat.iniOrder[combat.iniCurrentPosition].action = action;
+
+			// Move the pointer higher up the initiative ranking
 			combat.iniCurrentPosition--;
+
 			await combat.save();
-			// await message.reply(currentCombatant.name + "'s action was set to '" + action + "'.");
 
-			// If all actions are declared, move on to the RESOLVING state
-			if (combat.iniCurrentPosition === -1) {
-				combat.state = "RESOLVING";
-				combat.iniCurrentPosition = 0;
-				await combat.save();
-				// await message.channel.send("All actions are declared. Resolving actions.");
-				await Combat.showSummary(message, combat);
-				await Combat.promptResolveAction(message, combat);
-			} else {
-				await Combat.promptDeclareAction(message, combat);
+			const movedState = await Combat.checkState(message, combat);
+			if (!movedState) {
+				return Combat.promptDeclareAction(message, combat);
             }
-
 		} catch (err) {
 			console.log(err);
 			return message.channel.send(err.message);

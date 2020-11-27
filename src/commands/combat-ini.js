@@ -5,22 +5,6 @@ var Combatant = require("../models/combatant.js");
 const Discord = require('discord.js');
 var Roller = require("../models/roller.js");
 
-// Used to sort iniOrder as per initiative rules
-// Ranking shows highest inis first
-function compareInis(a, b) {
-	// Tie breakers: ini modifier > coin flip
-	if (a.ini === b.ini) {
-		if (a.iniModifier === b.iniModifier) {
-			return (Math.random() < 0.5) ? 1 : -1;
-		} else {
-			return (a.iniModifier < b.iniModifier) ? 1 : -1;
-        }
-	}
-	else {
-		return (a.ini < b.ini) ? 1 : -1;
-	}
-}
-
 module.exports = {
 	name: 'combat-ini',
 	description: 'Sets the ini of your selected character or an NPC.',
@@ -94,7 +78,7 @@ module.exports = {
 			}
 
 			// Sort iniOrder by the iniEntries' ini values
-			combat.iniOrder.sort(compareInis);
+			combat.iniOrder.sort(Combat.compareIniEntries);
 			await combat.save();
 
 			return Combat.checkState(message, combat);
