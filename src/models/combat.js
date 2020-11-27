@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Character = require("../models/character.js");
 var Combatant = require("../models/combatant.js");
 const Discord = require('discord.js');
 
@@ -66,7 +67,7 @@ Combat.showSummary = async function (message, combat) {
                 var description = "`" + process.env.PREFIX + "join [(opt) NPC name]`";
                 break;
             case "INI":
-                var description = "`" + process.env.PREFIX + "ini [modifier] [(opt) NPC name]`";
+                var description = "Declare boosts and Celerity actions, then\n`" + process.env.PREFIX + "ini [modifier] [(opt) NPC name]`";
                 break;
             case "DECLARING":
                 var description = "`" + process.env.PREFIX + "declare [action]`";
@@ -80,27 +81,34 @@ Combat.showSummary = async function (message, combat) {
         var fieldCharacters = "";
         var fieldActions = "";
         for (const iniEntry of combat.iniOrder) {
-            var combatant = await Combatant.findById(iniEntry.combatant).populate('player', '_id name discordID');
+            var combatant = await Combatant.findById(iniEntry.combatant)
+                .populate('player', '_id name discordID')
+                .populate('character', '_id generation bp wp willpower health');
 
             // Mention player whose turn it is
             if (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition) {
-                description += "\n<@" + combatant.player.discordID + ">, it's your turn with " + combatant.name + ".";
+                // description += "\n<@" + combatant.player.discordID + ">, it's your turn with " + combatant.name + ".";
             }
 
             fieldInitiative +=
                 (fieldInitiative.length > 0 ? "\n" : "") +
                 (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                (iniEntry.ini > 0 ? iniEntry.ini : "/") +
+                (iniEntry.ini > 0 ? iniEntry.ini : "/") + "\n" +
                 (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
             fieldCharacters +=
                 (fieldCharacters.length > 0 ? "\n" : "") +
                 (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
                 combatant.name + " (" + combatant.player.name + ")" +
-                (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
+                (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") + 
+                "\n" + (combatant.character ?
+                    Character.getHealthBox(combatant.character.health) +
+                    " \u200B " + combatant.character.bp + "/" + Character.getMaxBP(combatant.character.generation) + " BP"
+                    // + " \u200B " + combatant.character.wp + "/" + combatant.character.willpower + " WP"
+                    : "");
             fieldActions +=
                 (fieldActions.length > 0 ? "\n" : "") +
                 (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                (iniEntry.action ? iniEntry.action : "/") +
+                (iniEntry.action ? iniEntry.action : "/") + "\n" +
                 (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
         }
         embed.addField('Ini', fieldInitiative, true);
