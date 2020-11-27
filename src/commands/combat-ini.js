@@ -5,11 +5,16 @@ var Combatant = require("../models/combatant.js");
 const Discord = require('discord.js');
 var Roller = require("../models/roller.js");
 
-// Used to sort iniOrder by the iniEntries' ini values (descending)
-// Ranking with highest values shown first
+// Used to sort iniOrder as per initiative rules
+// Ranking shows highest inis first
 function compareInis(a, b) {
+	// Tie breakers: ini modifier > coin flip
 	if (a.ini === b.ini) {
-		return 0;
+		if (a.iniModifier === b.iniModifier) {
+			return (Math.random() < 0.5) ? 1 : -1;
+		} else {
+			return (a.iniModifier < b.iniModifier) ? 1 : -1;
+        }
 	}
 	else {
 		return (a.ini < b.ini) ? 1 : -1;
@@ -75,15 +80,16 @@ module.exports = {
 			embed.setFooter(die + " + " + mod);
 			await message.channel.send(embed);
 
-			// Write ini into the combat's ini order
+			// Write ini and iniModifier into the combat's ini order
 			var allInisSet = true;
 			for (var iniEntry of combat.iniOrder) {
 				// Ignore iniEntries with ini 0 for Celerity actions
-				if (iniEntry.combatant.toString() === combatant._id.toString() &&
-					iniEntry.ini !== 0) {
-
+				if (iniEntry.combatant.toString() === combatant._id.toString()) {
 					var position = combat.iniOrder.indexOf(iniEntry);
-					combat.iniOrder[position].ini = result;
+					combat.iniOrder[position].iniModifier = mod;
+					if (iniEntry.ini !== 0) {
+						combat.iniOrder[position].ini = result;
+					}
                 } else if (iniEntry.ini < 0) {
 					allInisSet = false;
 				}
