@@ -23,10 +23,11 @@ Test build for chronicle https://www.sanguinus.org/.
 - **Combat**<br/>
 -- Follow the combat process through stages: joining, ini, declaring actions, resolving actions<br/>
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
--- Get prompts for declaring and resolving actions automatically<br/>
--- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip)<br/>
+-- Get automatic prompts for declaring and resolving actions<br/>
+-- As a Storyteller, skip combat steps if players don't respond in time (or whenever you feel like it)'<br/>
+-- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip). Decide if inis should be rolled each round or only once.<br/>
 -- Manage additional actions from Celerity<br/>
--- Display combat summaries with next steps and ini ranking<br/>
+-- Display combat summaries with combatants and next actions<br/>
 -- Manage several battles in different channels at the same time
 - **Blood bonds**<br/>
 -- Perform Vaulderies to create vinculums between any number of players<br/>
