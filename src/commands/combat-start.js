@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Character = require("../models/character.js");
 var Combat = require("../models/combat.js");
 
 module.exports = {
@@ -16,12 +15,13 @@ module.exports = {
 	async execute(message, args) {
 		try {
 			// Only one combat per channel at any given time
-			var existingCombats = await Combat.find({
+			var existingCombat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				state: { $not: /^FINISHED$/ }
+				// state: { $not: /^FINISHED$/ }
 			});
-			if (existingCombats.length > 0) {
-				return message.channel.send("There is already combat ongoing in this channel. Please close the existing combat before starting a new one.");
+			if (existingCombat) {
+				return Combat.showSummary(message, existingCombat);
+				// return message.channel.send("There is already combat ongoing in this channel. Please close the existing combat before starting a new one.");
             }
 
 			var combat = new Combat({
@@ -31,7 +31,7 @@ module.exports = {
 			});
 			await combat.save();
 
-			return message.channel.send("Combat has started. `" + process.env.PREFIX + "join` if you want to participate.");
+			return Combat.showSummary(message, combat);
 
 		} catch (err) {
 			console.log(err);

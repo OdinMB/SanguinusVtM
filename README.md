@@ -45,7 +45,8 @@ Test build for chronicle https://www.sanguinus.org/.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end**: Ends an ongoing combat in a channel.
 - **combat-ini** (ini, init) [ini modifier] [(opt) NPC name]<br/>Sets the ini of your selected character, or an NPC if a name is provided.
-- **combat-join** (join) [(opt) NPC name]: Join the combat with your selected character or with an NPC.
+- **combat-join** (join) [(opt) NPC name]: Join combat with your selected character or with an NPC.
+- **combat-leave** (leave) [(opt) NPC name]: Leave combat with your selected character or with an NPC.
 - **combat-newround** (newround, round)<br/>Starts a new round in an ongoing combat. Executed to start combat when combatants have joined.
 - **combat-resolve** (resolved, resolve): Mark a previously declared combat action as resolved.
 - **combat-start** (combat): Starts combat in the channel and invites combatants to join.

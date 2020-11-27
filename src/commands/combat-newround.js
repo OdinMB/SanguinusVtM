@@ -12,7 +12,7 @@ module.exports = {
 			// Is there an ongoing combat in this channel?
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				state: { $not: /^FINISHED$/ }
+				// state: { $not: /^FINISHED$/ }
 			});
 			if (!combat) {
 				return message.reply("there is no combat happening in this channel.");

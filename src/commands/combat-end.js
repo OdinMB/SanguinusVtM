@@ -1,4 +1,5 @@
 var Combat = require("../models/combat.js");
+var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-end',
@@ -13,17 +14,20 @@ module.exports = {
 			// Is there an ONGOING combat in this channel?
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				state: { $not: /^FINISHED$/ }
+				// state: { $not: /^FINISHED$/ }
 			});
 			if (!combat) {
 				return message.reply("there is no combat happening in this channel.");
 			}
 
-			// If so, set state to FINISHED
-			combat.state = "FINISHED";
-			await combat.save();
+			// Delete combat and combatants
+			// Old idea: combat.state = "FINISHED";
+			await Combatant.deleteMany({
+				combat: combat._id
+			});
+			await combat.remove();
 
-			return message.channel.send("Combat in this channel is officially over.");
+			return message.channel.send("COMBAT IS OVER.");
 
 		} catch (err) {
 			console.log(err);
