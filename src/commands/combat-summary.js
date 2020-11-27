@@ -17,14 +17,14 @@ module.exports = {
 			// Find combat
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				status: 'ONGOING'
+				state: { $not: /^FINISHED$/ }
 			});
 			if (!combat) {
 				return message.reply("there is no combat happening in this channel right now. Case of wishful thinking?");
 			}
 
 			const embed = new Discord.MessageEmbed();
-			embed.setTitle("Combat Summary");
+			embed.setTitle("Round " + combat.round);
 			embed.setColor('#0099ff');
 
 			switch (combat.state) {
@@ -37,7 +37,7 @@ module.exports = {
 				case "DECLARING":
 					embed.setDescription("Declaring actions.");
 					break;
-				case "ACTIONS":
+				case "RESOLVING":
 					embed.setDescription("Resolving actions.");
 					break;
             }
@@ -51,13 +51,19 @@ module.exports = {
 
 				fieldInitiative +=
 					(fieldInitiative.length > 0 ? "\n" : "") +
-					(iniEntry.ini > 0 ? iniEntry.ini : "/");
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
+					(iniEntry.ini > 0 ? iniEntry.ini : "/") +
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
 				fieldCharacters +=
 					(fieldCharacters.length > 0 ? "\n" : "") +
-					combatant.name + " (" + combatant.player.name + ")";
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
+					combatant.name + " (" + combatant.player.name + ")" +
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
 				fieldActions +=
 					(fieldActions.length > 0 ? "\n" : "") +
-					(iniEntry.action ? iniEntry.action : "/");
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
+					(iniEntry.action ? iniEntry.action : "/") +
+					(combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
 			}
 			embed.addField('Ini', fieldInitiative, true);
 			embed.addField('Character', fieldCharacters, true);

@@ -1,15 +1,15 @@
 var Combat = require("../models/combat.js");
 
 module.exports = {
-	name: 'combat-end',
-	description: 'Ends an ongoing combat in a channel.',
-	aliases: [],
+	name: 'combat-newround',
+	description: 'Starts a new combat round. Needs to be executed to start inis in round 1.',
+	aliases: ['newround', 'round'],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	guildOnly: true,
-	// cooldown: 10,
+	cooldown: 10,
 	async execute(message, args) {
 		try {
-			// Is there an ONGOING combat in this channel?
+			// Is there an ongoing combat in this channel?
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
 				state: { $not: /^FINISHED$/ }
@@ -18,12 +18,7 @@ module.exports = {
 				return message.reply("there is no combat happening in this channel.");
 			}
 
-			// If so, set state to FINISHED
-			combat.state = "FINISHED";
-			await combat.save();
-
-			return message.channel.send("Combat in this channel is officially over.");
-
+			return Combat.startNewRound(message, combat);
 		} catch (err) {
 			console.log(err);
 			return message.channel.send(err.message);

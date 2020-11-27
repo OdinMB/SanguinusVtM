@@ -3,11 +3,11 @@ var Combatant = require("../models/combatant.js");
 
 var combatSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    status: {
+    state: {
         type: String,
-        enum: ['ONGOING', 'FINISHED'],
+        enum: ['JOINING', 'INI', 'DECLARING', 'RESOLVING', 'FINISHED'],
         required: true,
-        default: 'ONGOING'
+        default: 'JOINING'
     },
     channelDiscordID: {
         type: String,
@@ -37,12 +37,7 @@ var combatSchema = mongoose.Schema({
             type: String,
         }
     }],
-    state: {
-        type: String,
-        enum: ['JOINING', 'INI', 'DECLARING', 'ACTIONS'],
-        required: true,
-        default: 'JOINING'
-    },
+
     // array index for iniOrder objects
     // -1 => not yet declaring / resolving actions
     iniCurrentPosition: {
@@ -59,12 +54,34 @@ var combatSchema = mongoose.Schema({
 
 var Combat = mongoose.model('Combat', combatSchema);
 
+Combat.startNewRound = async function (message, combat) {
+    try {
+        combat.state = "INI";
+        combat.iniCurrentPosition = -1;
+        combat.round++;
+        // Set all inis to -1 (unless inis are fixed)
+        if (!combat.fixedIni) {
+            for (var i = 0; i < combat.iniOrder.length; i++) {
+                combat.iniOrder[i].ini = -1;
+            }
+        }
+        await combat.save();
+
+        return message.channel.send(
+            "ROUND " + combat.round +
+            (combat.fixedIni ? "" : "\nRoll inis!")
+        );
+    } catch (err) {
+        console.log(err);
+        return message.channel.send(err.message);
+    }
+}
+
 // Prompts the next combatant to declare their action
 Combat.promptDeclareAction = async function (message, combat) {
     try {
-        // If position is not set: set it to the first combatant to declare actions
-        if (combat.iniCurrentPosition < 0) {
-            combat.iniCurrentPosition = combat.iniOrder.length - 1;
+        if (combat.state !== "DECLARING") {
+            return message.channel.send("This combat is not in its declaration phase. This shouldn't happen. Please report.");
         }
 
         combatantToPing = await Combatant.findById(
@@ -74,6 +91,26 @@ Combat.promptDeclareAction = async function (message, combat) {
         return message.channel.send(combatantToPing.player.name + ", please declare " + combatantToPing.name + "'s action.");
     } catch (err) {
 		console.log(err);
+        return message.channel.send(err.message);
+    }
+}
+
+// Prompts the next combatant to resolve their action
+Combat.promptResolveAction = async function (message, combat) {
+    try {
+        if (combat.state !== "RESOLVING") {
+            return message.channel.send("This combat is not in its RESOLVING phase. This shouldn't happen. Please report.");
+        }
+
+        combatantToPing = await Combatant.findById(
+            combat.iniOrder[combat.iniCurrentPosition].combatant
+        ).populate('player', '_id name discordID');
+
+        return message.channel.send(combatantToPing.player.name +
+            ", please resolve " + combatantToPing.name + "'s action: " +
+            "'" + combat.iniOrder[combat.iniCurrentPosition].action + "'.");
+    } catch (err) {
+        console.log(err);
         return message.channel.send(err.message);
     }
 }

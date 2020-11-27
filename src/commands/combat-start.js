@@ -11,13 +11,13 @@ module.exports = {
 		"Examples: \n- " + process.env.PREFIX + "combat-start",
 	// args: true,
 	guildOnly: true,
-	// cooldown: 10,
+	cooldown: 10,
 	async execute(message, args) {
 		try {
 			// Only one combat per channel at any given time
 			var existingCombats = await Combat.find({
 				channelDiscordID: "" + message.channel.id,
-				status: 'ONGOING'
+				state: { $not: /^FINISHED$/ }
 			});
 			if (existingCombats.length > 0) {
 				return message.channel.send("There is already combat ongoing in this channel. Please close the existing combat before starting a new one.");
@@ -26,9 +26,11 @@ module.exports = {
 			var combat = new Combat({
 				_id: new mongoose.Types.ObjectId(),
 				channelDiscordID: "" + message.channel.id,
+				state: "JOINING"
 			});
-			var combatSaveResult = await combat.save();
-			console.log(combatSaveResult);
+			await combat.save();
+
+			return message.channel.send("Combat has started. `" + process.env.PREFIX + "join` if you want to participate.");
 
 		} catch (err) {
 			console.log(err);

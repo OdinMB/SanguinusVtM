@@ -69,7 +69,7 @@ client.on("message", (message) => {
 			reply += " The proper usage would be:\n> " + process.env.PREFIX + command.name + " " + command.usage;
 		}
 
-		return message.channel.send(reply);
+		return message.reply(reply);
 	}
 
 	if (command.adminOnly && !message.member.hasPermission('ADMINISTRATOR')) {

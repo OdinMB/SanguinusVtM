@@ -19,7 +19,7 @@ module.exports = {
 			// Find combat
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				status: 'ONGOING'
+				state: { $not: /^FINISHED$/ }
 			});
 			if (!combat) {
 				return message.reply("there is no combat happening in this channel right now. Case of wishful thinking?");

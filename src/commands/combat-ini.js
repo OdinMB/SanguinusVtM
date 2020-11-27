@@ -24,16 +24,16 @@ module.exports = {
 	usage: '[ini modifier] [(opt) NPC name]',
 	args: true,
 	guildOnly: true,
-	cooldown: 2,
+	cooldown: 5,
 	async execute(message, args) {
 		try {
 			// Find combat
 			var combat = await Combat.findOne({
 				channelDiscordID: "" + message.channel.id,
-				status: 'ONGOING'
+				state: 'INI'
 			});
 			if (!combat) {
-				return message.reply("there is no combat happening in this channel right now. Case of wishful thinking?");
+				return message.reply("there is no combat in the INI phase right now. Case of wishful thinking?");
 			}
 
 			var player = await Player.getPlayerAsync(message);
@@ -92,6 +92,22 @@ module.exports = {
 
 			// If all Inis are set, move on to declaring actions
 			if (allInisSet) {
+				combat.state = "DECLARING";
+				// If position is not set: set it to the first combatant to declare actions
+				if (combat.iniCurrentPosition < 0) {
+					// Careful: new combatants might have joined in the meantime
+					// Ignore combatants with ini < 0
+					var activeCombatants = 0;
+					for (const iniEntry of combat.iniOrder) {
+						if (iniEntry.ini > 0) {
+							activeCombatants++;
+						}
+					}
+
+					combat.iniCurrentPosition = activeCombatants - 1;
+				}
+
+				await combat.save();
 				await message.channel.send("All inis are set. Declaring actions.");
 				await Combat.promptDeclareAction(message, combat);
 			}
