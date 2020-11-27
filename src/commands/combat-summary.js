@@ -6,7 +6,7 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-summary',
-	description: 'Provides a summary of the ongoing combat in a channel.',
+	description: 'Shows the ini ranking and marks the player who has to act next.',
 	aliases: ['summary'],
 	usage: '',
 	// args: true,

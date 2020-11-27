@@ -4,7 +4,7 @@ var Combat = require("../models/combat.js");
 
 module.exports = {
 	name: 'combat-start',
-	description: '',
+	description: 'Starts combat in the channel and invites combatants to join.',
 	aliases: ['combat'],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	wiki: "ASDF" +

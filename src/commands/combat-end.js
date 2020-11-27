@@ -3,6 +3,7 @@ var Combat = require("../models/combat.js");
 module.exports = {
 	name: 'combat-end',
 	description: 'Ends an ongoing combat in a channel.',
+	oneline: true,
 	aliases: [],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	guildOnly: true,

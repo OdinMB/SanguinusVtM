@@ -2,7 +2,7 @@ var Combat = require("../models/combat.js");
 
 module.exports = {
 	name: 'combat-newround',
-	description: 'Starts a new combat round. Needs to be executed to start inis in round 1.',
+	description: 'Starts a new round in an ongoing combat. Executed to start combat when combatants have joined.',
 	aliases: ['newround', 'round'],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	guildOnly: true,

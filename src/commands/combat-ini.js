@@ -19,8 +19,8 @@ function compareInis(a, b) {
 module.exports = {
 	name: 'combat-ini',
 	description: 'Sets the ini of your selected character, or an NPC if a name is provided.',
-	oneline: true,
-	aliases: [],
+	// oneline: true,
+	aliases: ['ini', 'init'],
 	usage: '[ini modifier] [(opt) NPC name]',
 	args: true,
 	guildOnly: true,

@@ -5,7 +5,7 @@ var Vinculum = require("../models/vinculum.js");
 module.exports = {
 	name: 'vinculums',
 	description: 'Shows the vinculums of the selected character.',
-	aliases: ['vincs'],
+	aliases: ['myvincs'],
 	usage: '',
 	oneline: true,
 	cooldown: 6,

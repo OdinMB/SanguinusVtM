@@ -4,7 +4,7 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-resolved',
-	description: 'Continues combat after having resolved an action.',
+	description: 'Mark a previously declared combat action as resolved.',
 	oneline: true,
 	aliases: ['resolve'],
 	// usage: '',

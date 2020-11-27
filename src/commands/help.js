@@ -18,9 +18,10 @@ module.exports = {
 					(command.aliases && command.aliases.length ? "(" + command.aliases.join(', ') + ")" : "") +
 					(command.usage ? " " + command.usage : "") +
 					((!command.aliases || !command.aliases.length) && !command.usage ? "" : "`") +
-					(command.description ? (command.oneline ? ": " : "\n") + command.description : "")
+					(command.description ? (command.oneline ? ": " : "\n") + command.description : "") +
+					"\n"
 				)
-			).join("\n"));
+			).join(""));
 
 			return message.author.send(data, { split: true })
 				.then(() => {
