@@ -24,7 +24,7 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Follow the combat process through stages: joining, ini, declaring actions, resolving actions<br/>
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
 -- Get prompts for declaring and resolving actions automatically<br/>
--- Perform ini rolls and get ini rankings automatically<br/>
+-- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip)<br/>
 -- Manage additional actions from Celerity<br/>
 -- Display combat summaries with next steps and ini ranking<br/>
 -- Manage several battles in different channels at the same time

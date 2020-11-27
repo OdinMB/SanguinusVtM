@@ -27,6 +27,7 @@ module.exports = {
 	oneline: true,
 	aliases: ['ini', 'init'],
 	usage: '[ini modifier] [(opt) NPC]',
+	wiki: "In case of a tie, characters with a higher ini modifier act first. If ini modifiers are tied as well, the order is decided by a coin fip.",
 	args: true,
 	guildOnly: true,
 	cooldown: 2,
