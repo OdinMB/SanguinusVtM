@@ -246,7 +246,7 @@ Combat.continue = async function (message, combat) {
                 return Combat.checkState(message, combat);
             case "DECLARING":
                 // Set combatant's action to 'Skipped' and move on
-                combat.iniOrder[combat.iniCurrentPosition].action = "Skipped";
+                combat.iniOrder[combat.iniCurrentPosition].action = "Full Defense";
                 combat.iniCurrentPosition--;
                 await combat.save();
                 return Combat.checkState(message, combat);
@@ -365,14 +365,18 @@ Combat.promptResolveAction = async function (message, combat) {
 }
 
 Combat.setTimer = async function (message, combat, millisecondsInFuture) {
-    combat.expirationTime = (Date.now() + millisecondsInFuture) / 1000;
+    try {
+        combat.expirationTime = (Date.now() + millisecondsInFuture) / 1000;
 
-    var msgObj = await message.channel.send("Time left:");
-    combat.timerMessageDiscordID = "" + msgObj.id;
-    await combat.save();
-    setTimeout(Combat.cooldownMessageTimer, 100, combat._id, msgObj, Math.floor(millisecondsInFuture / 1000));
+        var msgObj = await message.channel.send("Time left:");
+        combat.timerMessageDiscordID = "" + msgObj.id;
+        await combat.save();
+        setTimeout(Combat.cooldownMessageTimer, 100, combat._id, msgObj, Math.floor(millisecondsInFuture / 1000));
 
-    return setTimeout(Combat.timer, millisecondsInFuture, message, combat);
+        return setTimeout(Combat.timer, millisecondsInFuture, message, combat);
+    } catch (err) {
+        return console.log("Combat.setTimer: " + err);
+    }
 }
 
 // Updates the countdown message every 2 seconds
@@ -442,9 +446,9 @@ Combat.checkState = async function (message, combat) {
         if (combat.iniCurrentPosition === actions) {
             return Combat.startNewRound(message, combat);
         } else {
-            // If the action was Skipped (via a continue command)
+            // If the action was set to Full Defense (via a continue command)
             // it gets resolved automatically
-            if (combat.iniOrder[combat.iniCurrentPosition].action === "Skipped") {
+            if (combat.iniOrder[combat.iniCurrentPosition].action === "Full Defense") {
                 return Combat.continue(message, combat);
             }
             await Combat.promptResolveAction(message, combat);
