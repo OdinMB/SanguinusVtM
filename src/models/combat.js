@@ -17,6 +17,11 @@ var combatSchema = mongoose.Schema({
         required: true,
         default: 'JOINING'
     },
+    paused: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     channelDiscordID: {
         type: String,
         required: true,
@@ -114,10 +119,9 @@ Combat.showSummary = async function (message, combat) {
     try {
         const embed = new Discord.MessageEmbed();
         embed.setTitle(
-            (combat.round > 0 ?
-                "Round " + combat.round + " - " :
-                "") +
-            combat.state
+            (combat.round > 0 ? "Round " + combat.round + " - " : "") +
+            combat.state +
+            (combat.paused ? " - " + "PAUSED" : "")
         );
         embed.setColor('#0099ff');
 
@@ -223,38 +227,40 @@ Combat.compareIniEntries = function (a, b) {
 // To start Round 1, to skip players who don't react (in time), or if STs feel like it
 Combat.continue = async function (message, combat) {
     try {
-        switch (combat.state) {
-            case "JOINING":
-                // Continue with Round 1
-                return Combat.startNewRound(message, combat);
-            case "INI":
-                // Set all undefined inis to 1
-                for (var iniEntry of combat.iniOrder) {
-                    // Ignore iniEntries with ini 0 for Celerity actions
-                    var position = combat.iniOrder.indexOf(iniEntry);
-                    if (iniEntry.ini === -1) {
-                        combat.iniOrder[position].ini = 1;
+        if (!combat.paused) {
+            switch (combat.state) {
+                case "JOINING":
+                    // Continue with Round 1
+                    return Combat.startNewRound(message, combat);
+                case "INI":
+                    // Set all undefined inis to 1
+                    for (var iniEntry of combat.iniOrder) {
+                        // Ignore iniEntries with ini 0 for Celerity actions
+                        var position = combat.iniOrder.indexOf(iniEntry);
+                        if (iniEntry.ini === -1) {
+                            combat.iniOrder[position].ini = 1;
+                        }
                     }
-                }
 
-                // Sort iniOrder by the iniEntries' ini values
-                combat.iniOrder.sort(Combat.compareIniEntries);
-                await combat.save();
+                    // Sort iniOrder by the iniEntries' ini values
+                    combat.iniOrder.sort(Combat.compareIniEntries);
+                    await combat.save();
 
-                // await message.channel.send("Set ini of all remaining characters to 1.");
+                    // await message.channel.send("Set ini of all remaining characters to 1.");
 
-                return Combat.checkState(message, combat);
-            case "DECLARING":
-                // Set combatant's action to 'Skipped' and move on
-                combat.iniOrder[combat.iniCurrentPosition].action = "Full Defense";
-                combat.iniCurrentPosition--;
-                await combat.save();
-                return Combat.checkState(message, combat);
-            case "RESOLVING":
-                combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
-                combat.iniCurrentPosition++;
-                await combat.save();
-                return Combat.checkState(message, combat);
+                    return Combat.checkState(message, combat);
+                case "DECLARING":
+                    // Set combatant's action to 'Skipped' and move on
+                    combat.iniOrder[combat.iniCurrentPosition].action = "Full Defense";
+                    combat.iniCurrentPosition--;
+                    await combat.save();
+                    return Combat.checkState(message, combat);
+                case "RESOLVING":
+                    combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
+                    combat.iniCurrentPosition++;
+                    await combat.save();
+                    return Combat.checkState(message, combat);
+            }
         }
     } catch (err) {
         console.log("Combat.continue: " + err);
@@ -386,7 +392,7 @@ Combat.cooldownMessageTimer = async function (combatID, msgObj, secondsLeft) {
         // If there is a new discord message flowflake stored, this timer
         // is not longer needed
         var combat = await Combat.findById(combatID);
-        if (combat.timerMessageDiscordID &&
+        if (!combat.timerMessageDiscordID ||
             combat.timerMessageDiscordID !== "" + msgObj.id) {
 
             return msgObj.delete();
@@ -422,7 +428,11 @@ Combat.checkState = async function (message, combat) {
 
             await combat.save();
             await Combat.showSummary(message, combat);
+        } // When continue unpauses combat, the timer needs to be reset
+        else if (!combat.expirationTime && combat.timeoutIni) {
+            return Combat.setTimer(message, combat, combat.timeoutJoin);
         }
+
     }
 
     if (combat.state === "DECLARING") {

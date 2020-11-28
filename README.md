@@ -45,12 +45,13 @@ Test build for chronicle https://www.sanguinus.org/.
 - **char-select** (select) [name]: Selects one of your characters.
 - **char-setprofile** (setprofile): Creates a profile for your active character.  Via DM only.
 - **combat-celerity** (cel) [(opt) NPC]: Grants an ini 0 action to your selected character or an NPC.
-- **combat-continue** (continue, skip): Continues with combat. Use to start Round 1 and to skip players who don't react.
+- **combat-continue** (continue, skip): Continues combat. Starts Round 1, skips players, and unpauses timers.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end**: Ends an ongoing combat in a channel.
 - **combat-ini** (ini, init) [ini modifier] [(opt) NPC]<br/>Sets the ini of your selected character or an NPC.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
+- **combat-pause** (pause): Pauses combat timers. Use combat-continue to continue.
 - **combat-resolve** (resolved, resolve): Mark a previously declared combat action as resolved.
 - **combat-start** (combat) [(opt) slow/medium/fast/blitz] [(opt) fixini]: Starts combat.
 - **combat-summary** (summary): Shows the ini ranking and marks the player who has to act next.

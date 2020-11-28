@@ -2,7 +2,7 @@ var Combat = require("../models/combat.js");
 
 module.exports = {
 	name: 'combat-continue',
-	description: 'Continues with combat. Use to start Round 1 and to skip players.',
+	description: 'Continues combat. Starts Round 1, skips players, and unpauses timers.',
 	oneline: true,
 	aliases: ['continue', 'skip'],
 	usage: '',
@@ -20,7 +20,14 @@ module.exports = {
 				return message.reply("there is no combat happening in this channel right now. Case of wishful thinking?");
 			}
 
-			return Combat.continue(message, combat);
+			if (combat.paused) {
+				combat.paused = false;
+				await combat.save();
+				await Combat.showSummary(message, combat);
+				return Combat.checkState(message, combat);
+			} else {
+				return Combat.continue(message, combat);
+			}
 		} catch (err) {
 			console.log("combat-continue: " + err);
 			return message.channel.send(err.message);
