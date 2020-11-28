@@ -10,7 +10,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **Characters**<br/>
 -- Create characters and character profiles<br/>
 -- Manage character sheets (still missing: Backgrounds, Disciplines, Merits/Flaws)
-- **Rolls**: Can perform rolls according to V20 mechanics.<br/>
+- **Rolls**<br/>
 -- Define dice pools with numbers ('!r 7') or stats ("!rs str bra")<br/>
 -- Consider stat specialties ('!r 7 spec')<br/>
 -- Save rolls to perform them more quickly<br/>
@@ -26,7 +26,8 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Define automatic timeouts to make sure that scenes run smoothly<br/>
 -- Pause timers and continue timers at any time<br/>
 -- Skip players if they don't respond in time (or because you feel like it)<br/>
--- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip). Decide if inis should be rolled each round or only once.<br/>
+-- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip).<br/>
+-- Decide if inis should be rolled each round or only once.<br/>
 -- Manage additional actions from Celerity<br/>
 -- Display combat summaries with combatants and next actions<br/>
 -- Manage several battles in different channels at the same time
@@ -46,10 +47,10 @@ Test build for chronicle https://www.sanguinus.org/.
 - **char-select** (select) [name]: Selects one of your characters.
 - **char-setprofile** (setprofile): Creates a profile for your active character.  Via DM only.
 - **combat-celerity** (cel) [(opt) NPC]: Grants an ini 0 action to your selected character or an NPC.
-- **combat-continue** (continue, skip): Continues combat. Starts Round 1, skips players, and unpauses timers.
+- **combat-continue** (continue, skip): Starts Round 1, skips players, and unpauses timers.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end**: Ends an ongoing combat in a channel.
-- **combat-ini** (ini, init) [ini modifier] [(opt) NPC]<br/>Sets the ini of your selected character or an NPC.
+- **combat-ini** (ini, init) [ini modifier] [(opt) NPC]: Sets the ini of your selected character or an NPC.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
 - **combat-pause** (pause): Pauses combat timers. Use combat-continue to continue.

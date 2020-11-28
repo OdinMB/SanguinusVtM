@@ -138,7 +138,7 @@ Combat.showSummary = async function (message, combat) {
                     // + (combat.timeoutJoin ? "\n\nRegistration closes after " + Math.floor(combat.timeoutJoin / 1000) + "s." : "");
                 break;
             case "INI":
-                var description = "Declare boosts and `" + process.env.PREFIX + "celaction`, then" +
+                var description = "Declare boosts and `" + process.env.PREFIX + "combat-celerity`, then" +
                     "\n`" + process.env.PREFIX + "ini [modifier] [(opt) NPC]`";
                     // + (combat.timeoutIni ? "\n(You have " + Math.floor(combat.timeoutIni / 1000) + "s)" : "");
                 break;
