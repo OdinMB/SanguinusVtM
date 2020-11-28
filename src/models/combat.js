@@ -138,9 +138,8 @@ Combat.showSummary = async function (message, combat) {
                     // + (combat.timeoutJoin ? "\n\nRegistration closes after " + Math.floor(combat.timeoutJoin / 1000) + "s." : "");
                 break;
             case "INI":
-                var description = "Everybody, declare boosts and Celerity actions, then" +
-                    "\n`" + process.env.PREFIX + "ini [modifier]` for your selected character or" +
-                    "\n`" + process.env.PREFIX + "ini [modifier] [NPC name]` for your NPCs";
+                var description = "Declare boosts and `" + process.env.PREFIX + "celaction`, then" +
+                    "\n`" + process.env.PREFIX + "ini [modifier] [(opt) NPC]`";
                     // + (combat.timeoutIni ? "\n(You have " + Math.floor(combat.timeoutIni / 1000) + "s)" : "");
                 break;
             case "DECLARING":
@@ -374,7 +373,7 @@ Combat.setTimer = async function (message, combat, millisecondsInFuture) {
     try {
         combat.expirationTime = (Date.now() + millisecondsInFuture) / 1000;
 
-        var msgObj = await message.channel.send("Time left:");
+        var msgObj = await message.channel.send("```CSS\n" + Math.floor(millisecondsInFuture / 1000) + " seconds left\n```");
         combat.timerMessageDiscordID = "" + msgObj.id;
         await combat.save();
         setTimeout(Combat.cooldownMessageTimer, 100, combat._id, msgObj, Math.floor(millisecondsInFuture / 1000));
