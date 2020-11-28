@@ -230,6 +230,14 @@ Combat.continue = async function (message, combat) {
             switch (combat.state) {
                 case "JOINING":
                     // Continue with Round 1
+
+                    var combatants = await Combatant.find({
+                        combat: combat._id
+                    });
+                    if (!combatants || combatants.length < 2) {
+                        return message.channel.send("Let's have at least two combatants before we start, shall we? The thing we have now will be boring both for you and for me.");
+                    }
+
                     return Combat.startNewRound(message, combat);
                 case "INI":
                     // Set all undefined inis to 1
@@ -294,7 +302,7 @@ Combat.startNewRound = async function (message, combat) {
         await Combat.showSummary(message, combat);
 
         if (combat.timeoutIni > 0) {
-            return Combat.setTimer(message, combat, combat.timeoutJoin);
+            return Combat.setTimer(message, combat, combat.timeoutIni);
         }
 
         return Combat.checkState(message, combat);
