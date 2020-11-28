@@ -2,7 +2,7 @@
 A Discord bot for Vampire: The Masquerade V20 games.
 Created with Node.js and MongoDB.
 
-## v0.5
+## v0.6
 Alpha version.<BR/>
 Test build for chronicle https://www.sanguinus.org/.
 
@@ -23,8 +23,9 @@ Test build for chronicle https://www.sanguinus.org/.
 - **Combat**<br/>
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
 -- Get automatic prompts for declaring and resolving actions<br/>
--- Define automatic timeouts to make sure that scenes run smoothly even if players don't respond quickly<br/>
--- As a Storyteller, skip combat steps if players don't respond in time (or whenever you feel like it)'<br/>
+-- Define automatic timeouts to make sure that scenes run smoothly<br/>
+-- Pause timers and continue timers at any time<br/>
+-- Skip players if they don't respond in time (or because you feel like it)<br/>
 -- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip). Decide if inis should be rolled each round or only once.<br/>
 -- Manage additional actions from Celerity<br/>
 -- Display combat summaries with combatants and next actions<br/>
