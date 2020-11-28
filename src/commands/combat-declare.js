@@ -56,10 +56,7 @@ module.exports = {
 
 			await combat.save();
 
-			const movedState = await Combat.checkState(message, combat);
-			if (!movedState) {
-				return Combat.promptDeclareAction(message, combat);
-            }
+			return Combat.checkState(message, combat);
 		} catch (err) {
 			console.log("combat-declare: " + err);
 			return message.channel.send(err.message);
