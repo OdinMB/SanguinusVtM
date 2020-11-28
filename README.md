@@ -21,9 +21,9 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Spend WP and restore WP once a week (with admin command)<br/>
 -- Take and heal damage, see wound penalties
 - **Combat**<br/>
--- Follow the combat process through stages: joining, ini, declaring actions, resolving actions<br/>
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
 -- Get automatic prompts for declaring and resolving actions<br/>
+-- Define automatic timeouts to make sure that scenes run smoothly even if players don't respond quickly<br/>
 -- As a Storyteller, skip combat steps if players don't respond in time (or whenever you feel like it)'<br/>
 -- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip). Decide if inis should be rolled each round or only once.<br/>
 -- Manage additional actions from Celerity<br/>
@@ -52,7 +52,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
 - **combat-resolve** (resolved, resolve): Mark a previously declared combat action as resolved.
-- **combat-start** (combat) [(opt) fixini]: Starts combat in the channel and invites combatants to join.
+- **combat-start** (combat) [(opt) slow/medium/fast/blitz] [(opt) fixini]: Starts combat.
 - **combat-summary** (summary): Shows the ini ranking and marks the player who has to act next.
 - **damage-heal** (heal) [amount] [b/l/a]: Heal damage with your selected character.
 - **damage-take** (take) [amount] [b/l/a]: Take damage with your selected character.

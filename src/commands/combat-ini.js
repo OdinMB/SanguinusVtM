@@ -59,11 +59,17 @@ module.exports = {
 			var result = die + mod;
 
 			// Displaying the ini result
+			/*
 			const embed = new Discord.MessageEmbed();
 			embed.setTitle(combatant.name + "' initiative: " + result);
 			embed.setColor('#0099ff');
 			embed.setFooter(die + " + " + mod);
 			await message.channel.send(embed);
+			*/
+			await message.reply(
+				combatant.name + "'s initiative is **" + result + "**" +
+				" (" + die + " + " + mod + ")"
+			);
 
 			// Write ini and iniModifier into the combat's ini order
 			for (var iniEntry of combat.iniOrder) {

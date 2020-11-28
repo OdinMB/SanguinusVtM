@@ -21,10 +21,32 @@ var combatSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    nofifications: {
-        type: Boolean,
+
+    expirationTime: {
+        type: Number,
+    },
+    timerMessageDiscordID: {
+        type: String,
+    },
+    timeoutJoin: {
+        type: Number,
         required: true,
-        default: true
+        default: 0
+    },
+    timeoutIni: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    timeoutDeclare: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    timeoutResolve: {
+        type: Number,
+        required: true,
+        default: 0
     },
     fixedIni: {
         type: Boolean,
@@ -67,6 +89,27 @@ var combatSchema = mongoose.Schema({
 
 var Combat = mongoose.model('Combat', combatSchema);
 
+/*
+ * Compare the old combat object with the current one
+ * If nothing has changed, Combat.continue
+ */
+Combat.timer = async function (message, combatOld) {
+    try {
+        // Find current combat state
+        var combatCurrent = await Combat.findById(combatOld._id);
+        if (!combatCurrent) return;
+
+        if (combatCurrent.round === combatOld.round &&
+            combatCurrent.state === combatOld.state &&
+            combatCurrent.iniCurrentPosition === combatOld.iniCurrentPosition) {
+
+            return Combat.continue(message, combatCurrent);
+        }
+    } catch (err) {
+        return console.log("Combat.timer: " + err);
+    }
+}
+
 Combat.showSummary = async function (message, combat) {
     try {
         const embed = new Discord.MessageEmbed();
@@ -78,22 +121,31 @@ Combat.showSummary = async function (message, combat) {
         );
         embed.setColor('#0099ff');
 
+        if (combat.timer) {
+            const now = Date.now() / 1000;
+            const timeLeft = combat.timer - now;
+        }
+
         switch (combat.state) {
             case "JOINING":
                 var description = "`" + process.env.PREFIX + "join` to join with your selected character." +
                     "\n`" + process.env.PREFIX + "join [NPC name]` to join with an NPC." +
                     "\n`" + process.env.PREFIX + "continue` to start Round 1.";
+                    // + (combat.timeoutJoin ? "\n\nRegistration closes after " + Math.floor(combat.timeoutJoin / 1000) + "s." : "");
                 break;
             case "INI":
                 var description = "Everybody, declare boosts and Celerity actions, then" +
-                    "\n`" + process.env.PREFIX + "ini [modifier]` for your selected character or" + 
+                    "\n`" + process.env.PREFIX + "ini [modifier]` for your selected character or" +
                     "\n`" + process.env.PREFIX + "ini [modifier] [NPC name]` for your NPCs";
+                    // + (combat.timeoutIni ? "\n(You have " + Math.floor(combat.timeoutIni / 1000) + "s)" : "");
                 break;
             case "DECLARING":
                 var description = "`" + process.env.PREFIX + "declare [action]`";
+                    // + (combat.timeoutDeclare ? " (" + Math.floor(combat.timeoutDeclare / 1000) + "s / character)" : "");
                 break;
             case "RESOLVING":
                 var description = "`" + process.env.PREFIX + "resolve` after you finished your rolls";
+                    // + (combat.timeoutResolve ? "\n(" + Math.floor(combat.timeoutResolve / 1000) + "s / character)" : "");
                 break;
         }
 
@@ -236,6 +288,10 @@ Combat.startNewRound = async function (message, combat) {
 
         await Combat.showSummary(message, combat);
 
+        if (combat.timeoutIni > 0) {
+            return Combat.setTimer(message, combat, combat.timeoutJoin);
+        }
+
         return Combat.checkState(message, combat);
 
     } catch (err) {
@@ -247,9 +303,8 @@ Combat.startNewRound = async function (message, combat) {
 // Prompts the next combatant to declare their action
 Combat.promptDeclareAction = async function (message, combat) {
     try {
-        if (combat.state !== "DECLARING") {
-            return message.channel.send("This combat is not in its declaration phase. This shouldn't happen. Please report.");
-        }
+        if (combat.state !== "DECLARING") return;
+        // return message.channel.send("This combat is not in its declaration phase. This shouldn't happen. Please report.");
 
         combatantToPing = await Combatant.findById(
             combat.iniOrder[combat.iniCurrentPosition].combatant
@@ -258,6 +313,7 @@ Combat.promptDeclareAction = async function (message, combat) {
         var msg = "<@" + combatantToPing.player.discordID + ">, " +
             "please `" + process.env.PREFIX + "declare [action]` " +
             "for **" + combatantToPing.name + "**.";
+            // + (combat.timeoutDeclare ? " You have " + Math.floor(combat.timeoutDeclare / 1000) + "s." : "");
 
         if (combat.iniCurrentPosition > 0) {
             combatantToPing = await Combatant.findById(
@@ -268,6 +324,7 @@ Combat.promptDeclareAction = async function (message, combat) {
         }
 
         return message.channel.send(msg);
+
     } catch (err) {
 		console.log("Combat.promptDeclareAction: " + err);
         return message.channel.send(err.message);
@@ -277,9 +334,8 @@ Combat.promptDeclareAction = async function (message, combat) {
 // Prompts the next combatant to resolve their action
 Combat.promptResolveAction = async function (message, combat) {
     try {
-        if (combat.state !== "RESOLVING") {
-            return message.channel.send("This combat is not in its RESOLVING phase. This shouldn't happen. Please report.");
-        }
+        if (combat.state !== "RESOLVING") return;
+        // return message.channel.send("This combat is not in its RESOLVING phase. This shouldn't happen. Please report.");
 
         combatantToPing = await Combatant.findById(
             combat.iniOrder[combat.iniCurrentPosition].combatant
@@ -289,6 +345,7 @@ Combat.promptResolveAction = async function (message, combat) {
             ", `" + process.env.PREFIX + "roll` for **" + combatantToPing.name + "**'s action" +
             " ('" + combat.iniOrder[combat.iniCurrentPosition].action + "'), " +
             "then `" + process.env.PREFIX + "resolve`.";
+            // + (combat.timeoutResolve ? " You have " + Math.floor(combat.timeoutResolve / 1000) + "s." : "");
 
         if (combat.iniOrder[combat.iniCurrentPosition + 1] &&
             combat.iniOrder[combat.iniCurrentPosition + 1].ini > 0) {
@@ -307,12 +364,47 @@ Combat.promptResolveAction = async function (message, combat) {
     }
 }
 
+Combat.setTimer = async function (message, combat, millisecondsInFuture) {
+    combat.expirationTime = (Date.now() + millisecondsInFuture) / 1000;
+
+    var msgObj = await message.channel.send("Time left:");
+    combat.timerMessageDiscordID = "" + msgObj.id;
+    await combat.save();
+    setTimeout(Combat.cooldownMessageTimer, 100, combat._id, msgObj, Math.floor(millisecondsInFuture / 1000));
+
+    return setTimeout(Combat.timer, millisecondsInFuture, message, combat);
+}
+
+// Updates the countdown message every 2 seconds
+// Unless the combat has moved on. In that case, destroy the message
+Combat.cooldownMessageTimer = async function (combatID, msgObj, secondsLeft) {
+    try {
+        // If there is a new discord message flowflake stored, this timer
+        // is not longer needed
+        var combat = await Combat.findById(combatID);
+        if (combat.timerMessageDiscordID &&
+            combat.timerMessageDiscordID !== "" + msgObj.id) {
+
+            return msgObj.delete();
+        }
+        if (secondsLeft < 2) {
+            return msgObj.delete();
+        }
+        setTimeout(Combat.cooldownMessageTimer, 2000, combatID, msgObj, secondsLeft - 2);
+        return msgObj.edit("```CSS\n" + secondsLeft + " seconds left\n```");
+    } catch (err) {
+        return console.log("Combat.cooldownMessageTimer: " + err);
+    }
+}
+
 /*
  * 
  */
 Combat.checkState = async function (message, combat) {
     if (combat.state === "JOINING") {
-        return;
+        if (combat.timeoutJoin) {
+            await Combat.setTimer(message, combat, combat.timeoutJoin);
+        }
     }
 
     if (combat.state === "INI") {
@@ -337,7 +429,10 @@ Combat.checkState = async function (message, combat) {
             await combat.save();
             await Combat.showSummary(message, combat);
         } else {
-            return Combat.promptDeclareAction(message, combat);
+            await Combat.promptDeclareAction(message, combat);
+            if (combat.timeoutDeclare > 0) {
+                await Combat.setTimer(message, combat, combat.timeoutJoin);
+            }
         }
     }
 
@@ -352,8 +447,10 @@ Combat.checkState = async function (message, combat) {
             if (combat.iniOrder[combat.iniCurrentPosition].action === "Skipped") {
                 return Combat.continue(message, combat);
             }
-
-            return Combat.promptResolveAction(message, combat);
+            await Combat.promptResolveAction(message, combat);
+            if (combat.timeoutResolve > 0) {
+                await Combat.setTimer(message, combat, combat.timeoutJoin);
+            }
         }
     }
 }
