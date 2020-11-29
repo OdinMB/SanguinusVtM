@@ -437,7 +437,7 @@ Combat.checkState = async function (message, combat) {
             await Combat.showSummary(message, combat);
         } // When continue unpauses combat, the timer needs to be reset
         else if (!combat.expirationTime && combat.timeoutIni) {
-            return Combat.setTimer(message, combat, combat.timeoutJoin);
+            return Combat.setTimer(message, combat, combat.timeoutIni);
         }
 
     }
@@ -452,7 +452,7 @@ Combat.checkState = async function (message, combat) {
         } else {
             await Combat.promptDeclareAction(message, combat);
             if (combat.timeoutDeclare > 0) {
-                await Combat.setTimer(message, combat, combat.timeoutJoin);
+                await Combat.setTimer(message, combat, combat.timeoutDeclare);
             }
         }
     }
@@ -470,7 +470,7 @@ Combat.checkState = async function (message, combat) {
             }
             await Combat.promptResolveAction(message, combat);
             if (combat.timeoutResolve > 0) {
-                await Combat.setTimer(message, combat, combat.timeoutJoin);
+                await Combat.setTimer(message, combat, combat.timeoutResolve);
             }
         }
     }
