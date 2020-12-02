@@ -40,6 +40,9 @@ module.exports = {
 				combatant.name = character.name;
 			} // Join with NPC
 			else {
+				// Normalizing NPC names to Bob (vs bob, bOB, BOB, etc.)
+				args[0] = Combat.normalizeNPCName(args[0]);
+
 				var existingCombatant = await Combatant.findOne({
 					combat: combat._id,
 					name: args[0],

@@ -38,6 +38,8 @@ module.exports = {
 				});
 			} // NPC
 			else {
+				args[0] = Combat.normalizeNPCName(args[0]);
+
 				var existingCombatant = await Combatant.findOne({
 					combat: combat._id,
 					player: player._id,

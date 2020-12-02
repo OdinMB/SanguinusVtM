@@ -40,6 +40,9 @@ module.exports = {
                 }
 			} // Roll for NPC
 			else {
+				// Normalizing NPC names to Bob (vs bob, bOB, BOB, etc.)
+				args[1] = Combat.normalizeNPCName(args[1]);
+
 				var combatant = await Combatant.findOne({
 					combat: combat._id,
 					name: args[1],

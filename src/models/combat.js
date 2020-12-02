@@ -499,4 +499,10 @@ Combat.allInisSet = function (combat) {
     return allInisSet;
 }
 
+// Bob instead of bob, BOB, bOB, etc.
+Combat.normalizeNPCName = function (name) {
+    return name.substr(0, 1).toUpperCase() +
+        name.substr(1, name.length - 1).toLowerCase();
+}
+
 module.exports = Combat;
