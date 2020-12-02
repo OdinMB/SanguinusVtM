@@ -29,9 +29,9 @@ module.exports = {
 					var amount = Character.getMaxBP(character.generation) - character.bp;
 				}
 
-				if ((character.BP + amount) > character.BPMax) {
+				if ((character.bp + amount) > Character.getMaxBP(character.generation)) {
 					message.reply("That's more than you can take. Reducing amount to " + (Character.getMaxBP(character.generation) - character.bp) + ".");
-					amount = Character.getMaxBP(character.generation) - character.BP;
+					amount = Character.getMaxBP(character.generation) - character.bp;
 				}
 
 				character.bp += amount;
