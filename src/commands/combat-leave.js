@@ -52,15 +52,43 @@ module.exports = {
 				}
 			}
 
+			var combatantsTurn = false;
+
+			if (combat.state === "DECLARING" || combat.state === "RESOLVING") {
+				combatantsTurn =
+					combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].combatant.toString() ===
+					existingCombatant._id.toString();
+
+				// If it's the combatant's in declaring phase: move ini pointer
+				// Not necessary in RESOLVING phase, as the next player will move
+				// to existingCombatant's position once it's deleted from the iniOrder
+				if (combatantsTurn && combat.state === "DECLARING") {
+					combat.iniCurrentPosition--;
+				}
+			}
+
+
 			// Remove combatant from the combat's ini order
-			const position = combat.iniOrder.indexOf(existingCombatant);
-			combat.iniOrder.splice(position, 1);
+			for (var celerityRound of combat.iniOrder) {
+				const celerityRoundPosition = combat.iniOrder.indexOf(celerityRound);
+				for (var iniEntry of celerityRound) {
+					if (iniEntry.combatant.toString() === existingCombatant._id.toString()) {
+						const position = celerityRound.indexOf(iniEntry);
+						combat.iniOrder[celerityRoundPosition].splice(position, 1);
+					}
+				}
+			}
+			combat.markModified('iniOrder');
 			await combat.save();
 
 			// Remove the combatant itself
 			await existingCombatant.remove();
 
-			return message.reply(existingCombatant.name + " left combat.");
+			await message.reply(existingCombatant.name + " left combat.");
+
+			if (combatantsTurn || combat.state === "INI") {
+				return Combat.checkState(message, combat);
+			}
 		} catch (err) {
 			console.log("combat-leave: " + err);
 			return message.channel.send(err.message);

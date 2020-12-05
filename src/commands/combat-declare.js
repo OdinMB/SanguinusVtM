@@ -25,7 +25,7 @@ module.exports = {
 	usage: '[action]',
 	args: true,
 	guildOnly: true,
-	cooldown: 3,
+	cooldown: 2,
 	async execute(message, args) {
 		try {
 			// Find combat
@@ -41,7 +41,7 @@ module.exports = {
 
 			// Check: is it the player's turn?
 			var currentCombatant = await Combatant.findById(
-				combat.iniOrder[combat.iniCurrentPosition].combatant
+				combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].combatant
 			).populate('player', '_id name');
 			if (currentCombatant.player._id.toString() !== player._id.toString()) {
 				return message.reply("it's not your turn to declare your action.");
@@ -49,11 +49,12 @@ module.exports = {
 
 			// Write action into the combat's ini order
 			var action = text_truncate(args.join(' '));
-			combat.iniOrder[combat.iniCurrentPosition].action = action;
+			combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action = action;
 
 			// Move the pointer higher up the initiative ranking
 			combat.iniCurrentPosition--;
 
+			combat.markModified('iniOrder');
 			await combat.save();
 
 			return Combat.checkState(message, combat);

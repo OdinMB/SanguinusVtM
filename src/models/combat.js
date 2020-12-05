@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var Character = require("../models/character.js");
 var Combatant = require("../models/combatant.js");
 const Discord = require('discord.js');
@@ -58,25 +59,39 @@ var combatSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    iniOrder: [{
-        ini: {
-            type: Number,
-            required: true,
-            default: -1
-        },
-        iniModifier: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-        combatant: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Combatant'
-        },
-        action: {
-            type: String,
-        }
-    }],
+
+    iniOrder: {
+        type: Schema.Types.Mixed,
+    },
+
+    /*
+    // Intended structure:
+    // celerity rounds, 0 = main combat round
+    iniOrder: [
+        // each round = set of iniEntries
+        [
+            {
+                ini: {
+                    type: Number,
+                    required: true,
+                    default: -1
+                },
+                iniModifier: {
+                    type: Number,
+                    required: true,
+                    default: 1
+                },
+                combatant: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Combatant'
+                },
+                action: {
+                    type: String,
+                }
+            }
+        ]
+    ],
+    */
 
     // array index for iniOrder objects
     // -1 => not yet declaring / resolving actions
@@ -84,6 +99,13 @@ var combatSchema = mongoose.Schema({
         type: Number,
         required: true,
         default: -1,
+    },
+    // array index for iniOrder objects
+    // 0 => normal inis, before celerity rounds
+    iniCurrentCelerityPosition: {
+        type: Number,
+        required: true,
+        default: 0,
     },
     round: {
         type: Number,
@@ -106,6 +128,7 @@ Combat.timer = async function (message, combatOld) {
 
         if (combatCurrent.round === combatOld.round &&
             combatCurrent.state === combatOld.state &&
+            combatCurrent.iniCurrentCelerityPosition === combatOld.iniCurrentCelerityPosition &&
             combatCurrent.iniCurrentPosition === combatOld.iniCurrentPosition) {
 
             return Combat.continue(message, combatCurrent);
@@ -120,6 +143,7 @@ Combat.showSummary = async function (message, combat) {
         const embed = new Discord.MessageEmbed();
         embed.setTitle(
             (combat.round > 0 ? "Round " + combat.round + " - " : "") +
+            (combat.iniCurrentCelerityPosition > 0 ? " Celerity Round " + combat.iniCurrentCelerityPosition + " - " : "") +
             combat.state +
             (combat.paused ? " - " + "PAUSED" : "")
         );
@@ -138,7 +162,7 @@ Combat.showSummary = async function (message, combat) {
                     // + (combat.timeoutJoin ? "\n\nRegistration closes after " + Math.floor(combat.timeoutJoin / 1000) + "s." : "");
                 break;
             case "INI":
-                var description = "Declare boosts and `" + process.env.PREFIX + "combat-celerity`, then" +
+                var description = "Declare boosts and `" + process.env.PREFIX + "celerity` actions, then" +
                     "\n`" + process.env.PREFIX + "ini [modifier] [(opt) NPC]`";
                     // + (combat.timeoutIni ? "\n(You have " + Math.floor(combat.timeoutIni / 1000) + "s)" : "");
                 break;
@@ -152,47 +176,65 @@ Combat.showSummary = async function (message, combat) {
                 break;
         }
 
-        if (combat.iniOrder.length > 0) {
+        for (const celerityRound of combat.iniOrder) {
+            var isCelerityRound = combat.iniOrder.indexOf(celerityRound) > 0;
 
-            var fieldInitiative = "";
-            var fieldCharacters = "";
-            var fieldActions = "";
-            for (const iniEntry of combat.iniOrder) {
-                var combatant = await Combatant.findById(iniEntry.combatant)
-                    .populate('player', '_id name discordID')
-                    .populate('character', '_id generation bp wp willpower health');
+            if (celerityRound.length > 0) {
+                var fieldInitiative = "";
+                var fieldCharacters = "";
+                var fieldActions = "";
+                for (const iniEntry of celerityRound) {
+                    var combatant = await Combatant.findById(iniEntry.combatant)
+                        .populate('player', '_id name discordID')
+                        .populate('character', '_id generation bp wp willpower health');
 
-                // Mention player whose turn it is
-                if (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition) {
-                    // description += "\n<@" + combatant.player.discordID + ">, it's your turn with " + combatant.name + ".";
+                    var thisCombatantsTurn =
+                        (combat.iniOrder.indexOf(celerityRound) === combat.iniCurrentCelerityPosition &&
+                            celerityRound.indexOf(iniEntry) === combat.iniCurrentPosition);
+
+                    // Mention player whose turn it is
+                    /*
+                    if (thisCombatantsTurn) {
+                        // description += "\n<@" + combatant.player.discordID + ">, it's your turn with " + combatant.name + ".";
+                    }
+                    */
+
+                    fieldInitiative +=
+                        (fieldInitiative.length > 0 ? "\n" : "") +
+                        (thisCombatantsTurn ? "**" : "") +
+                        (iniEntry.ini >= 0 ? iniEntry.ini : "/") +
+                        (isCelerityRound ? "" : "\n") +
+                        (thisCombatantsTurn ? "**" : "");
+                    fieldCharacters +=
+                        (fieldCharacters.length > 0 ? "\n" : "") +
+                        (thisCombatantsTurn ? "**" : "") +
+                        combatant.name + " (" + combatant.player.name + ")" +
+                        (thisCombatantsTurn ? "**" : "") + 
+                        (isCelerityRound ? "" : "\n" +
+                            (combatant.character ?
+                                Character.getHealthBox(combatant.character.health) +
+                                " \u200B " + combatant.character.bp + "/" + Character.getMaxBP(combatant.character.generation) + " BP"
+                                // + " \u200B " + combatant.character.wp + "/" + combatant.character.willpower + " WP"
+                                : "NPC")
+                        );
+                    fieldActions +=
+                        (fieldActions.length > 0 ? "\n" : "") +
+                        (thisCombatantsTurn ? "**" : "") +
+                        (iniEntry.action ? iniEntry.action : "/") +
+                        (isCelerityRound ? "" : "\n") +
+                        (thisCombatantsTurn ? "**" : "");
                 }
-
-                fieldInitiative +=
-                    (fieldInitiative.length > 0 ? "\n" : "") +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    (iniEntry.ini >= 0 ? iniEntry.ini : "/") + "\n" +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
-                fieldCharacters +=
-                    (fieldCharacters.length > 0 ? "\n" : "") +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    combatant.name + " (" + combatant.player.name + ")" +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    "\n" + (iniEntry.ini === 0 ? "Celerity" :
-                        (combatant.character ?
-                            Character.getHealthBox(combatant.character.health) +
-                            " \u200B " + combatant.character.bp + "/" + Character.getMaxBP(combatant.character.generation) + " BP"
-                            // + " \u200B " + combatant.character.wp + "/" + combatant.character.willpower + " WP"
-                            : "")
-                    );
-                fieldActions +=
-                    (fieldActions.length > 0 ? "\n" : "") +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "") +
-                    (iniEntry.action ? iniEntry.action : "/") + "\n" +
-                    (combat.iniOrder.indexOf(iniEntry) === combat.iniCurrentPosition ? "**" : "");
+                if (isCelerityRound) {
+                    // embed.addField('Celerity Round ' + combat.iniOrder.indexOf(celerityRound), "\u200B", false);
+                    embed.addField('\u200B', fieldInitiative, true);
+                    embed.addField('Celerity Round ' + combat.iniOrder.indexOf(celerityRound), fieldCharacters, true);
+                    embed.addField('\u200B', fieldActions, true);
+                } else {
+                    embed.addField('Ini', fieldInitiative, true);
+                    embed.addField('Character', fieldCharacters, true);
+                    embed.addField('Action', fieldActions, true);
+                }
             }
-            embed.addField('Ini', fieldInitiative, true);
-            embed.addField('Character', fieldCharacters, true);
-            embed.addField('Action', fieldActions, true);
         }
 
         embed.setDescription(description);
@@ -241,30 +283,38 @@ Combat.continue = async function (message, combat) {
                     return Combat.startNewRound(message, combat);
                 case "INI":
                     // Set all undefined inis to 1
-                    for (var iniEntry of combat.iniOrder) {
-                        // Ignore iniEntries with ini 0 for Celerity actions
-                        var position = combat.iniOrder.indexOf(iniEntry);
-                        if (iniEntry.ini === -1) {
-                            combat.iniOrder[position].ini = 1;
+                    for (var celerityPhase of combat.iniOrder) {
+                        var celerityPhasePosition = combat.iniOrder.indexOf(celerityPhase);
+                        for (var iniEntry of celerityPhase) {
+                            var position = celerityPhase.indexOf(iniEntry);
+                            if (iniEntry.ini === -1) {
+                                combat.iniOrder[celerityPhasePosition][position].ini = 1;
+                            }
                         }
                     }
 
                     // Sort iniOrder by the iniEntries' ini values
-                    combat.iniOrder.sort(Combat.compareIniEntries);
-                    await combat.save();
+                    for (var celerityPhase of combat.iniOrder) {
+                        var celerityPhasePosition = combat.iniOrder.indexOf(celerityPhase);
+                        combat.iniOrder[celerityPhasePosition].sort(Combat.compareIniEntries);
+                    }
 
+                    combat.markModified('iniOrder');
+                    await combat.save();
                     // await message.channel.send("Set ini of all remaining characters to 1.");
 
                     return Combat.checkState(message, combat);
                 case "DECLARING":
                     // Set combatant's action to 'Skipped' and move on
-                    combat.iniOrder[combat.iniCurrentPosition].action = "Full Defense";
+                    combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action = "Full Defense";
                     combat.iniCurrentPosition--;
+                    combat.markModified('iniOrder');
                     await combat.save();
                     return Combat.checkState(message, combat);
                 case "RESOLVING":
-                    combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
+                    combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action = "Resolved";
                     combat.iniCurrentPosition++;
+                    combat.markModified('iniOrder');
                     await combat.save();
                     return Combat.checkState(message, combat);
             }
@@ -279,24 +329,23 @@ Combat.startNewRound = async function (message, combat) {
     try {
         combat.state = "INI";
         combat.iniCurrentPosition = -1;
+        combat.iniCurrentCelerityPosition = 0;
         combat.round++;
 
-        // Clear all Celerity ini entries
-        for (var i = combat.iniOrder.length - 1; i >= 0; i--) {
-            if (combat.iniOrder[i].ini === 0) {
-                combat.iniOrder.splice(i, 1);
-            }
-        }
+        // Cuts off all celerity rounds
+        combat.iniOrder.length = 1;
+
         // Set all inis to -1 (unless inis are fixed)
         if (!combat.fixedIni) {
-            for (var i = 0; i < combat.iniOrder.length; i++) {
-                combat.iniOrder[i].ini = -1;
+            for (var i = 0; i < combat.iniOrder[0].length; i++) {
+                combat.iniOrder[0][i].ini = -1;
             }
         }
         // Clear all actions
-        for (var i = 0; i < combat.iniOrder.length; i++) {
-            combat.iniOrder[i].action = "";
+        for (var i = 0; i < combat.iniOrder[0].length; i++) {
+            combat.iniOrder[0][i].action = "";
         }
+        combat.markModified('iniOrder');
         await combat.save();
 
         await Combat.showSummary(message, combat);
@@ -320,7 +369,7 @@ Combat.promptDeclareAction = async function (message, combat) {
         // return message.channel.send("This combat is not in its declaration phase. This shouldn't happen. Please report.");
 
         combatantToPing = await Combatant.findById(
-            combat.iniOrder[combat.iniCurrentPosition].combatant
+            combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].combatant
         ).populate('player', '_id name discordID');
 
         var msg = "<@" + combatantToPing.player.discordID + ">, " +
@@ -330,7 +379,7 @@ Combat.promptDeclareAction = async function (message, combat) {
 
         if (combat.iniCurrentPosition > 0) {
             combatantToPing = await Combatant.findById(
-                combat.iniOrder[combat.iniCurrentPosition - 1].combatant
+                combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition - 1].combatant
             ).populate('player', '_id name discordID');
 
             msg += "\n(<@" + combatantToPing.player.discordID + "> stand by. " + combatantToPing.name + " is next.)";
@@ -351,20 +400,19 @@ Combat.promptResolveAction = async function (message, combat) {
         // return message.channel.send("This combat is not in its RESOLVING phase. This shouldn't happen. Please report.");
 
         combatantToPing = await Combatant.findById(
-            combat.iniOrder[combat.iniCurrentPosition].combatant
+            combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].combatant
         ).populate('player', '_id name discordID');
 
         var msg = "<@" + combatantToPing.player.discordID + ">" +
             ", `" + process.env.PREFIX + "roll` for **" + combatantToPing.name + "**'s action" +
-            " ('" + combat.iniOrder[combat.iniCurrentPosition].action + "'), " +
+            " ('" + combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action + "'), " +
             "then `" + process.env.PREFIX + "resolve`.";
-            // + (combat.timeoutResolve ? " You have " + Math.floor(combat.timeoutResolve / 1000) + "s." : "");
 
-        if (combat.iniOrder[combat.iniCurrentPosition + 1] &&
-            combat.iniOrder[combat.iniCurrentPosition + 1].ini > 0) {
+        if (combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition + 1] &&
+            combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition + 1].ini > 0) {
 
             combatantToPing = await Combatant.findById(
-                combat.iniOrder[combat.iniCurrentPosition+1].combatant
+                combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition + 1].combatant
             ).populate('player', '_id name discordID');
 
             msg += "\n(<@" + combatantToPing.player.discordID + ">, prepare your roll. " + combatantToPing.name + " is next.)";
@@ -459,13 +507,30 @@ Combat.checkState = async function (message, combat) {
 
     if (combat.state === "RESOLVING") {
         var actions = Combat.getActions(combat);
-        // If all actions are resolved, start the next round
+        // If all actions are resolved, start the next ...
         if (combat.iniCurrentPosition === actions) {
-            return Combat.startNewRound(message, combat);
+            // Celerity round
+            if (combat.iniCurrentCelerityPosition+1 < combat.iniOrder.length) {
+                combat.iniCurrentCelerityPosition++;
+                combat.state = "DECLARING";
+
+                // set iniCurrentPosition to the first combatant to declare actions
+                var actions = Combat.getActions(combat);
+                combat.iniCurrentPosition = actions - 1;
+
+                await combat.save();
+
+                await Combat.showSummary(message, combat);
+                // Goes to DECLARE section and prompts players to declare actions
+                return Combat.checkState(message, combat);
+            } // Combat round
+            else {
+                return Combat.startNewRound(message, combat);
+            }
         } else {
             // If the action was set to Full Defense (via a continue command)
             // it gets resolved automatically
-            if (combat.iniOrder[combat.iniCurrentPosition].action === "Full Defense") {
+            if (combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action === "Full Defense") {
                 return Combat.continue(message, combat);
             }
             await Combat.promptResolveAction(message, combat);
@@ -478,10 +543,10 @@ Combat.checkState = async function (message, combat) {
 
 // Returns the number of actions that happen this round
 // Careful: new combatants might have joined who still have their first action next round
-// Ignore combatants with ini < 0 (0 = Celerity actions)
+// Ignore combatants with ini < 0
 Combat.getActions = function (combat) {
     var actions = 0;
-    for (const iniEntry of combat.iniOrder) {
+    for (const iniEntry of combat.iniOrder[combat.iniCurrentCelerityPosition]) {
         if (iniEntry.ini >= 0) {
             actions++;
         }
@@ -491,7 +556,7 @@ Combat.getActions = function (combat) {
 
 Combat.allInisSet = function (combat) {
     var allInisSet = true;
-    for (var iniEntry of combat.iniOrder) {
+    for (var iniEntry of combat.iniOrder[0]) {
         if (iniEntry.ini < 0) {
             allInisSet = false;
         }

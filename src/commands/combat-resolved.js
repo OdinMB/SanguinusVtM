@@ -10,7 +10,7 @@ module.exports = {
 	// usage: '',
 	// args: true,
 	guildOnly: true,
-	cooldown: 5,
+	cooldown: 2,
 	async execute(message, args) {
 		try {
 			// Find combat
@@ -26,15 +26,16 @@ module.exports = {
 
 			// Check: is it the player's turn?
 			var currentCombatant = await Combatant.findById(
-				combat.iniOrder[combat.iniCurrentPosition].combatant
+				combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].combatant
 			).populate('player', '_id name');
 			if (currentCombatant.player._id.toString() !== player._id.toString()) {
 				return message.reply("it's not your turn to resolve your action.");
 			}
 
 			// Delete action in the combat's ini order
-			combat.iniOrder[combat.iniCurrentPosition].action = "Resolved";
+			combat.iniOrder[combat.iniCurrentCelerityPosition][combat.iniCurrentPosition].action = "Resolved";
 			combat.iniCurrentPosition++;
+			combat.markModified('iniOrder');
 			await combat.save();
 
 			return Combat.checkState(message, combat);

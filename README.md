@@ -24,11 +24,11 @@ Test build for chronicle https://www.sanguinus.org/.
 -- Join with saved characters and NPCs (at the same time, if you want)<br/>
 -- Get automatic prompts for declaring and resolving actions<br/>
 -- Define automatic timeouts to make sure that scenes run smoothly<br/>
--- Pause timers and continue timers at any time<br/>
+-- Pause timers and continue timers at any point<br/>
 -- Skip players if they don't respond in time (or because you feel like it)<br/>
 -- Perform ini rolls and get ini rankings automatically (ties are decided by ini modifiers and then a coin flip).<br/>
 -- Decide if inis should be rolled each round or only once.<br/>
--- Manage additional actions from Celerity<br/>
+-- Automatically manage additional actions from Celerity<br/>
 -- Display combat summaries with combatants and next actions<br/>
 -- Manage several battles in different channels at the same time
 - **Blood bonds**<br/>
@@ -47,10 +47,10 @@ Test build for chronicle https://www.sanguinus.org/.
 - **char-select** (select) [name]: Selects one of your characters.
 - **char-setprofile** (setprofile): Creates a profile for your active character.  Via DM only.
 - **combat** [(opt) notimer/slow/medium/fast/blitz] [(opt) fixini]: Starts combat or changes an existing combat.
-- **combat-celerity** (cel) [(opt) NPC]: Grants an ini 0 action to your selected character or an NPC.
+- **combat-celerity** (celerity) [(opt) NPC]: Grants an extra action to your selected character or an NPC.
 - **combat-continue** (continue, skip): Starts Round 1, skips players, and unpauses timers.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
-- **combat-end**: Ends an ongoing combat in a channel.
+- **combat-end** (end): Ends an ongoing combat in a channel.
 - **combat-ini** (ini, init) [ini modifier] [(opt) NPC]: Sets the ini of your selected character or an NPC.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.

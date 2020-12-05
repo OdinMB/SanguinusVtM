@@ -58,9 +58,12 @@ module.exports = {
 			// Add combatant in the combat's ini order
 			var iniOrderElement = {
 				ini: -1,
+				iniModifier: 1,
 				combatant: combatant._id,
+				action: "",
 			};
-			await combat.iniOrder.push(iniOrderElement);
+			await combat.iniOrder[0].push(iniOrderElement);
+			combat.markModified('iniOrder');
 			await combat.save();
 
 			message.reply("you joined combat with " + combatant.name + ".");

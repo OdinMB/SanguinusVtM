@@ -28,7 +28,8 @@ module.exports = {
 				var combat = new Combat({
 					_id: new mongoose.Types.ObjectId(),
 					channelDiscordID: "" + message.channel.id,
-					state: "JOINING"
+					state: "JOINING",
+					iniOrder: [[]],
 				});
 				var newCombat = true;
 			} else {

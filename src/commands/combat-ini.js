@@ -75,19 +75,23 @@ module.exports = {
 			);
 
 			// Write ini and iniModifier into the combat's ini order
-			for (var iniEntry of combat.iniOrder) {
-				// Ignore iniEntries with ini 0 for Celerity actions
-				if (iniEntry.combatant.toString() === combatant._id.toString()) {
-					var position = combat.iniOrder.indexOf(iniEntry);
-					combat.iniOrder[position].iniModifier = mod;
-					if (iniEntry.ini !== 0) {
-						combat.iniOrder[position].ini = result;
+			for (var celerityRound of combat.iniOrder) {
+				var celerityRoundPosition = combat.iniOrder.indexOf(celerityRound);
+				for (var iniEntry of celerityRound) {
+					if (iniEntry.combatant.toString() === combatant._id.toString()) {
+						var position = celerityRound.indexOf(iniEntry);
+						combat.iniOrder[celerityRoundPosition][position].iniModifier = mod;
+						combat.iniOrder[celerityRoundPosition][position].ini = result;
 					}
-                }
+				}
 			}
 
 			// Sort iniOrder by the iniEntries' ini values
-			combat.iniOrder.sort(Combat.compareIniEntries);
+			for (var celerityRound of combat.iniOrder) {
+				var celerityRoundPosition = combat.iniOrder.indexOf(celerityRound);
+				combat.iniOrder[celerityRoundPosition].sort(Combat.compareIniEntries);
+			}
+			combat.markModified('iniOrder');
 			await combat.save();
 
 			return Combat.checkState(message, combat);

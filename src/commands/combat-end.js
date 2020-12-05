@@ -5,7 +5,7 @@ module.exports = {
 	name: 'combat-end',
 	description: 'Ends an ongoing combat in a channel.',
 	oneline: true,
-	aliases: [],
+	aliases: ['end'],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	guildOnly: true,
 	// cooldown: 10,
