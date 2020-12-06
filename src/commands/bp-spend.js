@@ -1,15 +1,10 @@
 var Player = require("../models/player.js");
 var Character = require("../models/character.js");
 
-/*
- * ToDo:
- * - Warn about frenzy depending on Virtue
- * - Warn about BP spent in one turn depending on Generation
- */
 module.exports = {
 	name: 'bp-spend',
 	description: 'Spends BP with your selected character. Spends 1 BP if no amount is provided.',
-	aliases: ['bp'],
+	aliases: ['bp', 'blood-spend'],
 	usage: '[(opt) amount] [(opt) comment]',
 	hidden: true,
 	cooldown: 2,

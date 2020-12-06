@@ -126,7 +126,9 @@ exports.roll = function (message, dicePool, difficulty, comment) {
         "Values: " + diceString + "\n" +
         "Luck: " + (luck[0] - luck[1]) +
         " (" + luck[0] + "% worse, " + luck[1] + "% better" +
-        (luck[0] - luck[1] >= 75 ? ". Praise Caine!" : "") + ")");
+        (luck[1] <= 2 ? ". Praise Caine!" : "") +
+        (result === -1 ? ". Oh oh." : "") +
+        ")");
     message.channel.send(embed);
 
 /*
