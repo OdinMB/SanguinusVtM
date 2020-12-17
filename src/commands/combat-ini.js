@@ -7,7 +7,7 @@ var Roller = require("../models/roller.js");
 
 module.exports = {
 	name: 'combat-ini',
-	description: 'Sets the ini of your selected character or an NPC.',
+	description: 'Sets the ini of your selected character/NPC.',
 	oneline: true,
 	aliases: ['ini', 'init'],
 	usage: '[ini modifier] [(opt) NPC]',

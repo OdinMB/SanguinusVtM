@@ -68,7 +68,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **roll-stats** (rs) [(opt) difficulty] [stat names 1-3] [(opt) +/- modifier] [(opt) "spec"]<br/>Performs a roll based on your character's stats.
 - **roll** (r) [dice pool] [(opt) difficulty] [(opt) comment] [(opt) "spec"]<br/>Performs a dice roll.
 - **sheet-set** (ss) [stat name] [value]: Sets a value on the sheet of your selected character. Via DM only.
-- **sheet**: Displays the sheet of your currently selected character.
+- **sheet** [(opt) character name]: Displays the sheet of your selected character, or any character (admin).
 - **status** (health): Displays BP, WP, and Health of your selected character.
 - **vaulderie** [(opt) city] [character names 1-n]: ADMIN ONLY. Updates the vinculum ratings between characters. Use \'-name\' instead of \'name\' for characters who drank but didn\'t contribute blood.
 - **vinculums** (myvincs): Shows the vinculums of the selected character.

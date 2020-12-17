@@ -5,7 +5,7 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-celerity',
-	description: 'Grants an extra action to your selected character or an NPC.',
+	description: 'Grants an extra action to your selected character/NPC.',
 	oneline: true,
 	aliases: ['celerity'],
 	usage: '[(opt) NPC]',

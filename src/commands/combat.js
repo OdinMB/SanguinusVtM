@@ -4,7 +4,7 @@ var Combat = require("../models/combat.js");
 module.exports = {
 	name: 'combat',
 	description: 'Starts combat or changes an existing combat.',
-	oneline: true,
+	oneline: false,
 	aliases: [],
 	usage: '[(opt) notimer/slow/medium/fast/blitz] [(opt) fixini]',
 	wiki: "Starts combat in the channel and invites combatants to join. If there already is a combat in that channel, changes the settings of that combat." +

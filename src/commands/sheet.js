@@ -4,10 +4,10 @@ var Character = require("../models/character.js");
 
 module.exports = {
 	name: 'sheet',
-	description: 'Displays the sheet of your currently selected character, or any character if you\'re an admin.',
+	description: 'Displays the sheet of your selected character, or any character (admin).',
 	oneline: true,
 	aliases: [],
-	usage: '[(opt) char]',
+	usage: '[(opt) name]',
 	args: false,
 	cooldown: 5,
 	async execute(message, args) {

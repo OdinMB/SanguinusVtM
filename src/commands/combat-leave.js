@@ -6,7 +6,7 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-leave',
-	description: 'Leave combat with your selected character or with an NPC.',
+	description: 'Leave combat with your selected character/NPC.',
 	oneline: true,
 	aliases: ['leave'],
 	usage: '[(opt) NPC]',
