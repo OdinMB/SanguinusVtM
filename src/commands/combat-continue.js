@@ -4,7 +4,7 @@ module.exports = {
 	name: 'combat-continue',
 	description: 'Starts Round 1, skips players, and unpauses timers.',
 	oneline: true,
-	aliases: ['continue', 'skip'],
+	aliases: ['continue', 'next', 'skip'],
 	usage: '',
 	// args: true,
 	guildOnly: true,

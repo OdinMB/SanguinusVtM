@@ -2,7 +2,6 @@ var Character = require("../models/character.js");
 var Player = require("../models/player.js");
 var Combat = require("../models/combat.js");
 var Combatant = require("../models/combatant.js");
-const Discord = require('discord.js');
 var Roller = require("../models/roller.js");
 
 module.exports = {

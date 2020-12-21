@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Starts a new round in an ongoing combat. Execute to start Round 1.',
 	oneline: true,
 	hidden: true,
-	aliases: ['round'],
+	aliases: ['round', 'newround', 'nextround'],
 	// usage: '[(opt) fixedIni] [(opt) noNotifications]',
 	guildOnly: true,
 	cooldown: 10,
