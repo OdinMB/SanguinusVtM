@@ -3,7 +3,7 @@ var Combatant = require("../models/combatant.js");
 
 module.exports = {
 	name: 'combat-iniset',
-	description: 'Sets the ini of a character/NPC. Admin.',
+	description: 'ADMIN ONLY. Sets the ini of a character/NPC.',
 	oneline: true,
 	aliases: ['iniset', 'ini-set'],
 	usage: '[PC/NPC] [ini] [(opt) ini modifier]',

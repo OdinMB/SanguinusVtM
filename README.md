@@ -52,6 +52,7 @@ Test build for chronicle https://www.sanguinus.org/.
 - **combat-declare** (declare) [action]: Sets the action of a character in combat.
 - **combat-end** (end): Ends an ongoing combat in a channel.
 - **combat-ini** (ini, init) [ini modifier] [(opt) NPC]: Sets the ini of your selected character or an NPC.
+- **combat-iniset** (iniset) [PC/NPC] [ini] [(opt) ini modifier]: ADMIN ONLY. Sets the ini of a character/NPC.
 - **combat-join** (join) [(opt) NPC]: Join combat with your selected character or with an NPC.
 - **combat-leave** (leave) [(opt) NPC]: Leave combat with your selected character or with an NPC.
 - **combat-pause** (pause): Pauses combat timers. Use combat-continue to continue.
