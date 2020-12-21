@@ -118,17 +118,22 @@ exports.roll = function (message, dicePool, difficulty, comment) {
         embed.setTitle(message.author.username + "' roll: " + result + " SUCCESS" + (result > 1 ? "ES" : ""));
     }
 
-    var luck = getLuck(dicePool, difficulty, spec, result);
+    if (dicePool <= 15) {
+        var luck = getLuck(dicePool, difficulty, spec, result);
+    }
     embed.setFooter(comment + "\n" +
         "Dice " + dicePool + ", " +
         "Difficulty " + difficulty +
         (spec ? ', Specialty' : '') + "\n" +
         "Values: " + diceString + "\n" +
-        "Luck: " + (luck[0] - luck[1]) +
-        " (" + luck[0] + "% worse, " + luck[1] + "% better" +
-        (luck[1] <= 2 ? ". Praise Caine!" : "") +
-        (result === -1 ? ". Oh oh." : "") +
-        ")");
+        (dicePool <= 15 ?
+            "Luck: " + (luck[0] - luck[1]) +
+            " (" + luck[0] + "% worse, " + luck[1] + "% better" +
+            (luck[1] <= 2 ? ". Praise Caine!" : "") +
+            (result === -1 ? ". Oh oh." : "") +
+            ")"
+            : "")
+        );
     message.channel.send(embed);
 
 /*
